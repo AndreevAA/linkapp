@@ -1,4 +1,4 @@
-#Tue Jul 07 11:24:08 MSK 2020
-base.0=/Users/aleksandrandreev/linkapp/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
-path.0=classes.dex
+#Tue Jul 07 13:03:33 MSK 2020
+base.0=/home/flame/Documents/linkapp/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 renamed.0=classes.dex
+path.0=classes.dex
