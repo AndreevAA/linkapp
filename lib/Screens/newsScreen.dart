@@ -241,14 +241,24 @@ class _NewsScreen extends State<NewsScreen> {
   }
 }
 
-  class CustomCard extends StatelessWidget {
+  class CustomCard extends StatefulWidget {
   // CustomCard({@required this.document, @required this.previousScreenContext, @required this.homePageScreen});
 
   // final DocumentSnapshot document;
+  Map map;
 
   CustomCard({@required this.map});
 
+  @override
+  _CustomCard createState() => _CustomCard(map: map);
+
+  }
+  class _CustomCard extends State<CustomCard> {
+
+  _CustomCard({@required this.map});
+
   final Map map;
+  Color heartColor = TextColors.accentColor;
 
   String formatOutput(String temp, int maxLength) {
     if (temp.length <= maxLength)
@@ -270,7 +280,6 @@ class _NewsScreen extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-//    Logs.log += "\n\ntype: " + document['min_price'].runtimeType.toString() + "\n\n";
     return Card(
 //        color: setOrdersColor(document['level'] ?? 0),
         child: InkWell(
@@ -349,8 +358,16 @@ class _NewsScreen extends State<NewsScreen> {
                                 WidgetSpan(
                                   child: IconButton(
                                     iconSize: 2,
-                                    icon: Icon(Icons.favorite, size: 20, color: TextColors.accentColor,),
-                                    onPressed: (){print("onpressed");},
+                                    icon: Icon(Icons.favorite, size: 20, color: heartColor,),
+                                    onPressed: (){
+                                      setState((){
+                                        if (heartColor == TextColors.activeColor)
+                                          heartColor = TextColors.accentColor;
+                                        else if (heartColor == TextColors.accentColor)
+                                          heartColor = TextColors.activeColor;
+                                      });
+
+                                    },
 
                                     )
                                 ),
@@ -362,7 +379,7 @@ class _NewsScreen extends State<NewsScreen> {
                     // Блок адреса
                     Container(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: Text((map['hearts'] ?? "").toString() + "         Размещено: " + map['added'] ?? 'Ошибка описания',
+                      child: Text(((map['hearts'] ?? 0) + (heartColor == TextColors.activeColor ? 1 : 0)).toString() + "         Размещено: " + map['added'] ?? 'Ошибка описания',
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14.0,

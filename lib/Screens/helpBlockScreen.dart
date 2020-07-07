@@ -15,8 +15,6 @@ class _HelpBlockScreenState extends State<HelpBlockScreen>{
   void initState() {
   }
 
-  //print("sfssd");
-
   @override
   Widget build(BuildContext context) {
     return Scaffold (
@@ -34,3 +32,5 @@ class _HelpBlockScreenState extends State<HelpBlockScreen>{
     );
   }
 }
+
+
