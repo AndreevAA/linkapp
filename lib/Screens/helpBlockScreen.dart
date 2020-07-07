@@ -1,36 +1,428 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:linkapp/Settings/textStyleSettings.dart';
+import 'package:flutter_stories/flutter_stories.dart';
 
-class HelpBlockScreen extends StatefulWidget{
-
+class HelpBlockScreen extends StatefulWidget {
   @override
   _HelpBlockScreenState createState() => _HelpBlockScreenState();
-
 }
 
-class _HelpBlockScreenState extends State<HelpBlockScreen>{
-
-  @override
-  void initState() {
-  }
-
+class _HelpBlockScreenState extends State<HelpBlockScreen> {
+  final _momentCount = 5;
+  final _momentDuration = const Duration(seconds: 5);
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
+    final images = List.generate(
+        _momentCount, (idx) => Image.asset('assets/${idx + 1}.jpg'));
 
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+    final images1 = List.generate(
+        _momentCount, (idx) => Image.asset('assets/test${idx + 1}.png'));
 
-          ],
+    return Scaffold(
+        appBar: AppBar(
+          title: Container(
+            // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
+            child: Text(
+              "Информация",
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0.0,
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(12, 5, 0, 0),
+                child: Text(
+                  'Документы',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 5.0),
+                height: 150.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoPageScaffold(
+                              child: Story(
+                                onFlashForward: Navigator.of(context).pop,
+                                onFlashBack: Navigator.of(context).pop,
+                                momentCount: 4,
+                                momentDurationGetter: (idx) => _momentDuration,
+                                momentBuilder: (context, idx) => images1[idx],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.deepPurple,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16.0))),
+                        margin: EdgeInsets.all(10),
+                        width: 160.0,
+                        child: Center(
+                          child: Text(
+                            'Обязательные документы',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    InkWell(
+                      onTap: () {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoPageScaffold(
+                              child: Story(
+                                onFlashForward: Navigator.of(context).pop,
+                                onFlashBack: Navigator.of(context).pop,
+                                momentCount: 4,
+                                momentDurationGetter: (idx) => _momentDuration,
+                                momentBuilder: (context, idx) => images[idx],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.deepPurpleAccent,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16.0))),
+                        margin: EdgeInsets.all(10),
+                        width: 160.0,
+                        child: Center(
+                          child: Text(
+                            'Фоточки',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoPageScaffold(
+                              child: Story(
+                                onFlashForward: Navigator.of(context).pop,
+                                onFlashBack: Navigator.of(context).pop,
+                                momentCount: 4,
+                                momentDurationGetter: (idx) => _momentDuration,
+                                momentBuilder: (context, idx) => images[idx],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16.0))),
+                        margin: EdgeInsets.all(10),
+                        width: 160.0,
+                        child: Center(
+                          child: Text(
+                            'Тест',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(12, 5, 0, 0),
+                child: Text(
+                  'Документы',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 5.0),
+                height: 150.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoPageScaffold(
+                              child: Story(
+                                onFlashForward: Navigator.of(context).pop,
+                                onFlashBack: Navigator.of(context).pop,
+                                momentCount: 4,
+                                momentDurationGetter: (idx) => _momentDuration,
+                                momentBuilder: (context, idx) => images1[idx],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16.0))),
+                        margin: EdgeInsets.all(10),
+                        width: 160.0,
+                        child: Center(
+                          child: Text(
+                            'Обязательные документы',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    InkWell(
+                      onTap: () {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoPageScaffold(
+                              child: Story(
+                                onFlashForward: Navigator.of(context).pop,
+                                onFlashBack: Navigator.of(context).pop,
+                                momentCount: 4,
+                                momentDurationGetter: (idx) => _momentDuration,
+                                momentBuilder: (context, idx) => images[idx],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.pink,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16.0))),
+                        margin: EdgeInsets.all(10),
+                        width: 160.0,
+                        child: Center(
+                          child: Text(
+                            'Фоточки',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoPageScaffold(
+                              child: Story(
+                                onFlashForward: Navigator.of(context).pop,
+                                onFlashBack: Navigator.of(context).pop,
+                                momentCount: 4,
+                                momentDurationGetter: (idx) => _momentDuration,
+                                momentBuilder: (context, idx) => images[idx],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.deepPurple,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16.0))),
+                        margin: EdgeInsets.all(10),
+                        width: 160.0,
+                        child: Center(
+                          child: Text(
+                            'Тест',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(12, 5, 0, 0),
+                child: Text(
+                  'Документы',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 5.0),
+                height: 150.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoPageScaffold(
+                              child: Story(
+                                onFlashForward: Navigator.of(context).pop,
+                                onFlashBack: Navigator.of(context).pop,
+                                momentCount: 4,
+                                momentDurationGetter: (idx) => _momentDuration,
+                                momentBuilder: (context, idx) => images1[idx],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16.0))),
+                        margin: EdgeInsets.all(10),
+                        width: 160.0,
+                        child: Center(
+                          child: Text(
+                            'Обязательные документы',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    InkWell(
+                      onTap: () {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoPageScaffold(
+                              child: Story(
+                                onFlashForward: Navigator.of(context).pop,
+                                onFlashBack: Navigator.of(context).pop,
+                                momentCount: 4,
+                                momentDurationGetter: (idx) => _momentDuration,
+                                momentBuilder: (context, idx) => images[idx],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16.0))),
+                        margin: EdgeInsets.all(10),
+                        width: 160.0,
+                        child: Center(
+                          child: Text(
+                            'Фоточки',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoPageScaffold(
+                              child: Story(
+                                onFlashForward: Navigator.of(context).pop,
+                                onFlashBack: Navigator.of(context).pop,
+                                momentCount: 4,
+                                momentDurationGetter: (idx) => _momentDuration,
+                                momentBuilder: (context, idx) => images[idx],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16.0))),
+                        margin: EdgeInsets.all(10),
+                        width: 160.0,
+                        child: Center(
+                          child: Text(
+                            'Тест',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            ],
+          ),
+
+        ));
   }
 }
-
-

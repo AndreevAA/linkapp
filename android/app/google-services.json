@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "8341476472",
+    "firebase_url": "https://linkapp-caeb9.firebaseio.com",
+    "project_id": "linkapp-caeb9",
+    "storage_bucket": "linkapp-caeb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8341476472:android:a7f17a78aeb9419484098d",
+        "android_client_info": {
+          "package_name": "com.cosmoteq.linkapp.linkapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8341476472-ajl4tqr998hdn3m9106cq61rretv98tm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_pijsoAsUdOPP5ehYN_DMv9gFEP5r1fc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8341476472-ajl4tqr998hdn3m9106cq61rretv98tm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

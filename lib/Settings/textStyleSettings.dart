@@ -5,6 +5,10 @@ class TextColors {
   static Color accentColor = Color.fromRGBO(92, 0, 92, 1);
 
   static Color descriptionColor = Colors.grey;
+
+  static Color deactivatedColor = Colors.grey;
+
+  static Color activeColor = Colors.green;
 }
 
 class TextSettings {
