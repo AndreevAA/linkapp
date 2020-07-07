@@ -32,7 +32,7 @@ class _NewsScreen extends State<NewsScreen> {
         ),
 
         backgroundColor: Colors.white,
-        //elevation: 0.0,
+        elevation: 0.0,
         actions: <Widget>[
           // Кнопка редактирвоания данных профиля
           Container(

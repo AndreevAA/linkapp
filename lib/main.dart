@@ -5,6 +5,8 @@ import 'Screens/friendsScreen.dart';
 import 'Screens/helpBlockScreen.dart';
 import 'Screens/newsScreen.dart';
 import 'Screens/profileScreen.dart';
+import 'Settings/blockStyleSettings.dart';
+import 'Settings/iconStyleSettings.dart';
 import 'Settings/textStyleSettings.dart';
 
 void main() {
@@ -21,29 +23,32 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: MyHomePage(title: 'linkapp'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage();
+  MyHomePage({Key key, this.title}) : super(key: key);
 
-@override
+  final String title;
+
+  @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
     NewsScreen(),
     DialogsScreen(),
-    FriensScreen(),
+    FriendsScreen(),
     ProfileScreen(),
     HelpBlockScreen(),
   ];
 
-  static int _selectedIndex = 0;
+  static int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -52,6 +57,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+// Блок нижнего основного меню приложения
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
-      backgroundColor: BlockColors.mainColor,
+        backgroundColor: BlockColors.mainColor,
 
         // Выключение подписек к кнопкам меню
         showSelectedLabels: false,
@@ -70,12 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Лента'),
+            title: Text(''),
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
-            title: Text('Сообщения'),
+            title: Text(''),
           ),
 
           BottomNavigationBarItem(
@@ -96,11 +108,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
 
         currentIndex: _selectedIndex,
-        selectedItemColor: TextColors.accentColor,
+
+        selectedItemColor: IconColors.accentColor,
+        unselectedItemColor: IconColors.additionalColor,
+
         onTap: _onItemTapped,
 
       ),
     );
   }
-
 }

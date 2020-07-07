@@ -1,11 +1,36 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:linkapp/Settings/textStyleSettings.dart';
 
-class FriensScreen extends StatefulWidget{
+class FriendsScreen extends StatefulWidget{
 
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
+  _FriendsScreenState createState() => _FriendsScreenState();
+
+}
+
+class _FriendsScreenState extends State<FriendsScreen>{
+
+  @override
+  void initState() {
   }
 
+  //print("sfssd");
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold (
+
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+
+          ],
+        ),
+      ),
+    );
+  }
 }
