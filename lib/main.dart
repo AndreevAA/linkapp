@@ -5,8 +5,6 @@ import 'Screens/friendsScreen.dart';
 import 'Screens/helpBlockScreen.dart';
 import 'Screens/newsScreen.dart';
 import 'Screens/profileScreen.dart';
-import 'Settings/blockStyleSettings.dart';
-import 'Settings/iconStyleSettings.dart';
 import 'Settings/textStyleSettings.dart';
 
 void main() {
@@ -23,22 +21,19 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'linkapp'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage();
 
-  final String title;
-
-  @override
+@override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
     NewsScreen(),
@@ -57,13 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-// Блок нижнего основного меню приложения
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: BlockColors.mainColor,
+      backgroundColor: BlockColors.mainColor,
 
         // Выключение подписек к кнопкам меню
         showSelectedLabels: false,
@@ -82,12 +70,12 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text(''),
+            title: Text('Лента'),
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
-            title: Text(''),
+            title: Text('Сообщения'),
           ),
 
           BottomNavigationBarItem(
@@ -108,13 +96,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
 
         currentIndex: _selectedIndex,
-
-        selectedItemColor: IconColors.accentColor,
-        unselectedItemColor: IconColors.additionalColor,
-
+        selectedItemColor: TextColors.accentColor,
         onTap: _onItemTapped,
 
       ),
     );
   }
+
 }
