@@ -7,4 +7,15 @@ class BlockColors {
   static Color additionalColor = Colors.grey;
 
   static Color mainColor = Colors.white;
+
+  static Color divisionField = Color.fromRGBO(214, 214, 214, 1);
+}
+
+class BlockPaddings {
+  static const double globalBorderPadding = 20;
+
+}
+
+class BlockSizes {
+
 }
