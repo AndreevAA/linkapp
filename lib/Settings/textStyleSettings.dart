@@ -2,5 +2,5 @@
 import 'package:flutter/material.dart';
 
 class TextColors {
-  static Color accentColor = Colors.purple;
+  static Color accentColor = Color.fromRGBO(92, 0, 92, 1);
 }
