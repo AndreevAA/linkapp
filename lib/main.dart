@@ -4,6 +4,8 @@ import 'Screens/dialogsScreen.dart';
 import 'Screens/friendsScreen.dart';
 import 'Screens/newsScreen.dart';
 import 'Screens/profileScreen.dart';
+import 'Settings/blockStyleSettings.dart';
+import 'Settings/iconStyleSettings.dart';
 import 'Settings/textStyleSettings.dart';
 
 void main() {
@@ -148,7 +150,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: BlockColors.mainColor,
+
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -173,7 +176,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
 
         currentIndex: _selectedIndex,
-        selectedItemColor: TextColors.accentColor,
+
+        selectedItemColor: IconColors.accentColor,
+        unselectedItemColor: IconColors.additionalColor,
+
         onTap: _onItemTapped,
 
       ),
