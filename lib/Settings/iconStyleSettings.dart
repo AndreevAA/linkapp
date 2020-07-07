@@ -6,3 +6,7 @@ class IconColors {
 
   static Color additionalColor = Colors.grey;
 }
+
+class IconSizes {
+  static const double bottomNavigationBarSize = 10;
+}
