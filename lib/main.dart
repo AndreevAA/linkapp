@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'Screens/dialogsScreen.dart';
+import 'Screens/friendsScreen.dart';
 import 'Screens/newsScreen.dart';
+import 'Screens/profileScreen.dart';
+import 'Settings/textStyleSettings.dart';
 
 void main() {
   runApp(MyApp());
@@ -56,9 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static List<Widget> _widgetOptions = <Widget>[
     NewsScreen(),
-    //dialogsScreen(),
-    //friensScreen(),
-    //profileScreen(),
+    DialogsScreen(),
+    FriensScreen(),
+    ProfileScreen(),
   ];
 
   static int _selectedIndex = 0;
@@ -169,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
 
         currentIndex: _selectedIndex,
-        selectedItemColor: accentColor,
+        selectedItemColor: TextColors.accentColor,
         onTap: _onItemTapped,
 
       ),
