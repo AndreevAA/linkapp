@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/flame/Documents/linkapp/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-sq/values-sq.xml",
+            "outputFile": "/Users/aleksandrandreev/linkapp/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-sq/values-sq.xml",
             "map": [
                 {
-                    "source": "/home/flame/.gradle/caches/transforms-2/files-2.1/6b399c2363bb098ebde1725d903cbda0/core-1.1.0/res/values-sq/values-sq.xml",
+                    "source": "/Users/aleksandrandreev/.gradle/caches/transforms-2/files-2.1/6b399c2363bb098ebde1725d903cbda0/core-1.1.0/res/values-sq/values-sq.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
