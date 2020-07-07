@@ -36,10 +36,10 @@ class _ProfileScreenState extends State<ProfileScreen>{
         child: TextSettings.titleOneCenter(_inputSurname)
     );
   }
-//
-//  @override
-//  void initState() {
-//  }
+
+  @override
+  void initState() {
+  }
 
   //print("sfssd");
 
@@ -54,19 +54,14 @@ class _ProfileScreenState extends State<ProfileScreen>{
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
 
-              Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-                child: TextSettings.titleOneCenter("dsdsd")
-            ),
-//
-//            // Получение аватара пользователя
-//            getCircleAvatar(),
-//
-//            // Получение имени пользователя
-//            getUserName("Александр"),
-//
-//            // Получение фамилии пользователя
-//            getUserSurname("Андреев"),
+            // Получение аватара пользователя
+            getCircleAvatar(),
+
+            // Получение имени пользователя
+            getUserName("Александр"),
+
+            // Получение фамилии пользователя
+            getUserSurname("Андреев"),
 
           ],
         ),
