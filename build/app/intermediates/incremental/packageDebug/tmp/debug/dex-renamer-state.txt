@@ -1,0 +1,4 @@
+#Tue Jul 07 10:36:59 MSK 2020
+base.0=/home/flame/Documents/linkapp/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
