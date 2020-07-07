@@ -80,17 +80,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
-            title: Text('Друзья'),
+            title: Text(''),
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text('Профиль'),
+            title: Text(''),
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.help),
-            title: Text('База знаний '),
+            title: Text(''),
           ),
 
         ],
