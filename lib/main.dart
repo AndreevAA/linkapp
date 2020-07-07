@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'Screens/dialogsScreen.dart';
 import 'Screens/friendsScreen.dart';
+import 'Screens/helpBlockScreen.dart';
 import 'Screens/newsScreen.dart';
 import 'Screens/profileScreen.dart';
 import 'Settings/blockStyleSettings.dart';
@@ -65,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     DialogsScreen(),
     FriensScreen(),
     ProfileScreen(),
+    HelpBlockScreen(),
   ];
 
   static int _selectedIndex = 0;
@@ -152,6 +154,10 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: BlockColors.mainColor,
 
+        // Выключение подписек к кнопкам меню
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -165,12 +171,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
-            title: Text('Мои заказы'),
+            title: Text('Друзья'),
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             title: Text('Профиль'),
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.help),
+            title: Text('База знаний '),
           ),
 
         ],
