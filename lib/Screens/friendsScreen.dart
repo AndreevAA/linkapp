@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
 
 class FriendsScreen extends StatefulWidget{
@@ -16,8 +17,6 @@ class _FriendsScreenState extends State<FriendsScreen>{
 
   @override
   Widget build(BuildContext context) {
-
-
 
     return Scaffold(
       appBar: AppBar(
@@ -76,6 +75,7 @@ class _FriendsScreenState extends State<FriendsScreen>{
   // final DocumentSnapshot document;
   Map map;
 
+
   CustomCard({@required this.map});
 
   @override
@@ -84,95 +84,97 @@ class _FriendsScreenState extends State<FriendsScreen>{
   }
   class _CustomCard extends State<CustomCard> {
 
-  _CustomCard({@required this.map});
+    _CustomCard({@required this.map});
 
-  final Map map;
+    final Map map;
 
-  String formatOutput(String temp, int maxLength) {
-    if (temp.length <= maxLength)
-      return temp;
-    else
-      return temp.substring(0, maxLength).trim() + "...";
-  }
+    String formatOutput(String temp, int maxLength) {
+      if (temp.length <= maxLength)
+        return temp;
+      else
+        return temp.substring(0, maxLength).trim() + "...";
+    }
 
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
+    @override
+    Widget build(BuildContext context) {
+      var friendsList = UserSettings.userDocument['friends'].toString();
+
+      int friendsNumber = 0;
+
+      if (friendsList != null)
+        friendsNumber = friendsList.length;
+
+      for (int i = 0; i < friendsNumber; i++) {
+        String tempFriendsName, tempFriendsSurname;
+
+        return Card(
 //        color: setOrdersColor(document['level'] ?? 0),
-        child: InkWell(
-            onTap: () async {
-              setState(() {
-                
-              });
-            },
-              // bool rebuildNeeded = await Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => TaskPage(
-              //           document: document), settings: RouteSettings(name: 'UserTaskPage'), ));
-              // if (rebuildNeeded ?? false)
-              //   homePageScreen.rebuild();
+      child: InkWell(
+      onTap: () async {
+      setState(() {
 
-            
-                  child:  Row (children: <Widget>[ 
-                    Container(
-                          padding: const EdgeInsets.fromLTRB(14, 0, 0, 10),
-                          child: CircleAvatar(
-                            radius: 24,
-                            backgroundColor: TextColors.accentColor,
-                            child: Text(map['name'][0], style: (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),) ,
-                            foregroundColor: Colors.white,
-                          ),
-                        ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                     
-                      SizedBox(height: 15),
-                      Container(
-                        height: 30,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 2.0),
-                        child: Text(map['name'] ?? "ER",
-                          // HomePageExe.formatOutput(HomePageExe.replaceSymbols(HomePageExe.replaceSymbols(HomePageExe.deleteSmiles(runeSubstring(input: document['title'] ?? 'Ошибка описания', start: 0, end: (document['title'] ?? 'Ошибка описания').toString().length < 20 ? (document['title'] ?? 'Ошибка описаня').toString().length : 20)), "\n", " "), "  ", " "), 20).replaceAll("\n\n", "\n"),
-                          style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0,
-                            color: Colors.black,),
-                        ),
-                      ),
+      });
+      },
+      child:  Row (children: <Widget>[
+      Container(
+      padding: const EdgeInsets.fromLTRB(14, 0, 0, 10),
+      child: CircleAvatar(
+      radius: 24,
+      backgroundColor: TextColors.accentColor,
+      child: Text(map['name'][0], style: (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),) ,
+      foregroundColor: Colors.white,
+      ),
+      ),
+      Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
 
-                      // Блок размера оплаты труда
-                      Container(
-                        height: 30,
-                        padding: const EdgeInsets.fromLTRB(20, 1, 0, 0),
-                        child: Text(
-                          // concatMinMax(document['min_price'], document['max_price']) +
-                              // " / " + document['pay_type'] ?? "",
-                              formatOutput(map['status'] ?? "ERR", 35),
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              color: TextColors.accentColor,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+      SizedBox(height: 15),
+      Container(
+      height: 30,
+      padding: const EdgeInsets.symmetric(
+      horizontal: 20.0, vertical: 2.0),
+      child: Text(map['name'] ?? "ER",
+      // HomePageExe.formatOutput(HomePageExe.replaceSymbols(HomePageExe.replaceSymbols(HomePageExe.deleteSmiles(runeSubstring(input: document['title'] ?? 'Ошибка описания', start: 0, end: (document['title'] ?? 'Ошибка описания').toString().length < 20 ? (document['title'] ?? 'Ошибка описаня').toString().length : 20)), "\n", " "), "  ", " "), 20).replaceAll("\n\n", "\n"),
+      style:
+      TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0,
+      color: Colors.black,),
+      ),
+      ),
 
-                      Container(
-                        height: 30,
-                        padding: const EdgeInsets.fromLTRB(20, 1, 0, 11),
-                        child: Text(
-                          // concatMinMax(document['min_price'], document['max_price']) +
-                              // " / " + document['pay_type'] ?? "",
-                              "Был(-а) в сети: " + (map['seen'] ?? "ERRRRRRRRRRRRRR").substring(0, 10),
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              color: TextColors.deactivatedColor,
-                              fontWeight: FontWeight.normal),
-                        ),
-                      ),
-                  ],),],),
-                      ),
-            );
+      // Блок размера оплаты труда
+      Container(
+      height: 30,
+      padding: const EdgeInsets.fromLTRB(20, 1, 0, 0),
+      child: Text(
+      // concatMinMax(document['min_price'], document['max_price']) +
+      // " / " + document['pay_type'] ?? "",
+      formatOutput(map['status'] ?? "ERR", 35),
+      style: TextStyle(
+      fontSize: 14.0,
+      color: TextColors.accentColor,
+      fontWeight: FontWeight.bold),
+      ),
+      ),
+
+      Container(
+      height: 30,
+      padding: const EdgeInsets.fromLTRB(20, 1, 0, 11),
+      child: Text(
+      // concatMinMax(document['min_price'], document['max_price']) +
+      // " / " + document['pay_type'] ?? "",
+      "Был(-а) в сети: " + (map['seen'] ?? "ERRRRRRRRRRRRRR").substring(0, 10),
+      style: TextStyle(
+      fontSize: 14.0,
+      color: TextColors.deactivatedColor,
+      fontWeight: FontWeight.normal),
+      ),
+      ),
+      ],),],),
+      ),
+      );
+      }
+    }
   }
-}
