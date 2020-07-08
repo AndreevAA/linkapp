@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Screens/Registration.dart';
 import 'Screens/dialogsScreen.dart';
 import 'Screens/friendsScreen.dart';
 import 'Screens/helpBlockScreen.dart';
 import 'Screens/newsScreen.dart';
 import 'Screens/profileScreen.dart';
+import 'Service/UserSettings.dart';
 import 'Settings/blockStyleSettings.dart';
 import 'Settings/iconStyleSettings.dart';
 import 'Settings/textStyleSettings.dart';
 
-void main() {
-  runApp(MyApp());
+void main()  {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.getInstance().then((SharedPreferences prefs) {
+    UserSettings.UID = prefs.getString('uid');
+    if (UserSettings.UID != null) {
+      runApp(new MyApp());
+    } else {
+      runApp(new Regist());
+    }
+  });
 }
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override

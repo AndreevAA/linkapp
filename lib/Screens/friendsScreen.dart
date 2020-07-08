@@ -1,4 +1,3 @@
-import 'package:backdrop_modal_route/backdrop_modal_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
