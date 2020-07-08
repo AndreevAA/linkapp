@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
 
+import 'findFriends.dart';
+
 class FriendsScreen extends StatefulWidget{
   @override
   _FriendsScreenState createState() => _FriendsScreenState();
@@ -35,6 +37,7 @@ class _FriendsScreenState extends State<FriendsScreen>{
 
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => FindFriends()));
             // showDialog(context);
 //            //OrdersSearchManager.sortListByDate();
             },

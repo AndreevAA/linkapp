@@ -29,3 +29,10 @@ class DisignElements {
   }
 
 }
+
+class ProfileOperations {
+  static Scaffold OpenPersonProfile(String _inputPersonToken){
+
+
+  }
+}
