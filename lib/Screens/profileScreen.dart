@@ -26,16 +26,16 @@ class _ProfileScreenState extends State<ProfileScreen>{
   _ProfileScreenState() {
 
     // Переменны, которые выводятся в полях заполения при заполнении. Обновляются при закполнении ячейки
-    _name = UserSettings.userDocument['name'].toString();
-    _surname = UserSettings.userDocument['surname'].toString();
-    _gender = UserSettings.userDocument['gender'].toString();
-    _country = UserSettings.userDocument['country'].toString();
-    _birthday = UserSettings.userDocument['birthday'].toString();
-    _patent = UserSettings.userDocument['patent'].toString();
+    _name = UserSettings.userDocument['name'].toString() ?? 'null';
+    _surname = UserSettings.userDocument['surname'].toString() ?? 'null';
+    _gender = UserSettings.userDocument['gender'].toString() ?? 'null' ;
+    _country = UserSettings.userDocument['country'].toString() ?? 'null';
+    _birthday = UserSettings.userDocument['birthday'].toString() ?? 'null';
+    _patent = UserSettings.userDocument['patent'].toString() ?? 'null';
 
-    _friends = UserSettings.userDocument['friends'].toString();
-    _followers = UserSettings.userDocument['followers'].toString();
-    _publics = UserSettings.userDocument['publics'].toString();
+    _friends = UserSettings.userDocument['friends'].toString() ?? 'null';
+    _followers = UserSettings.userDocument['followers'].toString()?? 'null';
+    _publics = UserSettings.userDocument['publics'].toString()?? 'null';
 
     dateCtl = TextEditingController();
 
