@@ -26,7 +26,7 @@ class _FriendsScreenState extends State<FriendsScreen>{
             child: InkWell(
 
               // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
-              child: Text("Сообщения", style: TextStyle(color: Colors.black),),
+              child: Text("Друзья", style: TextStyle(color: Colors.black),),
             )
         ),
 

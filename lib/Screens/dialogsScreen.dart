@@ -26,25 +26,6 @@ class _DialogsScreenState extends State<DialogsScreen> {
     }
   ];
 
-  // List<Map<String, dynamic>> sortListByDate(List<Map<String, dynamic>>) {
-  //   int location;
-  //   DocumentSnapshot newElement;
-
-  //   for (int i = 1; i < listOfDocumentSnapshots.length; i++) {
-  //     newElement = listOfDocumentSnapshots[i];
-  //     location = i - 1;
-
-  //     while (location >= 0 && comparatorCompare(_sortStatus, location, newElement) == true) {
-  //       listOfDocumentSnapshots[location + 1] = listOfDocumentSnapshots[location];
-  //       location = location - 1;
-  //     }
-
-  //     listOfDocumentSnapshots[location + 1] = newElement;
-  //   }
-
-  // }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

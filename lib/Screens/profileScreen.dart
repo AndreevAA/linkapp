@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:linkapp/AdditionalFunctions/createdElements.dart';
 import 'package:linkapp/AdditionalFunctions/textFormating.dart';
+import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/blockStyleSettings.dart';
 import 'package:linkapp/Settings/iconStyleSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
@@ -15,6 +16,30 @@ class ProfileScreen extends StatefulWidget{
 }
 
 class _ProfileScreenState extends State<ProfileScreen>{
+
+  String _name, _surname, _gender, _country, _birthday, _patent;
+
+  var _friends, _followers, _publics, _photos;
+
+  TextEditingController dateCtl;
+
+  _ProfileScreenState() {
+
+    // Переменны, которые выводятся в полях заполения при заполнении. Обновляются при закполнении ячейки
+    _name = UserSettings.userDocument['name'].toString();
+    _surname = UserSettings.userDocument['surname'].toString();
+    _gender = UserSettings.userDocument['gender'].toString();
+    _country = UserSettings.userDocument['country'].toString();
+    _birthday = UserSettings.userDocument['birthday'].toString();
+    _patent = UserSettings.userDocument['patent'].toString();
+
+    _friends = UserSettings.userDocument['friends'].toString();
+    _followers = UserSettings.userDocument['followers'].toString();
+    _publics = UserSettings.userDocument['publics'].toString();
+
+    dateCtl = TextEditingController();
+
+  }
 
   Container getCircleAvatar(){
     return Container(
@@ -84,7 +109,6 @@ class _ProfileScreenState extends State<ProfileScreen>{
         ),
       );
     }
-
   }
 
   Container setDivisionLineOne(){
@@ -94,7 +118,12 @@ class _ProfileScreenState extends State<ProfileScreen>{
     );
   }
 
-  Container setFriendsInformation(_numberOfFriends){
+  Container setFriendsInformation(var _inputFriendList){
+    int _numberOfFriends = 0;
+
+    if (_inputFriendList != null)
+      _numberOfFriends = _inputFriendList.length;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
       child: Column(
@@ -116,16 +145,35 @@ class _ProfileScreenState extends State<ProfileScreen>{
     );
   }
 
-  Container setFriendGrid(int _numberOfFriends){
+  Container setFriendGrid(var _inputFriendList){
+
+    int _numberOfFriends = 0;
+
+    if (_inputFriendList != null)
+      _numberOfFriends = _inputFriendList.length;
+
     if (_numberOfFriends != 0){
       return Container(
         padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
-        child: TextSettings.titleOneCenter("Здесь блоки фото"),
+        child: TextSettings.titleOneCenter("Здесь фото друзей"),
+      );
+    }
+
+    else if (_numberOfFriends == 0){
+      return Container(
+        padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
+        child: TextSettings.titleOneCenter("Пусто"),
       );
     }
   }
 
-  Container setPhotoesInformation(_numberOfFriends){
+  Container setPhotoesInformation(var _inputPhotosList){
+
+    int _numberOfPhotos = 0;
+
+    if (_inputPhotosList != null)
+      _numberOfPhotos = _inputPhotosList.length;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
       child: Column(
@@ -140,18 +188,30 @@ class _ProfileScreenState extends State<ProfileScreen>{
           ),
 
           Container(
-            child: TextSettings.descriptionOneLeft(NumberExist.getTextNumber("Фотографии: ", _numberOfFriends)),
+            child: TextSettings.descriptionOneLeft(NumberExist.getTextNumber("Фотографии: ", _numberOfPhotos)),
           )
         ],
       ),
     );
   }
 
-  Container setPhotoesGrid(int _numberOfPhotoes){
-    if (_numberOfPhotoes != 0){
+  Container setPhotoesGrid(var _inputPhotosList){
+
+    int _numberOfPhotos = 0;
+
+    if (_inputPhotosList != null)
+      _numberOfPhotos = _inputPhotosList.length;
+
+    if (_numberOfPhotos != 0){
       return Container(
         padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
         child: TextSettings.titleOneCenter("Здесь блоки фото"),
+      );
+    }
+    else if (_numberOfPhotos == 0){
+      return Container(
+        padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
+        child: TextSettings.titleOneCenter("Пусто"),
       );
     }
   }
@@ -420,10 +480,10 @@ class _ProfileScreenState extends State<ProfileScreen>{
                   SizedBox(height: 20,),
 
                   // Получение имени пользователя
-                  getUserName("Александр"),
+                  getUserName(_name),
 
                   // Получение фамилии пользователя
-                  getUserSurname("Андреев"),
+                  getUserSurname(_surname),
 
                   SizedBox(height: 20,),
 
@@ -450,11 +510,11 @@ class _ProfileScreenState extends State<ProfileScreen>{
               children: <Widget>[
               SizedBox(height: 20,),
 
-              setPhotoesInformation(10),
+              setPhotoesInformation(_photos),
 
               SizedBox(height: 10,),
 
-              setPhotoesGrid(2),
+              setPhotoesGrid(_photos),
 
                 SizedBox(height: 20,),
               ]
@@ -470,11 +530,11 @@ class _ProfileScreenState extends State<ProfileScreen>{
                 children: <Widget>[
                   SizedBox(height: 20,),
 
-                  setFriendsInformation(2),
+                  setFriendsInformation(_friends),
 
                   SizedBox(height: 10,),
 
-                  setFriendGrid(2),
+                  setFriendGrid(_friends),
 
                   SizedBox(height: 20,),
                 ],

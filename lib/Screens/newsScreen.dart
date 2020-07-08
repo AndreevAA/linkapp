@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
 
+import 'createPost.dart';
+
 class NewsScreen extends StatefulWidget{
 
   @override
@@ -208,8 +210,7 @@ class _NewsScreen extends State<NewsScreen> {
       ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // showDialog(context);
-//            //OrdersSearchManager.sortListByDate();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CreatePost()));
             },
             child: Icon(Icons.add),
             backgroundColor: TextColors.accentColor,

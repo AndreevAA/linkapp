@@ -51,7 +51,9 @@ class MyFormState extends State {
             MaterialPageRoute(builder: (context) => StepperDemo(),
               settings: RouteSettings(name: 'Profile_filling'),
             ));
-      }else if ((snap == null  || !snap.exists ) && _user == false){
+      }
+
+      else if ((snap == null  || !snap.exists ) && _user == false){
 
         Logs.addNode("Registration", "redirectUser", "NULL"); // WORKER
         Navigator.pushReplacement(
@@ -60,13 +62,17 @@ class MyFormState extends State {
               settings: RouteSettings(name: 'Profile_filling'),
             ));
 
-      } else if (snap['role'] != 'worker') {
+      }
+
+      else if (snap['role'] != 'user') {
         Logs.addNode("Registration", "redirectUser", snap['role']); // empl
         prefs.clear();
         UserSettings.clearAll();
         FirebaseAuth.instance.signOut();
         deactivateDialog(context);
-      } else {
+      }
+
+      else {
         Logs.addNode("Registration", "redirectUser", snap['role']); // worker
         UserSettings.userDocument = snap;
         Navigator.pushReplacement(
