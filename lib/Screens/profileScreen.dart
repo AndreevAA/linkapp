@@ -1,5 +1,6 @@
 import 'package:backdrop_modal_route/backdrop_modal_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:linkapp/AdditionalFunctions/createdElements.dart';
@@ -11,13 +12,30 @@ import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/blockStyleSettings.dart';
 import 'package:linkapp/Settings/iconStyleSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Registration.dart';
+import 'accountSettingsScreen.dart';
+import 'createPost.dart';
 import 'friendsScreen.dart';
 
 class ProfileScreen extends StatefulWidget{
   
   DocumentSnapshot document;
   ProfileScreen({@required this.document});
+
+  static Future<void> exitUser(BuildContext context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.clear();
+    UserSettings.userDocument = null;
+    UserSettings.UID = null;
+    FirebaseAuth.instance.signOut();
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Regist()));
+  }
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState(document);
@@ -390,6 +408,9 @@ class _ProfileScreenState extends State<ProfileScreen>{
                 onChanged: (value) async {
                   //_name = value;
                 },
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreatePost()));
+                },
                 //initialValue: "Расскажите, что у Вас нового?",
               ),
             ),
@@ -453,133 +474,11 @@ class _ProfileScreenState extends State<ProfileScreen>{
                       icon: Icon(Icons.settings),
                       color: TextColors.accentColor,
                       iconSize: 30,
-                      onPressed: ()async {
-                        await Navigator.push(
-                          context,
-                          BackdropModalRoute<void>(
-                            topPadding: 290.0,
-                            overlayContentBuilder: (context) {
-
-                              return SingleChildScrollView(
-                                child: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        alignment: Alignment.center,
-                                        padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
-                                        child:
-                                        Row(
-                                          children: <Widget>[
-                                            Text('Вывести по:', textAlign: TextAlign.left, style: TextStyle(
-                                              color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500,
-                                            ),),
-
-                                            FlatButton(
-                                              padding: const EdgeInsets.fromLTRB(130, 0, 0, 0),
-                                              onPressed: () => Navigator.pop(context),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  // Кнопка закрытия окна (Крестик)
-                                                  IconButton(
-                                                    icon: Icon(Icons.close),
-                                                    color: TextColors.accentColor,
-                                                    iconSize: 30,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
-                                      RadioListTile(
-                                        activeColor: TextColors.accentColor,
-                                        title: const Text('Дате'),
-                                        value: 'Дате',
-                                        // groupValue: HomePageExe.sortStatus,
-                                        onChanged: (String selected) {
-                                          // setState((){HomePageExe.sortStatus = selected;
-                                          // // Сортировка по убыванию даты (Сначала новые)
-                                          // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                          Navigator.pop(context);
-
-                                        },
-                                      ),
-
-                                      RadioListTile(
-                                          activeColor: TextColors.accentColor,
-                                          title: const Text('Популярности'),
-                                          value: 'Популярности',
-                                          // groupValue: HomePageExe.sortStatus,
-                                          onChanged: (String selected) {
-                                            // setState((){HomePageExe.sortStatus = selected;
-                                            // Сортировка по убыванию даты (Сначала новые)
-                                            // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                            Navigator.pop(context);
-                                          }
-                                      ),
-
-                                      RadioListTile(
-                                        activeColor: TextColors.accentColor,
-                                        title: const Text('Увеличению оклада'),
-                                        value: 'Увеличению оклада',
-                                        // groupValue: HomePageExe.sortStatus,
-                                        onChanged: (String selected) {
-                                          // setState((){HomePageExe.sortStatus = selected;
-                                          // // Сортировка по убыванию даты (Сначала новые)
-                                          // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-
-                                      RadioListTile(
-                                        activeColor: TextColors.accentColor,
-                                        title: const Text('Уменьшению оклада'),
-                                        value: 'Уменьшению оклада',
-                                        // groupValue: HomePageExe.sortStatus,
-                                        onChanged: (String selected) {
-                                          // setState((){HomePageExe.sortStatus = selected;
-                                          // Сортировка по убыванию даты (Сначала новые)
-                                          // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-
-                                      RadioListTile(
-                                        activeColor: TextColors.accentColor,
-                                        title: const Text('Увеличению требований'),
-                                        value: 'Увеличению требований',
-                                        // groupValue: HomePageExe.sortStatus,
-                                        onChanged: (String selected) {
-                                          // setState((){HomePageExe.sortStatus = selected;
-                                          // Сортировка по убыванию даты (Сначала новые)
-                                          // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-
-                                      RadioListTile(
-                                          activeColor: TextColors.accentColor,
-                                          title: const Text('Уменьшению требований'),
-                                          value: 'Уменьшению требований',
-                                          // groupValue: HomePageExe.sortStatus,
-                                          onChanged: (String selected) {
-                                            // setState((){HomePageExe.sortStatus = selected;
-                                            // Сортировка по убыванию даты (Сначала новые)
-                                            // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                            Navigator.pop(context);
-                                          }
-                                      ),
-
-                                    ]
-
-
-
-                                ),
-                              );
-
-                            },
-                          ),
-                        );
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AccountSettings()));
                       },
                     ),
                   ),
