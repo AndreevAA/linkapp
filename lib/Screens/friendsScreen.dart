@@ -1,3 +1,4 @@
+import 'package:backdrop_modal_route/backdrop_modal_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Container(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: InkWell(
                 // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
                 child: Text(
@@ -137,54 +138,55 @@ class _CustomCard extends State<CustomCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
-      child: Container(
 
-        width: double.infinity,
+      child: Row(
 
-        child: InkWell(
-          onTap: () async {
-            Navigator.push (
-              context,
-              MaterialPageRoute(builder: (context) => ProfileScreen(document: document,)),
-            );
-          },
-          child: Row(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.fromLTRB(14, 0, 0, 10),
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundColor: TextColors.accentColor,
-                  child: Text(
-                    document['name'][0],
-                    style:
-                    (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),
-                  ),
-                  foregroundColor: Colors.white,
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  SizedBox(height: 15),
-                  Container(
-                    height: 30,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 2.0),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+        children: <Widget>[
+          InkWell(
+            onTap: () async {
+              Navigator.push (
+                context,
+                MaterialPageRoute(builder: (context) => ProfileScreen(document: document,)),
+              );
+            },
+            child: Row(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.fromLTRB(14, 0, 0, 10),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: TextColors.accentColor,
                     child: Text(
-                      document['name'] ?? "ER",
-                      // HomePageExe.formatOutput(HomePageExe.replaceSymbols(HomePageExe.replaceSymbols(HomePageExe.deleteSmiles(runeSubstring(input: document['title'] ?? 'Ошибка описания', start: 0, end: (document['title'] ?? 'Ошибка описания').toString().length < 20 ? (document['title'] ?? 'Ошибка описаня').toString().length : 20)), "\n", " "), "  ", " "), 20).replaceAll("\n\n", "\n"),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17.0,
-                        color: Colors.black,
+                      document['name'][0],
+                      style:
+                      (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),
+                    ),
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SizedBox(height: 15),
+                    Container(
+                      height: 30,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 2.0),
+                      child: Text(
+                        document['name'] ?? "ER",
+                        // HomePageExe.formatOutput(HomePageExe.replaceSymbols(HomePageExe.replaceSymbols(HomePageExe.deleteSmiles(runeSubstring(input: document['title'] ?? 'Ошибка описания', start: 0, end: (document['title'] ?? 'Ошибка описания').toString().length < 20 ? (document['title'] ?? 'Ошибка описаня').toString().length : 20)), "\n", " "), "  ", " "), 20).replaceAll("\n\n", "\n"),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
-                  ),
 
-                  // Блок размера оплаты труда
+                    // Блок размера оплаты труда
 //                Container(
 //                  height: 30,
 //                  padding: const EdgeInsets.fromLTRB(20, 1, 0, 0),
@@ -199,22 +201,22 @@ class _CustomCard extends State<CustomCard> {
 //                  ),
 //                ),
 
-                  Container(
-                    height: 30,
-                    padding: const EdgeInsets.fromLTRB(20, 1, 0, 11),
-                    child: Text(
-                      // concatMinMax(document['min_price'], document['max_price']) +
-                      // " / " + document['pay_type'] ?? "",
-                      "Был(-а) в сети: " +
-                          ((document['seen'] ?? Timestamp.now()) as Timestamp).toDate().toIso8601String().substring(0, 10),
-                      style: TextStyle(
-                          fontSize: 11.0,
-                          color: TextColors.deactivatedColor,
-                          fontWeight: FontWeight.normal),
+                    Container(
+                      height: 30,
+                      padding: const EdgeInsets.fromLTRB(20, 1, 0, 11),
+                      child: Text(
+                        // concatMinMax(document['min_price'], document['max_price']) +
+                        // " / " + document['pay_type'] ?? "",
+                        "Был(-а) в сети: " +
+                            ((document['seen'] ?? Timestamp.now()) as Timestamp).toDate().toIso8601String().substring(0, 10),
+                        style: TextStyle(
+                            fontSize: 11.0,
+                            color: TextColors.deactivatedColor,
+                            fontWeight: FontWeight.normal),
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
 
 //            Ink(
 //              width: 45.0,
@@ -236,9 +238,153 @@ class _CustomCard extends State<CustomCard> {
 //                },
 //              ),
 //            ),
-            ],
+              ],
+            ),
           ),
-        ),
+
+          Ink(
+            width: 45.0,
+            height: 45.0,
+            decoration: const ShapeDecoration(
+              //color: Colors.grey,
+              shape: CircleBorder(),
+
+            ),
+            child: IconButton(
+              icon: Icon(Icons.sort),
+              color: TextColors.accentColor,
+              iconSize: 30,
+              onPressed: ()async {
+                await Navigator.push(
+                  context,
+                  BackdropModalRoute<void>(
+                    topPadding: 290.0,
+                    overlayContentBuilder: (context) {
+
+                      return SingleChildScrollView(
+                        child: Column(
+                            children: <Widget>[
+                              Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
+                                child:
+                                Row(
+                                  children: <Widget>[
+                                    Text('Вывести по:', textAlign: TextAlign.left, style: TextStyle(
+                                      color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500,
+                                    ),),
+
+                                    FlatButton(
+                                      padding: const EdgeInsets.fromLTRB(130, 0, 0, 0),
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Row(
+                                        children: <Widget>[
+                                          // Кнопка закрытия окна (Крестик)
+                                          IconButton(
+                                            icon: Icon(Icons.close),
+                                            color: TextColors.accentColor,
+                                            iconSize: 30,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              RadioListTile(
+                                activeColor: TextColors.accentColor,
+                                title: const Text('Дате'),
+                                value: 'Дате',
+                                // groupValue: HomePageExe.sortStatus,
+                                onChanged: (String selected) {
+                                  // setState((){HomePageExe.sortStatus = selected;
+                                  // // Сортировка по убыванию даты (Сначала новые)
+                                  // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+                                  Navigator.pop(context);
+
+                                },
+                              ),
+
+                              RadioListTile(
+                                  activeColor: TextColors.accentColor,
+                                  title: const Text('Популярности'),
+                                  value: 'Популярности',
+                                  // groupValue: HomePageExe.sortStatus,
+                                  onChanged: (String selected) {
+                                    // setState((){HomePageExe.sortStatus = selected;
+                                    // Сортировка по убыванию даты (Сначала новые)
+                                    // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+                                    Navigator.pop(context);
+                                  }
+                              ),
+
+                              RadioListTile(
+                                activeColor: TextColors.accentColor,
+                                title: const Text('Увеличению оклада'),
+                                value: 'Увеличению оклада',
+                                // groupValue: HomePageExe.sortStatus,
+                                onChanged: (String selected) {
+                                  // setState((){HomePageExe.sortStatus = selected;
+                                  // // Сортировка по убыванию даты (Сначала новые)
+                                  // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+                                  Navigator.pop(context);
+                                },
+                              ),
+
+                              RadioListTile(
+                                activeColor: TextColors.accentColor,
+                                title: const Text('Уменьшению оклада'),
+                                value: 'Уменьшению оклада',
+                                // groupValue: HomePageExe.sortStatus,
+                                onChanged: (String selected) {
+                                  // setState((){HomePageExe.sortStatus = selected;
+                                  // Сортировка по убыванию даты (Сначала новые)
+                                  // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+                                  Navigator.pop(context);
+                                },
+                              ),
+
+                              RadioListTile(
+                                activeColor: TextColors.accentColor,
+                                title: const Text('Увеличению требований'),
+                                value: 'Увеличению требований',
+                                // groupValue: HomePageExe.sortStatus,
+                                onChanged: (String selected) {
+                                  // setState((){HomePageExe.sortStatus = selected;
+                                  // Сортировка по убыванию даты (Сначала новые)
+                                  // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+                                  Navigator.pop(context);
+                                },
+                              ),
+
+                              RadioListTile(
+                                  activeColor: TextColors.accentColor,
+                                  title: const Text('Уменьшению требований'),
+                                  value: 'Уменьшению требований',
+                                  // groupValue: HomePageExe.sortStatus,
+                                  onChanged: (String selected) {
+                                    // setState((){HomePageExe.sortStatus = selected;
+                                    // Сортировка по убыванию даты (Сначала новые)
+                                    // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+                                    Navigator.pop(context);
+                                  }
+                              ),
+
+                            ]
+
+
+
+                        ),
+                      );
+
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       )
 
     );

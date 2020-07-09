@@ -171,18 +171,26 @@ class _ProfileScreenState extends State<ProfileScreen>{
     }
     else if (_isAuthorProfile == false){
       if (_isFriends == true){
-        _buttonOneText = "Удалить из друзей";
+        _buttonOneText = "  Удалить из друзей    ";
 
         return Container(
 
           padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
 
           child: Row(
+
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
             children: <Widget>[
               Container(
 
                   //width: double.infinity,
-                  color: BlockColors.additionalColor,
+
+
+                  decoration: BoxDecoration(
+                      borderRadius:  BorderRadius.circular(20.0),
+                    color: BlockColors.additionalColor,
+                  ),
 
                   child: FlatButton(
                     child: TextSettings.buttonNameTwoCenter(_buttonOneText),
@@ -217,11 +225,19 @@ class _ProfileScreenState extends State<ProfileScreen>{
 
               Container(
 
-                //width: double.infinity,
-                  color: BlockColors.accentColor,
+                  decoration: BoxDecoration(
+                    borderRadius:  BorderRadius.circular(20.0),
+                    color: BlockColors.accentColor,
+                  ),
 
-                  child: FlatButton(
-                    child: TextSettings.buttonNameTwoCenter(_buttonTwoText),
+                //width: double.infinity,
+                  //color: BlockColors.accentColor,
+
+                  child: FlatButton.icon(
+                    icon: Icon(Icons.message, color: Colors.white,),
+
+                    label: TextSettings.buttonNameTwoCenter(_buttonTwoText),
+
                     onPressed: () async {
                       List _friendsList = UserSettings.userDocument['friends'];
 
@@ -251,8 +267,13 @@ class _ProfileScreenState extends State<ProfileScreen>{
 
           padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
           child: Container(
+              decoration: BoxDecoration(
+                borderRadius:  BorderRadius.circular(20.0),
+                color: BlockColors.accentColor,
+              ),
+
               width: double.infinity,
-              color: BlockColors.accentColor,
+
               child: FlatButton(
                 child: TextSettings.buttonNameTwoCenter(_buttonOneText),
                 onPressed: () {
