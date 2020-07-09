@@ -31,8 +31,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'linkapp',
       theme: ThemeData(
+        //backgroundColor: Colors.white,
         primarySwatch: Colors.blue,
         //visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class TextColors {
-  static Color accentColor = Color.fromRGBO(92, 0, 92, 1);
+  static Color accentColor = Color.fromRGBO(157, 68, 254, 1);
 
   static Color descriptionColor = Colors.grey;
 

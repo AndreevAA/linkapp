@@ -289,11 +289,24 @@ class _ProfileScreenState extends State<ProfileScreen>{
     );
   }
 
-  Container setFriendsPicture(int _tempPositionCursor){
+//  List <Widget> setFriendsPicture(int _numberOfFriends){
+//
+//    List <Widget> answerListWidget;
+//
+//    for (int i = 0; i < _numberOfFriends; i++){
+//      answerListWidget.add(
+//          Container(
+//              child: Card(
+//                color: Colors.amber,
+//              ),
+//            )
+//      );
+//    }
+//
+//    return answerListWidget;
+//  }
 
-  }
-
-  Container setFriendGrid(var _inputFriendList){
+ Container setFriendGrid(var _inputFriendList){
 
     int _numberOfFriends = 0;
     int _tempPositionCursor = 0;
@@ -564,25 +577,25 @@ class _ProfileScreenState extends State<ProfileScreen>{
 
             DisignElements.setDivisionFieldOne(),
 
-            // Блок с фотографиями пользователя
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-
-              children: <Widget>[
-              SizedBox(height: 20,),
-
-              setPhotoesInformation(_photos),
-
-              SizedBox(height: 10,),
-
-              setPhotoesGrid(_photos),
-
-                SizedBox(height: 20,),
-              ]
-            ),
-
-            DisignElements.setDivisionFieldOne(),
+//            // Блок с фотографиями пользователя
+//            Column(
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              mainAxisSize: MainAxisSize.min,
+//
+//              children: <Widget>[
+//              SizedBox(height: 20,),
+//
+//              setPhotoesInformation(_photos),
+//
+//              SizedBox(height: 10,),
+//
+//              setPhotoesGrid(_photos),
+//
+//                SizedBox(height: 20,),
+//              ]
+//            ),
+//
+//            DisignElements.setDivisionFieldOne(),
 
             // Блок с иконками друзей
             Column(
