@@ -21,7 +21,10 @@ import 'createPost.dart';
 import 'friendsScreen.dart';
 
 class ProfileScreen extends StatefulWidget{
-  
+
+  static bool blocked = false;
+
+
   DocumentSnapshot document;
   ProfileScreen({@required this.document});
 
@@ -64,6 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
     _isAuthorProfile = false;
 
     dateCtl = TextEditingController();
+
 
     _tempPositionCursor = -1;
   }
@@ -141,6 +145,28 @@ class _ProfileScreenState extends State<ProfileScreen>{
     String _buttonOneText = "";
     String _buttonTwoText = "Написать";
 
+    if (ProfileScreen.blocked)
+      return Container(
+
+        padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
+        child: Container(
+
+            width: double.infinity,
+
+            decoration:  BoxDecoration(
+              borderRadius:  BorderRadius.circular(20.0),
+
+              color: TextColors.deactivatedColor,
+            ),
+            child: FlatButton(
+              child: Text("Загрузка"),
+              onPressed: () {
+
+              },
+            )
+        ),
+      );
+
     if (_isAuthorProfile == true){
       _buttonOneText = "Редактировать";
 
@@ -208,15 +234,23 @@ class _ProfileScreenState extends State<ProfileScreen>{
                           _newFriendsList.add(_friendsList[i]);
                         }
                       }
-
-                      await FBManager.fbStore
+                      setState(() {
+                        ProfileScreen.blocked = true;
+                      });
+                      FBManager.fbStore
                           .collection(USERS_COLLECTION)
                           .document(UserSettings.UID)
                           .updateData({
                         'friends': _newFriendsList ?? []
+                      }).then((val) async {
+                        UserSettings.userDocument = await FBManager.getUser(UserSettings.UID);
+                        setState(() {
+                          _isFriends = false;
+                          ProfileScreen.blocked = false;
+                        });
                       });
+                      print(UserSettings.userDocument.data['friends'].toString());
 
-                      _isFriends = false;
 
                       FriendsScreen.needsUpdate = true;
                     },

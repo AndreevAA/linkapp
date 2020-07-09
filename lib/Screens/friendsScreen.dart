@@ -50,21 +50,26 @@ class _FriendsScreenState extends State<FriendsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("building friendsScreen update " + FriendsScreen.needsUpdate.toString());
+//    if (FriendsScreen.needsUpdate){
+//      setState(() {
+//        FriendsScreen.needsUpdate = false;
+//      });
+//    }
 
-    if (FriendsScreen.needsUpdate){
-      setState(() {
-        FriendsScreen.needsUpdate = false;
-      });
-    }
-
-    if (_FriendsScreenState.friendsList == null)
-      FBManager.getFriendsList(UserSettings.userDocument['friends'])
-          .then((list) {
-        setState(() {
-          print("got " + list.length.toString() + " friends");
-          _FriendsScreenState.friendsList = list;
+    if (_FriendsScreenState.friendsList == null || FriendsScreen.needsUpdate) {
+      FriendsScreen.needsUpdate = false;
+      if (UserSettings.userDocument['friends'].isNotEmpty)
+        FBManager.getFriendsList(UserSettings.userDocument['friends'])
+            .then((list) {
+          setState(() {
+            print("got " + (list ?? new List()).length.toString() + " friends");
+            _FriendsScreenState.friendsList = list;
+          });
         });
-      });
+      else
+        _FriendsScreenState.friendsList = new List();
+    }
 
     return Scaffold(
         appBar: AppBar(

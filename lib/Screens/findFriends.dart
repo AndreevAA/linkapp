@@ -1,5 +1,8 @@
+import 'package:backdrop_modal_route/backdrop_modal_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:linkapp/Screens/profileScreen.dart';
 import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
@@ -13,75 +16,332 @@ class _FindFriendsState extends State<FindFriends> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  var _friendsList, _peopleList, _foundedPeopleList = [];
-  int _friendsListLength = 0, _peopleListLength = 0, _foundedPeopleListLength = 0;
+  List<DocumentSnapshot> listOfOffers = new List();
 
-  _FindFriendsState(){
-    _friendsList = UserSettings.userDocument['friends'].toString();
-    _peopleList = FBManager.fbStore.collection("posts").getDocuments();
+  String field = "name";
+  Icon actionIcon = new Icon(Icons.search, color: Colors.white,);
+  final TextEditingController _searchQuery = new TextEditingController();
+  Widget appBarTitle = new Text("Search Sample", style: new TextStyle(color: Colors.white),);
+  String _searchText;
+  bool loading = false;
+
+
+  _FindFriendsState() {
+    _searchQuery.addListener(() {
+      if (_searchQuery.text.isEmpty) {
+        setState(() {
+          _searchText = "";
+        });
+      }
+      else {
+        setState(() {
+          _searchText = _searchQuery.text;
+        });
+      }
+    });
   }
-
-
-  // Реализация поиска по подстроке
-  bool isSimmilar(String userToken, String inputText){
-    bool answer = false;
-
-    // Паша, так и не разобрался, как обращаться к данным конрктеного пользователя по токену
-    //String fullUserName = FBManager.fbStore.collection("users").document(userToken);
-
-    String fullUserName = "";
-
-    return fullUserName.contains(inputText);
-  }
-
   // Получение массива token людей по имя + фамилия по параметру поиска
   // В случае отсутствия людей функция вернет строку "Пользователи не найдены"
-  void getFoundedPeopleList(String inputText){
 
-    if (_peopleList != null)
-      _peopleListLength = _peopleList.length;
-
-    for (int i = 0; i < _peopleListLength; i++){
-      if (isSimmilar(_peopleList[i], inputText) == true) {
-        _foundedPeopleList.add(_peopleList[i]);
-        _foundedPeopleListLength++;
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
 
-    print(_peopleList.toString());
+    print("build");
 
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          title: Container(
-              child: InkWell(
-//                onLongPress: () => Navigator.push(
-//                    context, MaterialPageRoute(builder: (context) => Logs())),
-                child: Text('      Добавить друзей', style: TextStyle(color: Colors.black), textAlign: TextAlign.center,),
-              )
-          ),
-          leading: BackButton(
-            color: Colors.black,
-            onPressed: () {
-              print("Closing");
-              Navigator.of(context).pop();
-            },
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          actions: <Widget>[],
-        ),
-        body: Container(
-          child: Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-              child: new ListView(
-                  children: <Widget>[
+      appBar: new AppBar(
+        backgroundColor: TextColors.accentColor,
+          centerTitle: true,
+          title: appBarTitle,
+          actions: <Widget>[
+            new IconButton(icon: actionIcon,onPressed:(){
+              setState(() {
+                if (this.actionIcon.icon == Icons.search){
+                  this.actionIcon = new Icon(Icons.close);
+                  this.appBarTitle = new TextField(
+                    controller: _searchQuery,
+                    style: new TextStyle(
+                      color: Colors.white,
 
-                  ])),
-        ));
+                    ),
+                    decoration: new InputDecoration(
+                        prefixIcon: new Icon(Icons.search,color: Colors.white),
+                        hintText: "Search...",
+                        hintStyle: new TextStyle(color: Colors.white)
+                    ),
+                  );
+                }
+                else {
+                  this.actionIcon = new Icon(Icons.search);
+                  this.appBarTitle = new Text("Поиск друзей");
+                }
+
+
+              });
+            } ,),]
+      ),
+
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              loading = true;
+            });
+            _searchText = _searchQuery.text;
+            if (_searchText != null && _searchText.trim() != '' && _searchText.trim() != ' ')
+              FBManager.fbStore.collection('users').where('name', isEqualTo: _searchText).getDocuments().then((QuerySnapshot snap){
+                setState(() {
+                  listOfOffers = snap.documents;
+                  loading = false;
+                });
+              });
+            else
+              _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Введите верные поля"), backgroundColor: Colors.red,) );
+          },
+          child: Icon(Icons.check),
+          backgroundColor: TextColors.accentColor,
+        ),
+        body: Center(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: listOfOffers == null ? Text(
+                "Поиск по имени",
+                textAlign: TextAlign.center,
+                textDirection: TextDirection.ltr,
+              ) : loading
+                  ? CircularProgressIndicator()
+                  : listOfOffers.isEmpty
+                  ? Text(
+                "К сожалению, друзей не найдено...",
+                textAlign: TextAlign.center,
+                textDirection: TextDirection.ltr,
+              )
+                  : ListView(
+                children: listOfOffers.map((DocumentSnapshot document) {
+                  // Logs.addNode("OrdersSearchView", "build",
+                  // "Document:\n" + document.document
+                  return new CustomCard(document: document);
+                }).toList(),
+              ),
+            )));
+  }
+}
+
+class CustomCard extends StatefulWidget {
+  // CustomCard({@required this.document, @required this.previousScreenContext, @required this.homePageScreen});
+
+  final DocumentSnapshot document;
+
+  CustomCard({@required this.document});
+
+  @override
+  _CustomCard createState() => _CustomCard(document: document);
+}
+
+class _CustomCard extends State<CustomCard> {
+  _CustomCard({@required this.document});
+
+  final DocumentSnapshot document;
+
+  String formatOutput(String temp, int maxLength) {
+    if (temp.length <= maxLength)
+      return temp;
+    else
+      return temp.substring(0, maxLength).trim() + "...";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+
+        child: Row(
+
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+          children: <Widget>[
+            InkWell(
+              onTap: () async {
+                Navigator.push (
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen(document: document,)),
+                );
+              },
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(14, 0, 0, 10),
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: TextColors.accentColor,
+                      child: Text(
+                        document['name'][0],
+                        style:
+                        (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),
+                      ),
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      SizedBox(height: 15),
+                      Container(
+                        height: 30,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 2.0),
+                        child: Text(
+                          document['name'] ?? "ER",
+                          // HomePageExe.formatOutput(HomePageExe.replaceSymbols(HomePageExe.replaceSymbols(HomePageExe.deleteSmiles(runeSubstring(input: document['title'] ?? 'Ошибка описания', start: 0, end: (document['title'] ?? 'Ошибка описания').toString().length < 20 ? (document['title'] ?? 'Ошибка описаня').toString().length : 20)), "\n", " "), "  ", " "), 20).replaceAll("\n\n", "\n"),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+
+                      // Блок размера оплаты труда
+//                Container(
+//                  height: 30,
+//                  padding: const EdgeInsets.fromLTRB(20, 1, 0, 0),
+//                  child: Text(
+//                    // concatMinMax(document['min_price'], document['max_price']) +
+//                    // " / " + document['pay_type'] ?? "",
+//                    formatOutput(document['status'] ?? "ERR", 35),
+//                    style: TextStyle(
+//                        fontSize: 14.0,
+//                        color: TextColors.accentColor,
+//                        fontWeight: FontWeight.bold),
+//                  ),
+//                ),
+
+                      Container(
+                        height: 30,
+                        padding: const EdgeInsets.fromLTRB(20, 1, 0, 11),
+                        child: Text(
+                          // concatMinMax(document['min_price'], document['max_price']) +
+                          // " / " + document['pay_type'] ?? "",
+                          "Был(-а) в сети: " +
+                              ((document['seen'] ?? Timestamp.now()) as Timestamp).toDate().toIso8601String().substring(0, 10),
+                          style: TextStyle(
+                              fontSize: 11.0,
+                              color: TextColors.deactivatedColor,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    ],
+                  ),
+
+//            Ink(
+//              width: 45.0,
+//              height: 45.0,
+//              decoration: const ShapeDecoration(
+//                //color: Colors.grey,
+//                shape: CircleBorder(),
+//
+//              ),
+//              child: IconButton(
+//                icon: Icon(Icons.settings),
+//                color: TextColors.accentColor,
+//                iconSize: 30,
+//                onPressed: () {
+//                  Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                          builder: (context) => AccountSettings()));
+//                },
+//              ),
+//            ),
+                ],
+              ),
+            ),
+
+            Ink(
+              width: 45.0,
+              height: 45.0,
+              decoration: const ShapeDecoration(
+                //color: Colors.grey,
+                shape: CircleBorder(),
+
+              ),
+              child: IconButton(
+                icon: Icon(Icons.more_vert),
+                color: TextColors.accentColor,
+                iconSize: 30,
+                onPressed: ()async {
+                  await Navigator.push(
+                    context,
+                    BackdropModalRoute<void>(
+                      topPadding: 290.0,
+                      overlayContentBuilder: (context) {
+
+                        return SingleChildScrollView(
+                          child: Column(
+                              children: <Widget>[
+                                SizedBox(height: 10,),
+//                              Container(
+//                                alignment: Alignment.center,
+//                                padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
+//                                child:
+//                                Row(
+//                                  children: <Widget>[
+//                                    Text('Вывести по:', textAlign: TextAlign.left, style: TextStyle(
+//                                      color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500,
+//                                    ),),
+//
+//                                    FlatButton(
+//                                      padding: const EdgeInsets.fromLTRB(130, 0, 0, 0),
+//                                      onPressed: () => Navigator.pop(context),
+//                                      child: Row(
+//                                        children: <Widget>[
+//                                          // Кнопка закрытия окна (Крестик)
+//                                          IconButton(
+//                                            icon: Icon(Icons.close),
+//                                            color: TextColors.accentColor,
+//                                            iconSize: 30,
+//                                          )
+//                                        ],
+//                                      ),
+//                                    ),
+//                                  ],
+//                                ),
+//                              ),
+                                Row(
+
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                                  children: <Widget>[
+
+                                    SizedBox(width: 10,),
+
+                                    Icon(Icons.message, color: Colors.black,),
+
+                                    FlatButton(
+                                      child: TextSettings.buttonNameTwoCenter("Написать"),
+                                    ),
+
+                                  ],
+                                ),
+
+
+                              ]
+
+
+
+                          ),
+                        );
+
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        )
+
+    );
   }
 }
