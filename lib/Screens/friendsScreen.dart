@@ -9,6 +9,9 @@ import 'package:linkapp/Settings/textStyleSettings.dart';
 import 'findFriends.dart';
 
 class FriendsScreen extends StatefulWidget {
+
+  static bool needsUpdate = false;
+
   @override
   _FriendsScreenState createState() => _FriendsScreenState();
 }
@@ -45,6 +48,13 @@ class _FriendsScreenState extends State<FriendsScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (FriendsScreen.needsUpdate){
+      setState(() {
+        FriendsScreen.needsUpdate = false;
+      });
+    }
+
     if (_FriendsScreenState.friendsList == null)
       FBManager.getFriendsList(UserSettings.userDocument['friends'])
           .then((list) {

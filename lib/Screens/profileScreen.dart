@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:linkapp/AdditionalFunctions/createdElements.dart';
 import 'package:linkapp/AdditionalFunctions/textFormating.dart';
 import 'package:linkapp/Screens/dialogsScreen.dart';
+import 'package:linkapp/Service/DataBaseNamings.dart';
 import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/blockStyleSettings.dart';
 import 'package:linkapp/Settings/iconStyleSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
+
+import 'friendsScreen.dart';
 
 class ProfileScreen extends StatefulWidget{
   
@@ -32,15 +35,21 @@ class _ProfileScreenState extends State<ProfileScreen>{
     _birthday = (document['birthday'] ?? 'null').toString();
     _patent = (document['patent'] ?? 'null').toString();
     _status = (document['status'] ?? 'null').toString();
+    _token = (document['token'] ?? 'null').toString();
 
     _friends = document['friends'] ?? new List();
     _followers = document['followers'] ?? new List();
     _publics = document['publics'] ?? new List();
 
+    _buttonMessageExistance = false;
+    _isAuthorProfile = false;
+
     dateCtl = TextEditingController();
   }
   
-  String _name, _surname, _gender, _country, _birthday, _patent, _status;
+  String _name, _surname, _gender, _country, _birthday, _patent, _status, _token;
+
+  bool _buttonMessageExistance, _isAuthorProfile;
 
   List<dynamic> _friends, _followers, _publics, _photos;
 
@@ -104,8 +113,14 @@ class _ProfileScreenState extends State<ProfileScreen>{
     );
   }
 
-  Container setButtonProfileDataEdit(_buttonName){
-    if (_buttonName == "Редактировать" || _buttonName == "Добавить в друзья"){
+  Container setButtonProfileDataEdit(bool _isAuthorProfile, bool _buttonMessageExistance, bool _isFriends){
+
+    String _buttonOneText = "";
+    String _buttonTwoText = "Написать";
+
+    if (_isAuthorProfile == true){
+      _buttonOneText = "Редактировать";
+
       return Container(
 
         padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
@@ -113,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
             width: double.infinity,
             color: BlockColors.accentColor,
             child: FlatButton(
-              child: TextSettings.buttonNameTwoCenter(_buttonName),
+              child: TextSettings.buttonNameTwoCenter(_buttonOneText),
               onPressed: () {
 
               },
@@ -121,23 +136,99 @@ class _ProfileScreenState extends State<ProfileScreen>{
         ),
       );
     }
-    else if (_buttonName == "Удалить из друзей"){
-      return Container(
+    else if (_isAuthorProfile == false){
+      if (_isFriends == true){
+        _buttonOneText = "Удалить из друзей";
 
-        padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
-        child: Container(
+        return Container(
 
-            width: double.infinity,
-            color: BlockColors.additionalColor,
+          padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
 
-            child: FlatButton(
-              child: TextSettings.buttonNameTwoCenter(_buttonName),
-              onPressed: () {
+          child: Row(
+            children: <Widget>[
+              Container(
 
-              },
-            )
-        ),
-      );
+                  //width: double.infinity,
+                  color: BlockColors.additionalColor,
+
+                  child: FlatButton(
+                    child: TextSettings.buttonNameTwoCenter(_buttonOneText),
+                    onPressed: () async {
+                      List _newFriendsList;
+                      List _friendsList = UserSettings.userDocument['friends'];
+
+                      int _friendsListLength = 0;
+
+                      if (_friendsList != null)
+                        _friendsListLength = _friendsList.length;
+
+                      for (int i = 0; i < _friendsListLength; i++){
+                        if (_friendsList[i] != _token) {
+                          _newFriendsList.add(_friendsList[i]);
+                        }
+                      }
+
+                      await FBManager.fbStore
+                          .collection(USERS_COLLECTION)
+                          .document(UserSettings.UID)
+                          .updateData({
+                        'friends': _newFriendsList ?? []
+                      });
+
+                      _isFriends = false;
+
+                      FriendsScreen.needsUpdate = true;
+                    },
+                  )
+              ),
+
+              Container(
+
+                //width: double.infinity,
+                  color: BlockColors.accentColor,
+
+                  child: FlatButton(
+                    child: TextSettings.buttonNameTwoCenter(_buttonTwoText),
+                    onPressed: () async {
+                      List _friendsList = UserSettings.userDocument['friends'];
+
+                      _friendsList.add(_token);
+
+                      await FBManager.fbStore
+                          .collection(USERS_COLLECTION)
+                          .document(UserSettings.UID)
+                          .updateData({
+                        'friends': _friendsList ?? []
+                      });
+
+                      _isFriends = true;
+
+                      FriendsScreen.needsUpdate = true;
+                    },
+                  )
+              ),
+            ],
+          ),
+        );
+      }
+      else if (_isFriends == false){
+        _buttonOneText = "Добавить в друзья";
+
+        return Container(
+
+          padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
+          child: Container(
+              width: double.infinity,
+              color: BlockColors.accentColor,
+              child: FlatButton(
+                child: TextSettings.buttonNameTwoCenter(_buttonOneText),
+                onPressed: () {
+
+                },
+              )
+          ),
+        );
+      }
     }
   }
 
@@ -319,6 +410,17 @@ class _ProfileScreenState extends State<ProfileScreen>{
 
   @override
   Widget build(BuildContext context) {
+
+    // Переход в текущий профиль - это профиль владельца
+    if (_token.toString() == UserSettings.userDocument['token'].toString()){
+      _isAuthorProfile = true;
+      _buttonMessageExistance = false;
+    }
+    else if (_token.toString() != UserSettings.userDocument['token'].toString()){
+      _isAuthorProfile = false;
+      _buttonMessageExistance = true;
+    }
+
     return Scaffold (
 
       appBar: AppBar(
@@ -523,7 +625,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                   SizedBox(height: 20,),
 
                   // Получение фамилии пользователя
-                  setButtonProfileDataEdit("Редактировать"),
+                  setButtonProfileDataEdit(_isAuthorProfile, _buttonMessageExistance, true),
 
 
 
