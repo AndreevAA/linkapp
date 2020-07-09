@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:linkapp/AdditionalFunctions/createdElements.dart';
 import 'package:linkapp/AdditionalFunctions/textFormating.dart';
 import 'package:linkapp/Screens/dialogsScreen.dart';
+import 'package:linkapp/Screens/profileDataEditingScreen.dart';
 import 'package:linkapp/Service/DataBaseNamings.dart';
 import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
@@ -148,7 +149,11 @@ class _ProfileScreenState extends State<ProfileScreen>{
             child: FlatButton(
               child: TextSettings.buttonNameTwoCenter(_buttonOneText),
               onPressed: () {
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => ProfileDataEditing())
+                );
               },
             )
         ),
@@ -441,6 +446,8 @@ class _ProfileScreenState extends State<ProfileScreen>{
       _isAuthorProfile = false;
       _buttonMessageExistance = true;
     }
+
+    print("\n\n_isAuthorProfile: " + _isAuthorProfile.toString());
 
     return Scaffold (
 
