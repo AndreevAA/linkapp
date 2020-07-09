@@ -289,9 +289,14 @@ class _ProfileScreenState extends State<ProfileScreen>{
     );
   }
 
+  Container setFriendsPicture(int _tempPositionCursor){
+
+  }
+
   Container setFriendGrid(var _inputFriendList){
 
     int _numberOfFriends = 0;
+    int _tempPositionCursor = 0;
 
     if (_inputFriendList != null)
       _numberOfFriends = _inputFriendList.length;
@@ -302,14 +307,13 @@ class _ProfileScreenState extends State<ProfileScreen>{
         height: 100,
         child: GridView.count(
           scrollDirection: Axis.horizontal,
-          crossAxisCount: 1 ,
-          children: List.generate(3,(index){
+          crossAxisCount: 1,
+          children: List.generate(_numberOfFriends,(index){
             return Container(
               child: Card(
                 color: Colors.amber,
               ),
             );
-
           }),
         ),
       );
