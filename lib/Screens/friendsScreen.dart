@@ -69,7 +69,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: InkWell(
                 // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
                 child: Text(
@@ -251,7 +251,7 @@ class _CustomCard extends State<CustomCard> {
 
             ),
             child: IconButton(
-              icon: Icon(Icons.sort),
+              icon: Icon(Icons.more_vert),
               color: TextColors.accentColor,
               iconSize: 30,
               onPressed: ()async {
@@ -264,112 +264,51 @@ class _CustomCard extends State<CustomCard> {
                       return SingleChildScrollView(
                         child: Column(
                             children: <Widget>[
-                              Container(
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
-                                child:
-                                Row(
-                                  children: <Widget>[
-                                    Text('Вывести по:', textAlign: TextAlign.left, style: TextStyle(
-                                      color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500,
-                                    ),),
+                              SizedBox(height: 10,),
+//                              Container(
+//                                alignment: Alignment.center,
+//                                padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
+//                                child:
+//                                Row(
+//                                  children: <Widget>[
+//                                    Text('Вывести по:', textAlign: TextAlign.left, style: TextStyle(
+//                                      color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500,
+//                                    ),),
+//
+//                                    FlatButton(
+//                                      padding: const EdgeInsets.fromLTRB(130, 0, 0, 0),
+//                                      onPressed: () => Navigator.pop(context),
+//                                      child: Row(
+//                                        children: <Widget>[
+//                                          // Кнопка закрытия окна (Крестик)
+//                                          IconButton(
+//                                            icon: Icon(Icons.close),
+//                                            color: TextColors.accentColor,
+//                                            iconSize: 30,
+//                                          )
+//                                        ],
+//                                      ),
+//                                    ),
+//                                  ],
+//                                ),
+//                              ),
+                              Row(
 
-                                    FlatButton(
-                                      padding: const EdgeInsets.fromLTRB(130, 0, 0, 0),
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Row(
-                                        children: <Widget>[
-                                          // Кнопка закрытия окна (Крестик)
-                                          IconButton(
-                                            icon: Icon(Icons.close),
-                                            color: TextColors.accentColor,
-                                            iconSize: 30,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                                children: <Widget>[
+
+                                  SizedBox(width: 10,),
+
+                                  Icon(Icons.message, color: Colors.black,),
+
+                                  FlatButton(
+                                    child: TextSettings.buttonNameTwoCenter("Написать"),
+                                  ),
+
+                                ],
                               ),
 
-                              RadioListTile(
-                                activeColor: TextColors.accentColor,
-                                title: const Text('Дате'),
-                                value: 'Дате',
-                                // groupValue: HomePageExe.sortStatus,
-                                onChanged: (String selected) {
-                                  // setState((){HomePageExe.sortStatus = selected;
-                                  // // Сортировка по убыванию даты (Сначала новые)
-                                  // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                  Navigator.pop(context);
-
-                                },
-                              ),
-
-                              RadioListTile(
-                                  activeColor: TextColors.accentColor,
-                                  title: const Text('Популярности'),
-                                  value: 'Популярности',
-                                  // groupValue: HomePageExe.sortStatus,
-                                  onChanged: (String selected) {
-                                    // setState((){HomePageExe.sortStatus = selected;
-                                    // Сортировка по убыванию даты (Сначала новые)
-                                    // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                    Navigator.pop(context);
-                                  }
-                              ),
-
-                              RadioListTile(
-                                activeColor: TextColors.accentColor,
-                                title: const Text('Увеличению оклада'),
-                                value: 'Увеличению оклада',
-                                // groupValue: HomePageExe.sortStatus,
-                                onChanged: (String selected) {
-                                  // setState((){HomePageExe.sortStatus = selected;
-                                  // // Сортировка по убыванию даты (Сначала новые)
-                                  // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                  Navigator.pop(context);
-                                },
-                              ),
-
-                              RadioListTile(
-                                activeColor: TextColors.accentColor,
-                                title: const Text('Уменьшению оклада'),
-                                value: 'Уменьшению оклада',
-                                // groupValue: HomePageExe.sortStatus,
-                                onChanged: (String selected) {
-                                  // setState((){HomePageExe.sortStatus = selected;
-                                  // Сортировка по убыванию даты (Сначала новые)
-                                  // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                  Navigator.pop(context);
-                                },
-                              ),
-
-                              RadioListTile(
-                                activeColor: TextColors.accentColor,
-                                title: const Text('Увеличению требований'),
-                                value: 'Увеличению требований',
-                                // groupValue: HomePageExe.sortStatus,
-                                onChanged: (String selected) {
-                                  // setState((){HomePageExe.sortStatus = selected;
-                                  // Сортировка по убыванию даты (Сначала новые)
-                                  // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                  Navigator.pop(context);
-                                },
-                              ),
-
-                              RadioListTile(
-                                  activeColor: TextColors.accentColor,
-                                  title: const Text('Уменьшению требований'),
-                                  value: 'Уменьшению требований',
-                                  // groupValue: HomePageExe.sortStatus,
-                                  onChanged: (String selected) {
-                                    // setState((){HomePageExe.sortStatus = selected;
-                                    // Сортировка по убыванию даты (Сначала новые)
-                                    // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                    Navigator.pop(context);
-                                  }
-                              ),
 
                             ]
 
