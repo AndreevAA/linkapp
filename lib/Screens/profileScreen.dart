@@ -299,7 +299,19 @@ class _ProfileScreenState extends State<ProfileScreen>{
     if (_numberOfFriends != 0){
       return Container(
         padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
-        child: TextSettings.titleOneCenter("Здесь фото друзей"),
+        height: 100,
+        child: GridView.count(
+          scrollDirection: Axis.horizontal,
+          crossAxisCount: 1 ,
+          children: List.generate(3,(index){
+            return Container(
+              child: Card(
+                color: Colors.amber,
+              ),
+            );
+
+          }),
+        ),
       );
     }
 
@@ -457,7 +469,6 @@ class _ProfileScreenState extends State<ProfileScreen>{
                     },
                   ),
                 ),
-
               ],
             )
         );
