@@ -69,22 +69,14 @@ class _AccountSettings extends  State<AccountSettings> {
                     // Кнопка деактивации аккаунта
                     Row(children: <Widget>[
                       Container(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                          child: InkWell(
-                            onTap: () {
-
-                              deleteDialog(context);
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          child: FlatButton(
+                            child: Text('Выйти ' ?? 'Ошибка заголовка', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14.0, color: Colors.red),textAlign: TextAlign.start,),
+                            onPressed: () {
+                              ProfileScreen.exitUser(context);
                             },
-                            child: Text(
-                              "Деактивировать аккаунт",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          )),
+                          )
+                      ),
                     ]),
 
                     SizedBox(height: 100,),
@@ -94,37 +86,4 @@ class _AccountSettings extends  State<AccountSettings> {
         )
     );
   }
-}
-
-Future<bool> deleteDialog(context) async {
-  return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return new AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16.0))),
-          title: Text('Вы уверены, что хотите деактивировать аккаунт?'),
-          actions: <Widget>[
-//            FlatButton(
-//                onPressed: () async {
-//                  AnalyticsService().deleteAccount();
-//                  await FBManager.pushToDeactivatedUsers();
-//                  ProfileScreen.exitUser(context);
-//                },
-//                child: Text(
-//                  "Да",
-//                  style: TextStyle(color: Colors.red),
-//                )),
-//            FlatButton(
-//                onPressed: () {
-//                  Navigator.of(context, rootNavigator: true).pop();
-//                },
-//                child: Text(
-//                  "Нет",
-//                  style: TextStyle(color: Colors.green),
-//                ))
-          ],
-        );
-      });
 }
