@@ -25,8 +25,6 @@ class MyForm extends StatefulWidget {
 
 class MyFormState extends State {
   final _formKey = GlobalKey<FormState>();
-  GenderList _gender;
-  String _name;
   String _phoneNum;
   String verifCode;
   String verifId;

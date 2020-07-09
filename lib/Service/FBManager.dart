@@ -13,6 +13,7 @@ class FBManager {
 
   static void init() {
     fbStore = Firestore.instance;
+    print("FBManager inited");
    //geo = Geoflutterfire();
   }
 
@@ -65,7 +66,7 @@ class FBManager {
     /// ПРОВЕРКА ПОЛЬЗОВАТЕЛЯ НА НАЛИЧИЕ В БАЗЕ ДАННЫХ
     try {
       DocumentSnapshot _documentSnapshot = await fbStore
-          .collection(USERS_COLLECTION)
+          .collection('users')
           .document(_uid)
           .get();
       return _documentSnapshot;
@@ -418,12 +419,11 @@ static Future<QuerySnapshot> getAppliedOrders() async {
     }
   }
 
-  static Stream<QuerySnapshot> getChatStream(String orderToken) {
+  static Stream<QuerySnapshot> getChatStream() {
     try {
       return fbStore
-          .collection(ORDERS_COLLECTION)
-          .document(orderToken)
-          .collection(MESSAGES_COLLECTION)
+          .collection('chatrooms')
+          .where('users', arrayContains: UserSettings.UID)
           .orderBy("post_time", descending: true)
           .snapshots();
     } catch (e) {
@@ -504,4 +504,27 @@ static Future<QuerySnapshot> getAppliedOrders() async {
       Logs.addNode("FBManager", "incrementLinkViews", e);
     }
   }
+  
+  static Future<List<DocumentSnapshot>> getFriendsList (List<dynamic> uids) async {
+    try {
+      return (await fbStore
+          .collection('users')
+          .where('token', whereIn: uids)
+          .getDocuments()).documents;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  static Future<List<DocumentSnapshot>> getPostsList (List<dynamic> uids) async {
+    try {
+      return (await fbStore
+          .collection('posts')
+          .where('token', whereIn: uids)
+          .getDocuments()).documents;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
 }

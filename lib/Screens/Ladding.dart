@@ -458,13 +458,14 @@ return MaterialApp(
         'role' : 'user',
         'device_token' : _token,
         'birthday':  _birthday,
-        'patent' : _patent,
         'phone' : _phone,
         'friends' : [],
         'dialogs' : [],
         'publics' : [],
         'posts' : [],
-        'token' : UserSettings.UID},);
+        'status' : "Добавьте статус!",
+        'seen' : Timestamp.now(),
+        'token' : UserSettings.UID },);
     });
 
     Navigator.pushReplacement(
