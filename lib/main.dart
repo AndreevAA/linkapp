@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:linkapp/Service/FBManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Screens/Registration.dart';
@@ -14,6 +16,7 @@ import 'Settings/textStyleSettings.dart';
 
 void main()  {
   WidgetsFlutterBinding.ensureInitialized();
+  FBManager.init();
   SharedPreferences.getInstance().then((SharedPreferences prefs) {
     UserSettings.UID = prefs.getString('uid');
     if (UserSettings.UID != null) {
@@ -48,13 +51,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
     NewsScreen(),
     DialogsScreen(),
     FriendsScreen(),
-    ProfileScreen(),
+    ProfileScreen(document: UserSettings.userDocument,),
     HelpBlockScreen(),
   ];
 
@@ -67,15 +69,25 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
 // Блок нижнего основного меню приложения
   @override
   Widget build(BuildContext context) {
+
+    if (UserSettings.userDocument == null) {
+      FBManager.getUser(UserSettings.UID).then((DocumentSnapshot snapshot) {
+        setState(() {
+          UserSettings.userDocument = snapshot;
+          print("got " + UserSettings.userDocument.data.toString() + " user");
+
+        });
+      });
+      return Scaffold(
+          body: Center(
+            child: Text("Загрузка..."),
+          ),
+      );
+    }
+
     return Scaffold(
 
       body: Center(

@@ -1,44 +1,74 @@
 import 'package:backdrop_modal_route/backdrop_modal_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:linkapp/AdditionalFunctions/createdElements.dart';
 import 'package:linkapp/AdditionalFunctions/textFormating.dart';
+import 'package:linkapp/Screens/dialogsScreen.dart';
+import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/blockStyleSettings.dart';
 import 'package:linkapp/Settings/iconStyleSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
 
 class ProfileScreen extends StatefulWidget{
+  
+  DocumentSnapshot document;
+  ProfileScreen({@required this.document});
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _ProfileScreenState createState() => _ProfileScreenState(document);
 
 }
 
 class _ProfileScreenState extends State<ProfileScreen>{
 
-  String _name, _surname, _gender, _country, _birthday, _patent;
+//  DocumentSnapshot document;
+  _ProfileScreenState(DocumentSnapshot document) {
+    _name = (document['name'] ?? 'null').toString();
+    _surname = (document['surname'] ?? 'null').toString();
+    _gender = (document['gender'] ?? 'null').toString();
+    _country = (document['country'] ?? 'null').toString();
+    _birthday = (document['birthday'] ?? 'null').toString();
+    _patent = (document['patent'] ?? 'null').toString();
+    _status = (document['status'] ?? 'null').toString();
 
-  var _friends, _followers, _publics, _photos;
+    _friends = document['friends'] ?? new List();
+    _followers = document['followers'] ?? new List();
+    _publics = document['publics'] ?? new List();
+
+    dateCtl = TextEditingController();
+  }
+  
+  String _name, _surname, _gender, _country, _birthday, _patent, _status;
+
+  List<dynamic> _friends, _followers, _publics, _photos;
 
   TextEditingController dateCtl;
 
-  _ProfileScreenState() {
+  Container startDialogueButton(DocumentSnapshot documentSnapshot) {
+    if (chatStream == null)
+      chatStream = FBManager.getChatStream();
+    chatStream.toList().then((List<dynamic> list) {
+      list.forEach((element) {
+        print("type: " + element.runtimeType.toString());
+        return Container(
 
-    // Переменны, которые выводятся в полях заполения при заполнении. Обновляются при закполнении ячейки
-    _name = UserSettings.userDocument['name'].toString() ?? 'null';
-    _surname = UserSettings.userDocument['surname'].toString() ?? 'null';
-    _gender = UserSettings.userDocument['gender'].toString() ?? 'null' ;
-    _country = UserSettings.userDocument['country'].toString() ?? 'null';
-    _birthday = UserSettings.userDocument['birthday'].toString() ?? 'null';
-    _patent = UserSettings.userDocument['patent'].toString() ?? 'null';
+          padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0,
+              BlockPaddings.globalBorderPadding, 0),
+          child: Container(
+              width: double.infinity,
+              color: BlockColors.accentColor,
+              child: FlatButton(
+                child: TextSettings.buttonNameTwoCenter("Начать диалог"),
+                onPressed: () {
 
-    _friends = UserSettings.userDocument['friends'].toString() ?? 'null';
-    _followers = UserSettings.userDocument['followers'].toString()?? 'null';
-    _publics = UserSettings.userDocument['publics'].toString()?? 'null';
-
-    dateCtl = TextEditingController();
-
+                },
+              )
+          ),
+        );
+      });
+    });
   }
 
   Container getCircleAvatar(){
@@ -47,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
       child: CircleAvatar(
         radius: IconSizes.avatarCircleSize,
         backgroundColor: IconColors.additionalColor,
-        child: TextSettings.titleZeroCenter("AA") ,
+        child: TextSettings.titleZeroCenter(_name[0] ?? "-" + _surname[0] ?? "-") ,
         foregroundColor: Colors.white,
       ),
     );
@@ -488,12 +518,14 @@ class _ProfileScreenState extends State<ProfileScreen>{
                   SizedBox(height: 20,),
 
                   // Получение фамилии пользователя
-                  getUserSPersonalStatus("Я люблю кодить и развивать с командой бизнес"),
+                  getUserSPersonalStatus(_status),
 
                   SizedBox(height: 20,),
 
                   // Получение фамилии пользователя
                   setButtonProfileDataEdit("Редактировать"),
+
+
 
                   SizedBox(height: 20,),
                 ],

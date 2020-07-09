@@ -1,11 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:linkapp/Screens/friendsScreen.dart';
+import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
 
 class DialogsScreen extends StatefulWidget {
   @override
   _DialogsScreenState createState() => _DialogsScreenState();
 }
+
+Stream chatStream;
 
 class _DialogsScreenState extends State<DialogsScreen> {
   List<Map<String, dynamic>> fakeData = [
@@ -28,6 +33,8 @@ class _DialogsScreenState extends State<DialogsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (chatStream == null)
+      chatStream = FBManager.getChatStream();
     return Scaffold(
         appBar: AppBar(
           title: Container(
@@ -44,6 +51,10 @@ class _DialogsScreenState extends State<DialogsScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            Navigator.push (
+              context,
+              MaterialPageRoute(builder: (context) => FriendsScreen()),
+            );
             // showDialog(context);
 //            //OrdersSearchManager.sortListByDate();
           },
@@ -52,25 +63,31 @@ class _DialogsScreenState extends State<DialogsScreen> {
         ),
         body: Center(
             child: Container(
-          child: fakeData == null
-              ? CircularProgressIndicator()
-              : fakeData.isEmpty
-                  ? Text(
-                      "К сожалению, по выбранным параметрам вакансий пока нету...",
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.ltr,
-                    )
-                  : ListView(
-                      children: fakeData.map((Map<String, dynamic> document) {
-                        // Logs.addNode("OrdersSearchView", "build",
-                        // "Document:\n" + document.documentID);
-                        try {
-                          return new CustomCard(map: document);
-                        } catch (e) {
-                          print(e);
-                        }
-                      }).toList(),
-                    ),
+          child: StreamBuilder<QuerySnapshot>(
+              stream: chatStream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                return snapshot.data == null
+                    ? CircularProgressIndicator()
+                    : snapshot.data.documents.isEmpty
+                        ? Text(
+                            "Начните первый чат!",
+                            textAlign: TextAlign.center,
+                            textDirection: TextDirection.ltr,
+                          )
+                        : ListView(
+                            children:
+                            snapshot.data.documents.map((DocumentSnapshot document) {
+                              // Logs.addNode("OrdersSearchView", "build",
+                              // "Document:\n" + document.documentID);
+                              try {
+                                return new CustomCard(document: document);
+                              } catch (e) {
+                                print(e);
+                              }
+                            }).toList(),
+                          );
+              }),
         )));
   }
 }
@@ -78,19 +95,18 @@ class _DialogsScreenState extends State<DialogsScreen> {
 class CustomCard extends StatefulWidget {
   // CustomCard({@required this.document, @required this.previousScreenContext, @required this.homePageScreen});
 
-  // final DocumentSnapshot document;
-  Map map;
+   final DocumentSnapshot document;
 
-  CustomCard({@required this.map});
+  CustomCard({@required this.document});
 
   @override
-  _CustomCard createState() => _CustomCard(map: map);
+  _CustomCard createState() => _CustomCard(document: document);
 }
 
 class _CustomCard extends State<CustomCard> {
-  _CustomCard({@required this.map});
+  _CustomCard({@required this.document});
 
-  final Map map;
+  final DocumentSnapshot document;
   Color readColor = TextColors.accentColor;
 
   String formatOutput(String temp, int maxLength) {
@@ -127,7 +143,7 @@ class _CustomCard extends State<CustomCard> {
                 radius: 24,
                 backgroundColor: readColor,
                 child: Text(
-                  map['name'][0],
+                  document['name'][0],
                   style:
                       (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),
                 ),
@@ -144,7 +160,7 @@ class _CustomCard extends State<CustomCard> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 2.0),
                   child: Text(
-                    map['name'] ?? "ER",
+                    document['name'] ?? "ER",
                     // HomePageExe.formatOutput(HomePageExe.replaceSymbols(HomePageExe.replaceSymbols(HomePageExe.deleteSmiles(runeSubstring(input: document['title'] ?? 'Ошибка описания', start: 0, end: (document['title'] ?? 'Ошибка описания').toString().length < 20 ? (document['title'] ?? 'Ошибка описаня').toString().length : 20)), "\n", " "), "  ", " "), 20).replaceAll("\n\n", "\n"),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -161,7 +177,7 @@ class _CustomCard extends State<CustomCard> {
                   child: Text(
                     // concatMinMax(document['min_price'], document['max_price']) +
                     // " / " + document['pay_type'] ?? "",
-                    formatOutput(map['messages'][0] ?? "ERR", 35) ?? "er",
+                    formatOutput(document['messages'][0] ?? "ERR", 35) ?? "er",
                     style: TextStyle(
                         fontSize: 14.0,
                         color: readColor,
@@ -175,7 +191,7 @@ class _CustomCard extends State<CustomCard> {
                   child: Text(
                     // concatMinMax(document['min_price'], document['max_price']) +
                     // " / " + document['pay_type'] ?? "",
-                    map['posted'] ?? "ERR",
+                    ((document['posted'] ?? Timestamp.now()) as Timestamp).toDate().toIso8601String().substring(0, 10) ?? "ERR",
                     style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.grey,
