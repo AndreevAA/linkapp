@@ -64,6 +64,8 @@ class _ProfileScreenState extends State<ProfileScreen>{
     _isAuthorProfile = false;
 
     dateCtl = TextEditingController();
+
+    _tempPositionCursor = -1;
   }
   
   String _name, _surname, _gender, _country, _birthday, _patent, _status, _token;
@@ -73,6 +75,8 @@ class _ProfileScreenState extends State<ProfileScreen>{
   List<dynamic> _friends, _followers, _publics, _photos;
 
   TextEditingController dateCtl;
+
+  static int _tempPositionCursor;
 
   Container startDialogueButton(DocumentSnapshot documentSnapshot) {
     if (chatStream == null)
@@ -144,8 +148,14 @@ class _ProfileScreenState extends State<ProfileScreen>{
 
         padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
         child: Container(
+
             width: double.infinity,
-            color: BlockColors.accentColor,
+
+            decoration:  BoxDecoration(
+              borderRadius:  BorderRadius.circular(20.0),
+
+              color: BlockColors.accentColor,
+            ),
             child: FlatButton(
               child: TextSettings.buttonNameTwoCenter(_buttonOneText),
               onPressed: () {
@@ -289,27 +299,49 @@ class _ProfileScreenState extends State<ProfileScreen>{
     );
   }
 
-//  List <Widget> setFriendsPicture(int _numberOfFriends){
-//
-//    List <Widget> answerListWidget;
-//
-//    for (int i = 0; i < _numberOfFriends; i++){
-//      answerListWidget.add(
-//          Container(
-//              child: Card(
-//                color: Colors.amber,
-//              ),
-//            )
-//      );
-//    }
-//
-//    return answerListWidget;
-//  }
+  Container setFriendsPicture(int _numberOfFriends, var _inputFriendList){
+      _tempPositionCursor++;
+
+      //print(_tempPositionCursor);
+      print(_numberOfFriends);
+
+      String _tempName;
+
+      if (_tempPositionCursor < _numberOfFriends) {
+        print(FBManager.fbStore.collection("users").document(_inputFriendList[_tempPositionCursor].toString()).get());
+        _tempName = _inputFriendList[_tempPositionCursor].toString();
+
+        return Container(
+          child: Column(
+            children: <Widget>[
+              CircleAvatar(
+                radius: IconSizes.avatarCircleSizeThree,
+                backgroundColor: IconColors.additionalColor,
+                child: TextSettings.titleZeroCenter(_tempName[0]),
+                foregroundColor: Colors.white,
+              ),
+
+              SizedBox(height: 5,),
+
+              Container(
+                  padding: const EdgeInsets.fromLTRB(
+                      BlockPaddings.globalBorderPadding, 0,
+                      BlockPaddings.globalBorderPadding, 0),
+                  child: TextSettings.descriptionTwoCenter(_tempName)
+              ),
+            ],
+          ),
+        );
+      }
+      else{
+        return Container();
+      }
+  }
 
  Container setFriendGrid(var _inputFriendList){
 
     int _numberOfFriends = 0;
-    int _tempPositionCursor = 0;
+    _tempPositionCursor  = -1;
 
     if (_inputFriendList != null)
       _numberOfFriends = _inputFriendList.length;
@@ -321,13 +353,18 @@ class _ProfileScreenState extends State<ProfileScreen>{
         child: GridView.count(
           scrollDirection: Axis.horizontal,
           crossAxisCount: 1,
-          children: List.generate(_numberOfFriends,(index){
-            return Container(
-              child: Card(
-                color: Colors.amber,
-              ),
-            );
-          }),
+          children: <Widget>[
+            setFriendsPicture(_numberOfFriends, _inputFriendList),
+            setFriendsPicture(_numberOfFriends, _inputFriendList),
+            setFriendsPicture(_numberOfFriends, _inputFriendList),
+          ]
+//          children: List.generate(_numberOfFriends,(index){
+//            return Container(
+//              child: Card(
+//                color: Colors.amber,
+//              ),
+//            );
+//          }),
         ),
       );
     }

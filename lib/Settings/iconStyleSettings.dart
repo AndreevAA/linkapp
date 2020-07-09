@@ -12,5 +12,5 @@ class IconSizes {
 
   static const double avatarCircleSize = 80;
 
-  static const double avatarCircleSizeThree = 20;
+  static const double avatarCircleSizeThree = 30;
 }

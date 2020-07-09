@@ -41,6 +41,10 @@ class TextSettings {
     return Text(_inputText, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.0, ), textAlign: TextAlign.center,);
   }
 
+  static Text descriptionFourCenter (String _inputText){
+    return Text(_inputText, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10.0, ), textAlign: TextAlign.center,);
+  }
+
   static Text buttonNameTwoCenter (String _inputText){
     return Text(_inputText, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12.0, color: Colors.white), textAlign: TextAlign.center,);
   }

@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -131,14 +132,14 @@ class _ProfileDataEditing extends State<ProfileDataEditing> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  String _name, _surname, _gender, _country, _birthday, _patent;
+  String _name, _surname, _gender, _country, _birthday, _patent, _status;
   TextEditingController dateCtl;
 
-  _ProfileSettings() {
+  _ProfileSettings(DocumentSnapshot document) {
 
     // Переменны, которые выводятся в полях заполения при заполнении. Обновляются при закполнении ячейки
-    _name = UserSettings.userDocument['name'].toString();
-    _surname = UserSettings.userDocument['surname'].toString();
+    _name = (document['name'] ?? 'null').toString();
+    _surname = (document['surname'] ?? 'null').toString();
     _gender = UserSettings.userDocument['gender'].toString();
     _country = UserSettings.userDocument['country'].toString();
     _birthday = UserSettings.userDocument['birthday'].toString();
@@ -201,6 +202,7 @@ class _ProfileDataEditing extends State<ProfileDataEditing> {
                             'country' : _country,
                             'gender' : _gender,
                             'patent' : _patent,
+                            'status' : _status,
                             'latest_update' : Timestamp.now()
                           });
 
@@ -460,6 +462,85 @@ class _ProfileDataEditing extends State<ProfileDataEditing> {
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
                         "Фамилия может содержать только символы русского языка, знаки пробела и тире", textAlign: TextAlign.left, style: TextStyle(
+                        color: Colors.black38, fontSize: 11,
+                      ),
+                      ),
+                    ),
+
+                    SizedBox(height: 30,),
+
+                    // Название блок "Surname"
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        "Статус", textAlign: TextAlign.left, style: TextStyle(
+                        color: Colors.black, fontSize: 14,
+                      ),
+                      ),
+                    ),
+
+                    // Блок ввода данных Surname
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        unselectedWidgetColor: Colors.black,
+                      ),
+                      child: new Container(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child:    TextFormField(
+                          autofocus: false,
+
+                          style: TextStyle(color: Colors.black),
+                          maxLines: null, // ne
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            //errorText: "",
+                            errorStyle: TextStyle(
+                                color: Colors.black, fontWeight: FontWeight.bold),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black,//this has no effect
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.black,
+                                )
+                            ),
+
+                            focusColor: Colors.black,
+
+                            fillColor: Colors.black,
+                            hoverColor: Colors.black,
+                            border: OutlineInputBorder(),
+                            //labelText: 'Edit',
+
+                            // Вывод данных индекса пользователя в блок до нажатия
+                            hintText: _status,
+
+                            //counterText: _index,
+                            //suffixText: _index,
+                            //helperText: _status,
+                            //semanticCounterText: _status,
+                            labelStyle:  TextStyle(color: Colors.white,),
+                          ),
+                          onChanged: (value) async {
+                            _status = value;
+                          },
+                          initialValue: _status,
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 10,),
+
+                    // Подпись к блоку имени
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        "Статус может содержать только символы русского языка, знаки пробела и тире", textAlign: TextAlign.left, style: TextStyle(
                         color: Colors.black38, fontSize: 11,
                       ),
                       ),
