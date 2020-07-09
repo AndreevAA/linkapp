@@ -308,7 +308,6 @@ class _ProfileScreenState extends State<ProfileScreen>{
       String _tempName;
 
       if (_tempPositionCursor < _numberOfFriends) {
-        print(FBManager.fbStore.collection("users").document(_inputFriendList[_tempPositionCursor].toString()).get());
         _tempName = _inputFriendList[_tempPositionCursor].toString();
 
         return Container(
@@ -358,13 +357,6 @@ class _ProfileScreenState extends State<ProfileScreen>{
             setFriendsPicture(_numberOfFriends, _inputFriendList),
             setFriendsPicture(_numberOfFriends, _inputFriendList),
           ]
-//          children: List.generate(_numberOfFriends,(index){
-//            return Container(
-//              child: Card(
-//                color: Colors.amber,
-//              ),
-//            );
-//          }),
         ),
       );
     }
@@ -372,7 +364,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
     else if (_numberOfFriends == 0){
       return Container(
         padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0, BlockPaddings.globalBorderPadding, 0),
-        child: TextSettings.titleOneCenter("Пусто"),
+        //child: TextSettings.titleOneCenter("Пусто"),
       );
     }
   }

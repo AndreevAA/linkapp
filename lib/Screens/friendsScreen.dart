@@ -6,6 +6,7 @@ import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
 
+import 'accountSettingsScreen.dart';
 import 'findFriends.dart';
 
 class FriendsScreen extends StatefulWidget {
@@ -67,7 +68,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: InkWell(
                 // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
                 child: Text(
@@ -90,11 +91,12 @@ class _FriendsScreenState extends State<FriendsScreen> {
         ),
         body: Center(
             child: Container(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
           child: friendsList == null
               ? CircularProgressIndicator()
               : friendsList.isEmpty
                   ? Text(
-                      "К сожалению, по выбранным параметрам вакансий пока нету...",
+                      "К сожалению, друзей нет...",
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.ltr,
                     )
@@ -134,83 +136,111 @@ class _CustomCard extends State<CustomCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: InkWell(
-        onTap: () async {
-          Navigator.push (
-            context,
-            MaterialPageRoute(builder: (context) => ProfileScreen(document: document,)),
-          );
-        },
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.fromLTRB(14, 0, 0, 10),
-              child: CircleAvatar(
-                radius: 24,
-                backgroundColor: TextColors.accentColor,
-                child: Text(
-                  document['name'][0],
-                  style:
-                      (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),
-                ),
-                foregroundColor: Colors.white,
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(height: 15),
-                Container(
-                  height: 30,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 2.0),
+    return Container(
+      
+      child: Container(
+
+        width: double.infinity,
+
+        child: InkWell(
+          onTap: () async {
+            Navigator.push (
+              context,
+              MaterialPageRoute(builder: (context) => ProfileScreen(document: document,)),
+            );
+          },
+          child: Row(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.fromLTRB(14, 0, 0, 10),
+                child: CircleAvatar(
+                  radius: 30,
+                  backgroundColor: TextColors.accentColor,
                   child: Text(
-                    document['name'] ?? "ER",
-                    // HomePageExe.formatOutput(HomePageExe.replaceSymbols(HomePageExe.replaceSymbols(HomePageExe.deleteSmiles(runeSubstring(input: document['title'] ?? 'Ошибка описания', start: 0, end: (document['title'] ?? 'Ошибка описания').toString().length < 20 ? (document['title'] ?? 'Ошибка описаня').toString().length : 20)), "\n", " "), "  ", " "), 20).replaceAll("\n\n", "\n"),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17.0,
-                      color: Colors.black,
+                    document['name'][0],
+                    style:
+                    (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),
+                  ),
+                  foregroundColor: Colors.white,
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(height: 15),
+                  Container(
+                    height: 30,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 2.0),
+                    child: Text(
+                      document['name'] ?? "ER",
+                      // HomePageExe.formatOutput(HomePageExe.replaceSymbols(HomePageExe.replaceSymbols(HomePageExe.deleteSmiles(runeSubstring(input: document['title'] ?? 'Ошибка описания', start: 0, end: (document['title'] ?? 'Ошибка описания').toString().length < 20 ? (document['title'] ?? 'Ошибка описаня').toString().length : 20)), "\n", " "), "  ", " "), 20).replaceAll("\n\n", "\n"),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.0,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
 
-                // Блок размера оплаты труда
-                Container(
-                  height: 30,
-                  padding: const EdgeInsets.fromLTRB(20, 1, 0, 0),
-                  child: Text(
-                    // concatMinMax(document['min_price'], document['max_price']) +
-                    // " / " + document['pay_type'] ?? "",
-                    formatOutput(document['status'] ?? "ERR", 35),
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        color: TextColors.accentColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
+                  // Блок размера оплаты труда
+//                Container(
+//                  height: 30,
+//                  padding: const EdgeInsets.fromLTRB(20, 1, 0, 0),
+//                  child: Text(
+//                    // concatMinMax(document['min_price'], document['max_price']) +
+//                    // " / " + document['pay_type'] ?? "",
+//                    formatOutput(document['status'] ?? "ERR", 35),
+//                    style: TextStyle(
+//                        fontSize: 14.0,
+//                        color: TextColors.accentColor,
+//                        fontWeight: FontWeight.bold),
+//                  ),
+//                ),
 
-                Container(
-                  height: 30,
-                  padding: const EdgeInsets.fromLTRB(20, 1, 0, 11),
-                  child: Text(
-                    // concatMinMax(document['min_price'], document['max_price']) +
-                    // " / " + document['pay_type'] ?? "",
-                    "Был(-а) в сети: " +
-                        ((document['seen'] ?? Timestamp.now()) as Timestamp).toDate().toIso8601String().substring(0, 10),
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        color: TextColors.deactivatedColor,
-                        fontWeight: FontWeight.normal),
+                  Container(
+                    height: 30,
+                    padding: const EdgeInsets.fromLTRB(20, 1, 0, 11),
+                    child: Text(
+                      // concatMinMax(document['min_price'], document['max_price']) +
+                      // " / " + document['pay_type'] ?? "",
+                      "Был(-а) в сети: " +
+                          ((document['seen'] ?? Timestamp.now()) as Timestamp).toDate().toIso8601String().substring(0, 10),
+                      style: TextStyle(
+                          fontSize: 11.0,
+                          color: TextColors.deactivatedColor,
+                          fontWeight: FontWeight.normal),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+
+//            Ink(
+//              width: 45.0,
+//              height: 45.0,
+//              decoration: const ShapeDecoration(
+//                //color: Colors.grey,
+//                shape: CircleBorder(),
+//
+//              ),
+//              child: IconButton(
+//                icon: Icon(Icons.settings),
+//                color: TextColors.accentColor,
+//                iconSize: 30,
+//                onPressed: () {
+//                  Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                          builder: (context) => AccountSettings()));
+//                },
+//              ),
+//            ),
+            ],
+          ),
         ),
-      ),
+      )
+
     );
   }
 }
