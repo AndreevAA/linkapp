@@ -1,6 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,7 @@ import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
 
+//https://pub.dev/packages/image_picker#-readme-tab- ДОБАВИТЬ ВЕБ ПОДДЕРЖКУ
 class CreatePost extends StatefulWidget {
   @override
   _CreatePostState createState() => _CreatePostState();
@@ -21,13 +23,21 @@ class _CreatePostState extends State<CreatePost> {
     _authorRole = UserSettings.userDocument['role'].toString();
     _authorToken = UserSettings.userDocument['token'].toString();
   }
+
   File _image;
   final picker = ImagePicker();
   TextEditingController dateCtl;
+  var storage = FirebaseStorage.instance;
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+  }
 
+  Future createImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
     setState(() {
       _image = File(pickedFile.path);
     });
@@ -50,19 +60,51 @@ class _CreatePostState extends State<CreatePost> {
           icon: Icon(Icons.check),
           backgroundColor: Colors.deepPurpleAccent,
           onPressed: () async {
-            await FBManager.fbStore.collection("posts").add({
-              'user_id': UserSettings.UID,
-              'postTitle': _postTitle,
-              'postText': _postText,
-              'authorToken': _authorToken,
-              'authorRole': _authorRole,
-              'likes': 0,
-              'publicDate': Timestamp.now()
-            });
+            if(_image != null){
+              var imgPath = _image.toString().split('/cache/');
+              StorageTaskSnapshot snapshot = await storage
+                  .ref()
+                  .child("attachments/${imgPath[1]}")
+                  .putFile(_image)
+                  .onComplete;
+
+              final String downloadUrl = await snapshot.ref.getDownloadURL();
+              await FBManager.fbStore.collection("posts").add({
+                'user_id': UserSettings.UID,
+                'postTitle': _postTitle,
+                'postText': _postText,
+                'authorToken': _authorToken,
+                'authorRole': _authorRole,
+                'likes': [],
+
+                'name': UserSettings.userDocument['name'],
+                'surname': UserSettings.userDocument['surname'],
+
+                'attachment':downloadUrl,
+                'publicDate': Timestamp.now()
+              });
+            }else{
+              await FBManager.fbStore.collection("posts").add({
+                'user_id': UserSettings.UID,
+                'postTitle': _postTitle,
+                'postText': _postText,
+                'authorToken': _authorToken,
+                'authorRole': _authorRole,
+                'likes': [],
+
+                'name': UserSettings.userDocument['name'],
+                'surname': UserSettings.userDocument['surname'],
+
+                'attachment':'',
+                'publicDate': Timestamp.now()
+              });
+            }
+
+
 
             // Обновление данных document из FB
             UserSettings.userDocument =
-                await FBManager.getUserStats(UserSettings.UID);
+            await FBManager.getUserStats(UserSettings.UID);
 
             // Закрытие окна и возврат в профиль
             Navigator.pop(context, true);
@@ -70,70 +112,95 @@ class _CreatePostState extends State<CreatePost> {
         ),
         body: Container(
             child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 40,
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: TextField(
-                  cursorColor: Colors.deepPurpleAccent,
-                  maxLines: null,
-                  autofocus: false,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Название поста'),
-                  onChanged: (title) {
-                    _postTitle = title;
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: TextField(
-                  cursorColor: Colors.deepPurpleAccent,
-                  maxLines: null,
-                  autofocus: false,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'Текст'),
-                  onChanged: (body) {
-                    _postText = body;
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                child: RaisedButton.icon(
-                  color: Colors.deepPurpleAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: TextField(
+                      cursorColor: Colors.deepPurpleAccent,
+                      maxLines: null,
+                      autofocus: false,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Название поста'),
+                      onChanged: (title) {
+                        _postTitle = title;
+                      },
                     ),
-                    onPressed: () => getImage(),
-                    icon: Icon(Icons.image, color: Colors.white,),
-                    label: Text('Добавить изображение', style: TextStyle(color: Colors.white),)),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: TextField(
+                      cursorColor: Colors.deepPurpleAccent,
+                      maxLines: null,
+                      autofocus: false,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(), labelText: 'Текст'),
+                      onChanged: (body) {
+                        _postText = body;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: RaisedButton.icon(
+                        color: Colors.purple,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        onPressed: () => getImage(),
+                        icon: Icon(
+                          Icons.image,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          'Добавить изображение',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ),
+                  Container(
+                    child: RaisedButton.icon(
+                        color: Colors.purple,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        onPressed: () => createImage(),
+                        icon: Icon(
+                          Icons.camera_alt,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          'Сделать снимок',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    child: _image == null
+                        ? Text('')
+                        : Image.file(
+                      _image,
+                      height: 150,
+                      width: 150,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 40,
-              ),
-              Container(
-                child: _image == null
-                    ? Text('')
-                    : Image.file(
-                        _image,
-                        height: 300,
-                        width: 300,
-                      ),
-              )
-            ],
-          ),
-        )));
+            )));
   }
 }
