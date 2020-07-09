@@ -430,6 +430,43 @@ class _ProfileScreenState extends State<ProfileScreen>{
       return DisignElements.getlCircleAvatarThree();
   }
 
+  Container setSettingsWidget(bool _isAuthorProfile){
+    if (_isAuthorProfile == true){
+      // Кнопка редактирвоания данных профиля
+      return Container(
+            padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+            child: Row(
+              children: <Widget>[
+                Ink(
+                  width: 45.0,
+                  height: 45.0,
+                  decoration: const ShapeDecoration(
+                    //color: Colors.grey,
+                    shape: CircleBorder(),
+
+                  ),
+                  child: IconButton(
+                    icon: Icon(Icons.settings),
+                    color: TextColors.accentColor,
+                    iconSize: 30,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AccountSettings()));
+                    },
+                  ),
+                ),
+
+              ],
+            )
+        );
+    }
+    else {
+      return Container();
+    }
+  }
+
   @override
   void initState() {
   }
@@ -450,7 +487,6 @@ class _ProfileScreenState extends State<ProfileScreen>{
     print("\n\n_isAuthorProfile: " + _isAuthorProfile.toString());
 
     return Scaffold (
-
       appBar: AppBar(
         title: Container(
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -464,36 +500,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
         backgroundColor: Colors.white,
         elevation: 0.0,
         actions: <Widget>[
-          // Кнопка редактирвоания данных профиля
-          Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-              child: Row(
-                children: <Widget>[
-                  Ink(
-                    width: 45.0,
-                    height: 45.0,
-                    decoration: const ShapeDecoration(
-                      //color: Colors.grey,
-                      shape: CircleBorder(),
-
-                    ),
-                    child: IconButton(
-                      icon: Icon(Icons.settings),
-                      color: TextColors.accentColor,
-                      iconSize: 30,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AccountSettings()));
-                      },
-                    ),
-                  ),
-
-                ],
-              )
-
-          ),
+          setSettingsWidget(_isAuthorProfile),
         ],
       ),
 
