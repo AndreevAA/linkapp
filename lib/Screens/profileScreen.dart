@@ -275,10 +275,46 @@ class _ProfileScreenState extends State<ProfileScreen>{
 
                     onPressed: () async {
 
-                      await FBManager.fbStore.collection("privatechat").add({
+                      await FBManager.fbStore
+                          .collection("privatechat")
+                          .document(UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(0, 14))
+                          .setData({
                         'publicDate': Timestamp.now(),
-                        'users' : [UserSettings.UID.toString(), _token.toString()], // uids
+                        'users' : [UserSettings.UID.toString(), _token.toString()], //
                       });
+//
+//                      await FBManager.fbStore.collection("privatechat").add({
+//                        'publicDate': Timestamp.now(),
+//                        'users' : [UserSettings.UID.toString(), _token.toString()], // uids
+//                        // Достать надо отсюда
+//                      });
+
+                      await FBManager.fbStore
+                          .collection(USERS_COLLECTION)
+                          .document(UserSettings.UID.toString())
+                          .updateData({
+                        'dialogs' : [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(0, 14)],
+                      });
+
+                      await FBManager.fbStore
+                          .collection(USERS_COLLECTION)
+                          .document(_token.toString())
+                          .updateData({
+                        'dialogs' : [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(0, 14)],
+                      });
+
+//                      await FBManager.fbStore
+//                          .collection(USERS_COLLECTION)
+//                          .document(UserSettings.UID.toString())
+//                          .updateData({
+//                        'dialogs' : [UserSettings.UID.toString()],
+//                      });
+//
+//                      await FBManager.fbStore.collection("users").document(_token.toString()).updateData(
+//                          {
+//                            'dialogs' : [UserSettings.UID.toString()],
+//                          }
+//                      );
 
                       // Обновление данных document из FB
                       UserSettings.userDocument =
@@ -289,7 +325,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                       // Закрытие окна и возврат в профиль
                       Navigator.pop(context, true);
                     },
-                    
+
                   )
               ),
             ],
