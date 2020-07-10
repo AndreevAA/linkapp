@@ -63,6 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
     _friends = document['friends'] ?? new List();
     _followers = document['followers'] ?? new List();
     _publics = document['publics'] ?? new List();
+    _dialogs = document['dialogs'] ?? new List();
 
     _buttonMessageExistance = false;
     _isAuthorProfile = false;
@@ -72,12 +73,14 @@ class _ProfileScreenState extends State<ProfileScreen>{
 
     _tempPositionCursor = -1;
   }
-  
+
   String _name, _surname, _gender, _country, _birthday, _patent, _status, _token;
 
-  bool _buttonMessageExistance, _isAuthorProfile;
+  bool _isAuthorProfile, _buttonMessageExistance, _isFriends = false;
 
-  List<dynamic> _friends, _followers, _publics, _photos;
+  //bool _buttonMessageExistance, _isAuthorProfile;
+
+  List<dynamic> _friends, _followers, _publics, _photos, _dialogs;
 
   TextEditingController dateCtl;
 
@@ -141,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
     );
   }
 
-  Container setButtonProfileDataEdit(bool _isAuthorProfile, bool _buttonMessageExistance, bool _isFriends){
+  Container setButtonProfileDataEdit(){
 
     String _buttonOneText = "";
     String _buttonTwoText = "Написать";
@@ -222,19 +225,37 @@ class _ProfileScreenState extends State<ProfileScreen>{
                   child: FlatButton(
                     child: TextSettings.buttonNameTwoCenter(_buttonOneText),
                     onPressed: () async {
-                      List _newFriendsList;
-                      List _friendsList = UserSettings.userDocument['friends'];
+                      List _friendsListOne = UserSettings.userDocument['friends'] ;
+                      List _friendsListTwo = _friends;
 
-                      int _friendsListLength = 0;
+                      print(_friendsListOne);
 
-                      if (_friendsList != null)
-                        _friendsListLength = _friendsList.length;
+                      List _friendsListOneNew = [];
+                      List _friendsListTwoNew = [];
 
-                      for (int i = 0; i < _friendsListLength; i++){
-                        if (_friendsList[i] != _token) {
-                          _newFriendsList.add(_friendsList[i]);
+                      int _friendsListOneLength = 0, _friendsListTwoLength = 0;
+
+                      if (_friendsListOne != null)
+                        _friendsListOneLength = _friendsListOne.length;
+
+                      if (_friendsListTwo != null)
+                        _friendsListTwoLength = _friendsListTwo.length;
+
+                      for (int i = 0; i < _friendsListOneLength; i++){
+                        if (_friendsListOne[i].toString() != UserSettings.UID.toString()) {
+                          _friendsListOneNew.add(_friendsListOne[i].toString());
                         }
                       }
+
+                      for (int i = 0; i < _friendsListTwoLength; i++){
+                        if (_friendsListTwo[i].toString() != _token.toString() ) {
+                          _friendsListTwoNew.add(_friendsListTwo[i].toString());
+                        }
+                      }
+
+                      print(_friendsListOneNew);
+                      print(_friendsListTwoNew);
+
                       setState(() {
                         ProfileScreen.blocked = true;
                       });
@@ -242,7 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                           .collection(USERS_COLLECTION)
                           .document(UserSettings.UID)
                           .updateData({
-                        'friends': _newFriendsList ?? []
+                        'friends': _friendsListTwoNew ?? []
                       }).then((val) async {
                         UserSettings.userDocument = await FBManager.getUser(UserSettings.UID);
                         setState(() {
@@ -250,8 +271,24 @@ class _ProfileScreenState extends State<ProfileScreen>{
                           ProfileScreen.blocked = false;
                         });
                       });
+
+                      FBManager.fbStore
+                          .collection(USERS_COLLECTION)
+                          .document(_token.toString())
+                          .updateData({
+                        'friends': _friendsListOneNew ?? []
+                      }).then((val) async {
+                        UserSettings.userDocument = await FBManager.getUser(_token.toString());
+                        setState(() {
+                          _isFriends = false;
+                          ProfileScreen.blocked = false;
+                        });
+                      });
+
                       print(UserSettings.userDocument.data['friends'].toString());
 
+                      _buttonMessageExistance = false;
+                      _isAuthorProfile = false;
 
                       FriendsScreen.needsUpdate = true;
                     },
@@ -275,55 +312,42 @@ class _ProfileScreenState extends State<ProfileScreen>{
 
                     onPressed: () async {
 
-                      await FBManager.fbStore
-                          .collection("privatechat")
-                          .document(UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(0, 14))
-                          .setData({
-                        'publicDate': Timestamp.now(),
-                        'users' : [UserSettings.UID.toString(), _token.toString()], //
-                      });
-//
-//                      await FBManager.fbStore.collection("privatechat").add({
-//                        'publicDate': Timestamp.now(),
-//                        'users' : [UserSettings.UID.toString(), _token.toString()], // uids
-//                        // Достать надо отсюда
-//                      });
+                      // Если диалог уже начат, то переходим на страницу диалога
+                      if (_dialogs.contains(UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(0, 14)) == true){
+                        // Переход в диалог
+                      }
+                      else {
+                        await FBManager.fbStore
+                            .collection("privatechat")
+                            .document(UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(0, 14))
+                            .setData({
+                          'publicDate': Timestamp.now(),
+                          'users' : [UserSettings.UID.toString(), _token.toString()], //
+                        });
 
-                      await FBManager.fbStore
-                          .collection(USERS_COLLECTION)
-                          .document(UserSettings.UID.toString())
-                          .updateData({
-                        'dialogs' : [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(0, 14)],
-                      });
+                        await FBManager.fbStore
+                            .collection(USERS_COLLECTION)
+                            .document(UserSettings.UID.toString())
+                            .updateData({
+                          'dialogs' : [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(0, 14)],
+                        });
 
-                      await FBManager.fbStore
-                          .collection(USERS_COLLECTION)
-                          .document(_token.toString())
-                          .updateData({
-                        'dialogs' : [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(0, 14)],
-                      });
+                        await FBManager.fbStore
+                            .collection(USERS_COLLECTION)
+                            .document(_token.toString())
+                            .updateData({
+                          'dialogs' : [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(0, 14)],
+                        });
 
-//                      await FBManager.fbStore
-//                          .collection(USERS_COLLECTION)
-//                          .document(UserSettings.UID.toString())
-//                          .updateData({
-//                        'dialogs' : [UserSettings.UID.toString()],
-//                      });
-//
-//                      await FBManager.fbStore.collection("users").document(_token.toString()).updateData(
-//                          {
-//                            'dialogs' : [UserSettings.UID.toString()],
-//                          }
-//                      );
+                        // Обновление данных document из FB
+                        UserSettings.userDocument =
+                        await FBManager.getUserStats(UserSettings.UID);
 
-                      // Обновление данных document из FB
-                      UserSettings.userDocument =
-                      await FBManager.getUserStats(UserSettings.UID);
+                        FriendsScreen.needsUpdate = true;
 
-                      FriendsScreen.needsUpdate = true;
-
-                      // Закрытие окна и возврат в профиль
-                      Navigator.pop(context, true);
+                        // Закрытие окна и возврат в профиль
+                        Navigator.pop(context, true);
+                      }
                     },
 
                   )
@@ -348,7 +372,47 @@ class _ProfileScreenState extends State<ProfileScreen>{
 
               child: FlatButton(
                 child: TextSettings.buttonNameTwoCenter(_buttonOneText),
-                onPressed: () {
+                onPressed: () async {
+                  List _friendsListOne = UserSettings.userDocument['friends'];
+                  List _friendsListTwo = UserSettings.userDocument['friends'];
+
+                  _friendsListOne.add(UserSettings.UID.toString());
+                  _friendsListTwo.add(_token.toString());
+
+                  setState(() {
+                    ProfileScreen.blocked = true;
+                  });
+
+                  FBManager.fbStore
+                      .collection(USERS_COLLECTION)
+                      .document(UserSettings.UID)
+                      .updateData({
+                    'friends': _friendsListTwo ?? []
+                  }).then((val) async {
+                    UserSettings.userDocument = await FBManager.getUser(UserSettings.UID);
+                    setState(() {
+                      _isFriends = true;
+                      ProfileScreen.blocked = false;
+                    });
+                  });
+
+                  FBManager.fbStore
+                      .collection(USERS_COLLECTION)
+                      .document(_token.toString())
+                      .updateData({
+                    'friends': _friendsListOne ?? []
+                  }).then((val) async {
+                    UserSettings.userDocument = await FBManager.getUser(_token.toString());
+                    setState(() {
+                      _isFriends = true;
+                      ProfileScreen.blocked = false;
+                    });
+                  });
+
+                  _buttonMessageExistance = true;
+                  _isAuthorProfile = false;
+
+                  FriendsScreen.needsUpdate = true;
 
                 },
               )
@@ -625,13 +689,17 @@ class _ProfileScreenState extends State<ProfileScreen>{
   Widget build(BuildContext context) {
 
     // Переход в текущий профиль - это профиль владельца
-    if (_token.toString() == UserSettings.userDocument['token'].toString()){
+    if (UserSettings.UID.toString() == _token.toString()){
       _isAuthorProfile = true;
       _buttonMessageExistance = false;
     }
     else if (_token.toString() != UserSettings.userDocument['token'].toString()){
       _isAuthorProfile = false;
       _buttonMessageExistance = true;
+    }
+
+    if (UserSettings.userDocument['friends'].contains(UserSettings.UID.toString()) == true){
+      _isFriends = true;
     }
 
     print("\n\n_isAuthorProfile: " + _isAuthorProfile.toString());
@@ -688,7 +756,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                   SizedBox(height: 20,),
 
                   // Получение фамилии пользователя
-                  setButtonProfileDataEdit(_isAuthorProfile, _buttonMessageExistance, true),
+                  setButtonProfileDataEdit(),
 
 
 
