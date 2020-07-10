@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:linkapp/Screens/cardView.dart';
+import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -76,68 +77,81 @@ class _CustomCardState extends State<CustomCard> {
     }
   }
 
-
-  Future<void> unlike() async {
-
+  Future<void> like() async {
+    List<String> list = new List();
+    list.add(UserSettings.UID);
+    await FBManager.fbStore
+        .collection('posts')
+        .document(widget.document.documentID)
+        .updateData({'likes': list});
   }
+
+  Future<void> unlike() async {}
   Color cardColor = Colors.white;
   Color likeButton = Colors.grey;
-
 
   @override
   Widget build(BuildContext context) {
     Timestamp timestamp = widget.document['publicDate'];
     List<dynamic> likes = widget.document['likes'];
-    if (likes.contains(UserSettings.UID))
-      likeButton = Colors.red;
+    if (likes.contains(UserSettings.UID)) likeButton = Colors.red;
 
-    switch(widget.document['authorRole']) {
-      case 'Work': {
-        cardColor = Colors.green[200];
-      }
-      break;
+    switch (widget.document['type']) {
+      case 'work':
+        {
+          cardColor = Colors.green[200];
+        }
+        break;
 
-      case "Housing": {
-        cardColor = Colors.orange[200];
-      }
-      break;
+      case "housing":
+        {
+          cardColor = Colors.orange[200];
+        }
+        break;
 
-      case "Friends": {
-        cardColor = Colors.blue[200];
-      }
-      break;
+      case "friends":
+        {
+          cardColor = Colors.blue[200];
+        }
+        break;
 
-      case "Stocks": {
-        cardColor = Colors.red[200];
-      }
-      break;
+      case "ads":
+        {
+          cardColor = Colors.orange[200];
+        }
+        break;
     }
     return ClipRRect(
       borderRadius: BorderRadius.circular(16.0),
       child: Card(
           shape: Border(left: BorderSide(color: cardColor, width: 10)),
           child: InkWell(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CardView(document: widget.document))),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          CardView(document: widget.document))),
               child: Column(
-
                 children: <Widget>[
-
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-
-
                         Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child:CircleAvatar(
+                            child: CircleAvatar(
                               radius: 20,
                               backgroundColor: Colors.green,
-                              child: Text(widget.document['name'][0] + widget.document['surname'][0], style: (TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0)),) ,
+                              child: Text(
+                                widget.document['name'][0] +
+                                    widget.document['surname'][0],
+                                style: (TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.0)),
+                              ),
                               foregroundColor: Colors.white,
-                            )
-                        ),
+                            )),
                         Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -157,7 +171,8 @@ class _CustomCardState extends State<CustomCard> {
                                                     TextSpan(
                                                       text: widget.document['name'],
                                                       style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight:
+                                                          FontWeight.w600,
                                                           fontSize: 18.0,
                                                           color: Colors.deepPurple),
                                                     ),
@@ -189,15 +204,15 @@ class _CustomCardState extends State<CustomCard> {
                                         alignment:
                                         AlignmentDirectional.centerStart,
                                         child: Text(
-                                          widget.document['authorRole'],
+                                          widget.document['type'] ?? 'null',
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                               fontSize: 12.0,
-                                              fontWeight: FontWeight.bold, color:cardColor),
+                                              fontWeight: FontWeight.bold,
+                                              color: cardColor),
                                         ),
                                       ),
                                       SizedBox(height: 2),
-
                                       Container(
                                         alignment:
                                         AlignmentDirectional.centerStart,
@@ -224,30 +239,37 @@ class _CustomCardState extends State<CustomCard> {
                               ),
                               Container(
                                 alignment: AlignmentDirectional.centerStart,
-                                child: Image.network(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTNrA6zRRhXYWUsF5qAn2ThtMeT8GeXtAjxXA&usqp=CAU' ?? ' ',
-                                  width: 50,
-                                  height: 50,
+                                child: widget.document['attachment'] == 'none' ? Text(' ') :
+                                Image.network(
+                                  widget.document['attachment'],
+                                  headers: {'accept': 'image/*'},
+                                  width: 200,
+                                  height: 200,
                                 ),
                               ),
                               InkWell(
-                                onTap: (){
-                                  unlike();
+                                onTap: () {
+                                  like();
                                 },
-                                child:   Container(
+                                child: Container(
                                     alignment: AlignmentDirectional.bottomEnd,
                                     child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Text(likes.length.toString() ?? '0', style: TextStyle(color: Colors.grey, fontSize: 16),),
+                                        Text(
+                                          likes.length.toString() ?? '0',
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 16),
+                                        ),
                                         SizedBox(width: 5),
-                                        Icon(Icons.favorite, color: likeButton, size: 16,),
-
-                                      ],)
-                                ),
+                                        Icon(
+                                          Icons.favorite,
+                                          color: likeButton,
+                                          size: 16,
+                                        ),
+                                      ],
+                                    )),
                               )
-
                             ],
                           ),
                         )
@@ -255,6 +277,7 @@ class _CustomCardState extends State<CustomCard> {
                     ),
                   ),
                 ],
-              ))),);
+              ))),
+    );
   }
 }

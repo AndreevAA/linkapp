@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:giphy_client/giphy_client.dart';
+import 'package:giphy_picker/giphy_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:linkapp/Service/DataBaseNamings.dart';
 import 'package:linkapp/Service/FBManager.dart';
@@ -19,6 +21,7 @@ class CreatePost extends StatefulWidget {
 // Окно создания поста
 class _CreatePostState extends State<CreatePost> {
   String _postText, _authorRole, _authorToken, _postTitle, _pathImage;
+  GiphyGif _gif;
 
   String _postType = 'Выберете тип поста';
 
@@ -39,10 +42,24 @@ class _CreatePostState extends State<CreatePost> {
     });
   }
 
+  Future getGif() async {
+    final gif = await GiphyPicker.pickGif(
+        context: context,
+        apiKey: 'OeOSsdJuzJTh9lPPFpQoUuQ70uZpAynr');
+
+    if (gif != null) {
+      setState(() => _gif = gif);
+      _image = null;
+    }
+    print(_gif.images.original.url);
+
+  }
+
   Future createImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     setState(() {
       _image = File(pickedFile.path);
+      _gif = null;
     });
   }
 
@@ -63,7 +80,13 @@ class _CreatePostState extends State<CreatePost> {
           icon: Icon(Icons.check),
           backgroundColor: Colors.deepPurpleAccent,
           onPressed: () async {
+
+            if(  _postType == 'Выберете тип поста')
+              _postType = 'friends';
+
+
             if(_image != null){
+
               var imgPath = _image.toString().split('/cache/');
               StorageTaskSnapshot snapshot = await storage
                   .ref()
@@ -82,13 +105,11 @@ class _CreatePostState extends State<CreatePost> {
                 'likes': [],
                 'name': UserSettings.userDocument['name'],
                 'surname': UserSettings.userDocument['surname'],
-
                 'attachment':downloadUrl,
                 'publicDate': Timestamp.now()
               });
 
-            }else{
-
+            } else if (_gif != null){
               await FBManager.fbStore.collection("posts").add({
                 'user_id': UserSettings.UID,
                 'postTitle': _postTitle,
@@ -96,13 +117,25 @@ class _CreatePostState extends State<CreatePost> {
                 'authorToken': _authorToken,
                 'authorRole': _authorRole,
                 'type': _postType,
-
                 'likes': [],
-
                 'name': UserSettings.userDocument['name'],
                 'surname': UserSettings.userDocument['surname'],
-
-                'attachment':'',
+                'attachment':_gif.images.original.url,
+                'publicDate': Timestamp.now()
+              });
+            }
+            else{
+              await FBManager.fbStore.collection("posts").add({
+                'user_id': UserSettings.UID,
+                'postTitle': _postTitle,
+                'postText': _postText,
+                'authorToken': _authorToken,
+                'authorRole': _authorRole,
+                'type': _postType,
+                'likes': [],
+                'name': UserSettings.userDocument['name'],
+                'surname': UserSettings.userDocument['surname'],
+                'attachment':'none',
                 'publicDate': Timestamp.now()
               });
             }
@@ -158,6 +191,23 @@ class _CreatePostState extends State<CreatePost> {
                   ),
                   SizedBox(
                     height: 10,
+                  ),
+                  SafeArea(
+                    minimum: EdgeInsets.zero,
+                    child: _gif == null
+                        ? Text(' ')
+                        : GiphyImage.original(gif: _gif),
+                  ),
+
+                  SafeArea(
+                    minimum: EdgeInsets.zero,
+                    child: _image == null
+                        ? Text(' ')
+                        : Image.file(
+                      _image,
+                      height: 200,
+                      width: 200,
+                    ),
                   ),
                   PopupMenuButton<String>(
                     onSelected: (String value) {
@@ -222,18 +272,26 @@ class _CreatePostState extends State<CreatePost> {
                           style: TextStyle(color: Colors.white),
                         )),
                   ),
+                  Container(
+                    child: RaisedButton.icon(
+                        color: Colors.purple,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        onPressed: () => getGif(),
+                        icon: Icon(
+                          Icons.gif,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          'Добавить gif',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ),
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    child: _image == null
-                        ? Text('')
-                        : Image.file(
-                      _image,
-                      height: 150,
-                      width: 150,
-                    ),
-                  ),
+
                   SizedBox(
                     height: 50,
                   ),
