@@ -87,15 +87,28 @@ class FBManager {
     }
   }
 
-  static Future<void> addPrivateChat(Map<String, dynamic> map) async {
+  static Future<void> addPrivateChat(String partnerUid, String partnerName) async {
     try {
       //await checkUserIdIfSet();
       await fbStore
           .collection("privatechat")
-          .document("mIBtUfjwyNnrr5vpWp1W")
-          .setData(map);
+          .document(UserSettings.UID.toString().substring(0, 14) + partnerUid.substring(14))
+          .setData({"users" : [partnerUid, UserSettings.UID],
+      "names" : [partnerName, UserSettings.userDocument['name']]});
     } catch (e) {
       Logs.addNode("FBManager", "addPrivateChat", e.toString());
+    }
+  }
+
+  static Future<List<DocumentSnapshot>> getChatsList() async {
+    try {
+      return (await fbStore
+          .collection('privatechat')
+          .where('users', arrayContains: UserSettings.UID)
+          .getDocuments()).documents;
+    } catch (e) {
+      Logs.addNode("FBManager", "getChatsList", e.toString());
+
     }
   }
 
@@ -168,8 +181,7 @@ class FBManager {
     }
   }
 
-
-static Future<QuerySnapshot> getOrdersList(Map<String, dynamic> searchParameters) async {
+  static Future<QuerySnapshot> getOrdersList(Map<String, dynamic> searchParameters) async {
     try {
       Logs.addNode("FBManager", "getOrdersList",
           "radiusType: " + searchParameters['radius'].runtimeType.toString());
@@ -415,12 +427,12 @@ static Future<QuerySnapshot> getAppliedOrders() async {
         .updateData({"query": listQuery, "applied": listApplied});
   }
 
-  static Future<void> sendMessage(String orderToken, String text) async {
+  static Future<void> sendMessage(String chatUid, String text) async {
     try {
       await fbStore
-          .collection(ORDERS_COLLECTION)
-          .document(orderToken)
-          .collection(MESSAGES_COLLECTION)
+          .collection('privatechat')
+          .document(chatUid)
+          .collection('messages')
           .add({
         "author" : UserSettings.UID,
         "text" : text,
@@ -433,12 +445,13 @@ static Future<QuerySnapshot> getAppliedOrders() async {
     }
   }
 
-  static Stream<QuerySnapshot> getChatStream() {
+  static Stream<QuerySnapshot> getChatStream(String chatUid) {
     try {
       return fbStore
-          .collection('chatrooms')
-          .where('users', arrayContains: UserSettings.UID)
-          .orderBy("post_time", descending: true)
+          .collection('privatechat')
+          .document(chatUid)
+          .collection('messages')
+          .orderBy("sent", descending: true)
           .snapshots();
     } catch (e) {
       Logs.addNode("FBManager", "getChatStream", e.toString());

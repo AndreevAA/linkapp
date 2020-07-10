@@ -13,13 +13,14 @@ import 'findFriends.dart';
 class FriendsScreen extends StatefulWidget {
 
   static bool needsUpdate = false;
+  static List<DocumentSnapshot> friendsList;
+
 
   @override
   _FriendsScreenState createState() => _FriendsScreenState();
 }
 
 class _FriendsScreenState extends State<FriendsScreen> {
-  static List<DocumentSnapshot> friendsList;
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +31,18 @@ class _FriendsScreenState extends State<FriendsScreen> {
 //      });
 //    }
 
-    if (_FriendsScreenState.friendsList == null || FriendsScreen.needsUpdate) {
+    if (FriendsScreen.friendsList == null || FriendsScreen.needsUpdate) {
       FriendsScreen.needsUpdate = false;
       if (UserSettings.userDocument['friends'].isNotEmpty)
         FBManager.getFriendsList(UserSettings.userDocument['friends'])
             .then((list) {
           setState(() {
             print("got " + (list ?? new List()).toString() + " friends");
-            _FriendsScreenState.friendsList = list;
+            FriendsScreen.friendsList = list;
           });
         });
       else
-        _FriendsScreenState.friendsList = new List();
+        FriendsScreen.friendsList = new List();
     }
 
     return Scaffold(
@@ -71,16 +72,16 @@ class _FriendsScreenState extends State<FriendsScreen> {
         body: Center(
             child: Container(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-          child: friendsList == null
+          child: FriendsScreen.friendsList == null
               ? CircularProgressIndicator()
-              : friendsList.isEmpty
+              : FriendsScreen.friendsList.isEmpty
                   ? Text(
                       "К сожалению, друзей нет...",
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.ltr,
                     )
                   : ListView(
-                      children: friendsList.map((DocumentSnapshot document) {
+                      children: FriendsScreen.friendsList.map((DocumentSnapshot document) {
                         // Logs.addNode("OrdersSearchView", "build",
                         // "Document:\n" + document.document
                         return new CustomCard(document: document);
