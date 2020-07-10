@@ -21,7 +21,7 @@ class _FindFriendsState extends State<FindFriends> {
   String field = "name";
   Icon actionIcon = new Icon(Icons.search, color: Colors.white,);
   final TextEditingController _searchQuery = new TextEditingController();
-  Widget appBarTitle = new Text("Search Sample", style: new TextStyle(color: Colors.white),);
+  Widget appBarTitle = new Text("Поиск друзей", style: new TextStyle(color: Colors.white),);
   String _searchText;
   bool loading = false;
 
@@ -68,7 +68,7 @@ class _FindFriendsState extends State<FindFriends> {
                     ),
                     decoration: new InputDecoration(
                         prefixIcon: new Icon(Icons.search,color: Colors.white),
-                        hintText: "Search...",
+                        hintText: "Введите имя или фамилию...",
                         hintStyle: new TextStyle(color: Colors.white)
                     ),
                   );

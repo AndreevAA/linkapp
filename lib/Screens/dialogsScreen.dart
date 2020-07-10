@@ -13,23 +13,8 @@ class DialogsScreen extends StatefulWidget {
 Stream chatStream;
 
 class _DialogsScreenState extends State<DialogsScreen> {
-  List<Map<String, dynamic>> fakeData = [
-    {
-      "name": "Мадина",
-      "messages": [
-        "Жумуш дорогой! Я пироги испекла, жду тебя к обеду",
-        "пирог сгорел иди нахй"
-      ],
-      "posted": "2019-10-11T13:33:05.673",
-      "status": false
-    },
-    {
-      "name": "Ахмед",
-      "messages": ["Брат, есть работка тут. непыльная, платят хорошо"],
-      "posted": "2020-07-11T13:33:05.673",
-      "status": false
-    }
-  ];
+
+  static List<DocumentSnapshot> privateChatsList;
 
   @override
   Widget build(BuildContext context) {
