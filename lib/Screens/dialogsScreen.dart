@@ -10,7 +10,6 @@ class DialogsScreen extends StatefulWidget {
   _DialogsScreenState createState() => _DialogsScreenState();
 }
 
-Stream chatStream;
 
 class _DialogsScreenState extends State<DialogsScreen> {
   List<Map<String, dynamic>> fakeData = [
@@ -30,11 +29,12 @@ class _DialogsScreenState extends State<DialogsScreen> {
       "status": false
     }
   ];
+  
+  List<DocumentSnapshot> dialogs;
 
   @override
   Widget build(BuildContext context) {
-    if (chatStream == null)
-      chatStream = FBManager.getChatStream();
+    FBManager.fbStore.collection('dialogs').where(field)
     return Scaffold(
         appBar: AppBar(
           title: Container(

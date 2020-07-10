@@ -63,7 +63,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
         FBManager.getFriendsList(UserSettings.userDocument['friends'])
             .then((list) {
           setState(() {
-            print("got " + (list ?? new List()).length.toString() + " friends");
+            print("got " + (list ?? new List()).toString() + " friends");
             _FriendsScreenState.friendsList = list;
           });
         });

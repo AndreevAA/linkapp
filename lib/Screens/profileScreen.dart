@@ -268,7 +268,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                         UserSettings.userDocument = await FBManager.getUser(UserSettings.UID);
                         setState(() {
                           _isFriends = false;
-                          ProfileScreen.blocked = false;
+                          ProfileScreen.blocked = false;а
                         });
                       });
 
@@ -278,7 +278,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                           .updateData({
                         'friends': _friendsListOneNew ?? []
                       }).then((val) async {
-                        UserSettings.userDocument = await FBManager.getUser(_token.toString());
+//                        UserSettings.userDocument = await FBManager.getUser(_token.toString());
                         setState(() {
                           _isFriends = false;
                           ProfileScreen.blocked = false;
