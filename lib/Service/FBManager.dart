@@ -87,6 +87,18 @@ class FBManager {
     }
   }
 
+  static Future<void> addPrivateChat(Map<String, dynamic> map) async {
+    try {
+      //await checkUserIdIfSet();
+      await fbStore
+          .collection("privatechat")
+          .document("mIBtUfjwyNnrr5vpWp1W")
+          .setData(map);
+    } catch (e) {
+      Logs.addNode("FBManager", "addPrivateChat", e.toString());
+    }
+  }
+
   static Future<void> editUser(Map<String, String> map) async {
     try {
       await checkUserIdIfSet();

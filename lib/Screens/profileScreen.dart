@@ -9,6 +9,7 @@ import 'package:linkapp/Screens/dialogsScreen.dart';
 import 'package:linkapp/Screens/profileDataEditingScreen.dart';
 import 'package:linkapp/Service/DataBaseNamings.dart';
 import 'package:linkapp/Service/FBManager.dart';
+import 'package:linkapp/Service/NotifManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/blockStyleSettings.dart';
 import 'package:linkapp/Settings/iconStyleSettings.dart';
@@ -273,21 +274,22 @@ class _ProfileScreenState extends State<ProfileScreen>{
                     label: TextSettings.buttonNameTwoCenter(_buttonTwoText),
 
                     onPressed: () async {
-                      List _friendsList = UserSettings.userDocument['friends'];
 
-                      _friendsList.add(_token);
-
-                      await FBManager.fbStore
-                          .collection(USERS_COLLECTION)
-                          .document(UserSettings.UID)
-                          .updateData({
-                        'friends': _friendsList ?? []
+                      await FBManager.fbStore.collection("privatechat").add({
+                        'publicDate': Timestamp.now(),
+                        'users' : [UserSettings.UID.toString(), _token.toString()], // uids
                       });
 
-                      _isFriends = true;
+                      // Обновление данных document из FB
+                      UserSettings.userDocument =
+                      await FBManager.getUserStats(UserSettings.UID);
 
                       FriendsScreen.needsUpdate = true;
+
+                      // Закрытие окна и возврат в профиль
+                      Navigator.pop(context, true);
                     },
+                    
                   )
               ),
             ],
