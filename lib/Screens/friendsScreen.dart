@@ -21,33 +21,6 @@ class FriendsScreen extends StatefulWidget {
 class _FriendsScreenState extends State<FriendsScreen> {
   static List<DocumentSnapshot> friendsList;
 
-  List<Map<String, dynamic>> fakeData = [
-    {
-      "name": "Мадина",
-      "status": "Кулинарная мастерица",
-      "seen": "2019-10-11T13:33:05.673",
-      "origin": "Киргистан"
-    },
-    {
-      "name": "Николай",
-      "status": "Работа и бизнес💎",
-      "seen": "2019-10-11T13:33:05.673",
-      "origin": "Украина"
-    },
-    {
-      "name": "Ахмед",
-      "status": "😎😎кто не с нами тот не с нами",
-      "seen": "2019-10-11T13:33:05.673",
-      "origin": "Россия"
-    },
-    {
-      "name": "Мухамед",
-      "status": "Водитель вашей хуйни🚗",
-      "seen": "2019-10-11T13:33:05.673",
-      "origin": "Киргистан"
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     print("building friendsScreen update " + FriendsScreen.needsUpdate.toString());
@@ -263,7 +236,7 @@ class _CustomCard extends State<CustomCard> {
                 await Navigator.push(
                   context,
                   BackdropModalRoute<void>(
-                    topPadding: 290.0,
+                    topPadding: 550.0,
                     overlayContentBuilder: (context) {
 
                       return SingleChildScrollView(
@@ -299,16 +272,33 @@ class _CustomCard extends State<CustomCard> {
 //                              ),
                               Row(
 
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.start,
 
                                 children: <Widget>[
 
-                                  SizedBox(width: 10,),
+                                  SizedBox(width: 20,),
 
                                   Icon(Icons.message, color: Colors.black,),
 
                                   FlatButton(
-                                    child: TextSettings.buttonNameTwoCenter("Написать"),
+                                    child: Text("Написать сообщение", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),),
+                                  ),
+
+                                ],
+                              ),
+
+                              Row(
+
+                                mainAxisAlignment: MainAxisAlignment.start,
+
+                                children: <Widget>[
+
+                                  SizedBox(width: 20,),
+
+                                  Icon(Icons.delete, color: Colors.red,),
+
+                                  FlatButton(
+                                    child: Text("Удалить из друзей", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w500),),
                                   ),
 
                                 ],

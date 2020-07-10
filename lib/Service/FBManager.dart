@@ -422,10 +422,12 @@ static Future<QuerySnapshot> getAppliedOrders() async {
           .document(orderToken)
           .collection(MESSAGES_COLLECTION)
           .add({
-        "user" : UserSettings.UID,
+        "author" : UserSettings.UID,
         "text" : text,
-        "post_time" : Timestamp.now(),
-        "name" : UserSettings.userDocument['name']});
+        "sent" : Timestamp.now(),
+        "read" : false,
+        //"name" : UserSettings.userDocument['name']
+          });
     } catch (e) {
       Logs.addNode("FBManager", "sendMessage", e.toString());
     }

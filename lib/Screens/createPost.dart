@@ -19,6 +19,9 @@ class CreatePost extends StatefulWidget {
 // Окно создания поста
 class _CreatePostState extends State<CreatePost> {
   String _postText, _authorRole, _authorToken, _postTitle, _pathImage;
+
+  String _postType = 'Выберете тип поста';
+
   _CreatePostState() {
     _authorRole = UserSettings.userDocument['role'].toString();
     _authorToken = UserSettings.userDocument['token'].toString();
@@ -75,21 +78,25 @@ class _CreatePostState extends State<CreatePost> {
                 'postText': _postText,
                 'authorToken': _authorToken,
                 'authorRole': _authorRole,
+                'type': _postType,
                 'likes': [],
-
                 'name': UserSettings.userDocument['name'],
                 'surname': UserSettings.userDocument['surname'],
 
                 'attachment':downloadUrl,
                 'publicDate': Timestamp.now()
               });
+
             }else{
+
               await FBManager.fbStore.collection("posts").add({
                 'user_id': UserSettings.UID,
                 'postTitle': _postTitle,
                 'postText': _postText,
                 'authorToken': _authorToken,
                 'authorRole': _authorRole,
+                'type': _postType,
+
                 'likes': [],
 
                 'name': UserSettings.userDocument['name'],
@@ -151,6 +158,37 @@ class _CreatePostState extends State<CreatePost> {
                   ),
                   SizedBox(
                     height: 10,
+                  ),
+                  PopupMenuButton<String>(
+                    onSelected: (String value) {
+                      setState(() {
+                        _postType = value;
+                      });
+                    },
+                    child:  FlatButton.icon(
+                     disabledColor: Colors.purple,
+                      icon: Icon(Icons.arrow_drop_down,color: Colors.white,),
+                      color: Colors.purple,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),),
+                      label: Text(
+                        _postType ,
+                        style: TextStyle(color: Colors.white),
+                      )),
+                    itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'work',
+                        child: Text('Работа'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'housing',
+                        child: Text('Обьявления'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'friends',
+                        child: Text('Развлечения'),
+                      ),
+                    ],
                   ),
                   Container(
                     child: RaisedButton.icon(

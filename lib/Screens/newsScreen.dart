@@ -1,4 +1,3 @@
-
 import 'package:backdrop_modal_route/backdrop_modal_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,44 +17,120 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreen extends State<NewsScreen> {
-  List<Map<String, dynamic>> fakeData = [
-    {
-      "title": "Сниму квартиру",
-      "body": "В лосином осторве однокомнатную",
-      "author": "Шингыз",
-      "added": "2019-10-11T13:33:05.673",
-      "hearts": 12,
-      "type": "homesearch"
-    },
-    {
-      "title": "Ищу работников на стройку",
-      "body":
-      "Проживание и питание включено! Оплата раз в неделю с авансом. Звоните: +71231231234",
-      "author": "Сергей",
-      "added": "2020-20-11T13:33:05.673",
-      "hearts": 54,
-      "type": "worksearch"
-    }
-  ];
+
+  Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').snapshots();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-              child: InkWell(
-
-                // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
-                child: Text(
-                  "Лента новостей",
-                  style: TextStyle(color: Colors.black),
-                ),
-              )),
-          backgroundColor: Colors.white,
+            //padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child: Text(
+              "Лента новостей",
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          backgroundColor: Colors.transparent,
           elevation: 0.0,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(30.0),
+            child:  Container(
+             // margin: EdgeInsets.symmetric(vertical: 2.0),
+              height: 40.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: FlatButton(
+                      color: Colors.red[400],
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      onPressed: () {
+                        setState(() {
+                          stream = Firestore.instance.collection('posts').snapshots();
+                        });
+                      },
+                      child: Text(
+                        'Все',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: FlatButton(
+                      color: Colors.blue[400],
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      onPressed: () {
+                        setState(() {
+                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'friends').snapshots();
+                        });
+                      },
+                      child: Text(
+                        'Развлечения',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: FlatButton(
+                      color: Colors.green[400],
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      onPressed: () {
+                        setState(() {
+                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'work').snapshots();
+                        });
+                      },
+                      child: Text(
+                        'Работа',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    //   height: ,
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: FlatButton(
+                      color: Colors.orange[400],
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      onPressed: () {
+                        setState(() {
+                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'ads').snapshots();
+                        });
+                      },
+                      child: Text(
+                        'Объявления',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           actions: <Widget>[
-            // Кнопка редактирвоания данных профиля
             Container(
                 padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                 child: Row(
@@ -163,7 +238,7 @@ class _NewsScreen extends State<NewsScreen> {
                                     RadioListTile(
                                       activeColor: TextColors.accentColor,
                                       title:
-                                      const Text('Увеличению требований'),
+                                          const Text('Увеличению требований'),
                                       value: 'Увеличению требований',
                                       // groupValue: HomePageExe.sortStatus,
                                       onChanged: (String selected) {
@@ -176,7 +251,7 @@ class _NewsScreen extends State<NewsScreen> {
                                     RadioListTile(
                                         activeColor: TextColors.accentColor,
                                         title:
-                                        const Text('Уменьшению требований'),
+                                            const Text('Уменьшению требований'),
                                         value: 'Уменьшению требований',
                                         // groupValue: HomePageExe.sortStatus,
                                         onChanged: (String selected) {
@@ -193,13 +268,13 @@ class _NewsScreen extends State<NewsScreen> {
                         },
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.favorite),
-                      color: Colors.red,
-                      iconSize: 30,
-                      onPressed: () => Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => MyLikes())),
-                    ),
+//                    IconButton(
+//                      icon: Icon(Icons.favorite),
+//                      color: Colors.red,
+//                      iconSize: 30,
+//                      onPressed: () => Navigator.push(context,
+//                          MaterialPageRoute(builder: (context) => MyLikes())),
+//                    ),
                     Ink(
                       width: 45.0,
                       height: 45.0,
@@ -230,7 +305,7 @@ class _NewsScreen extends State<NewsScreen> {
             child: Container(
                 padding: const EdgeInsets.all(10.0),
                 child: StreamBuilder<QuerySnapshot>(
-                  stream: Firestore.instance.collection('posts').snapshots(),
+                  stream: stream,
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError)
@@ -280,6 +355,7 @@ class _CustomCardState extends State<CustomCard> {
         return " ";
     }
   }
+
   Future<void> like() async {
     List<String> list = new List();
     list.add(UserSettings.UID);
@@ -289,68 +365,72 @@ class _CustomCardState extends State<CustomCard> {
         .updateData({'likes': list});
   }
 
-  Future<void> unlike() async {
-
-  }
+  Future<void> unlike() async {}
   Color cardColor = Colors.white;
   Color likeButton = Colors.grey;
-
 
   @override
   Widget build(BuildContext context) {
     Timestamp timestamp = widget.document['publicDate'];
     List<dynamic> likes = widget.document['likes'];
-    if (likes.contains(UserSettings.UID))
-      likeButton = Colors.red;
+    if (likes.contains(UserSettings.UID)) likeButton = Colors.red;
 
+    switch (widget.document['type']) {
+      case 'work':
+        {
+          cardColor = Colors.green[200];
+        }
+        break;
 
-    switch(widget.document['authorRole']) {
-      case 'Work': {
-        cardColor = Colors.green[200];
-      }
-      break;
+      case "housing":
+        {
+          cardColor = Colors.orange[200];
+        }
+        break;
 
-      case "Housing": {
-        cardColor = Colors.orange[200];
-      }
-      break;
+      case "friends":
+        {
+          cardColor = Colors.blue[200];
+        }
+        break;
 
-      case "Friends": {
-        cardColor = Colors.blue[200];
-      }
-      break;
-
-      case "Stocks": {
-        cardColor = Colors.red[200];
-      }
-      break;
+      case "ads":
+        {
+          cardColor = Colors.orange[200];
+        }
+        break;
     }
     return ClipRRect(
       borderRadius: BorderRadius.circular(16.0),
       child: Card(
           shape: Border(left: BorderSide(color: cardColor, width: 10)),
           child: InkWell(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CardView(document: widget.document))),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          CardView(document: widget.document))),
               child: Column(
-
                 children: <Widget>[
-
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-
-
                         Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child:CircleAvatar(
+                            child: CircleAvatar(
                               radius: 20,
                               backgroundColor: Colors.green,
-                              child: Text(widget.document['name'][0] + widget.document['surname'][0], style: (TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0)),) ,
+                              child: Text(
+                                widget.document['name'][0] +
+                                    widget.document['surname'][0],
+                                style: (TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.0)),
+                              ),
                               foregroundColor: Colors.white,
-                            )
-                        ),
+                            )),
                         Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -361,29 +441,30 @@ class _CustomCardState extends State<CustomCard> {
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Expanded(
                                             child: Container(
                                                 child: RichText(
-                                                  text: TextSpan(children: [
-                                                    TextSpan(
-                                                      text: widget.document['name'],
-                                                      style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 18.0,
-                                                          color: Colors.deepPurple),
-                                                    ),
-                                                    TextSpan(
-                                                      text:
+                                              text: TextSpan(children: [
+                                                TextSpan(
+                                                  text: widget.document['name'],
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 18.0,
+                                                      color: Colors.deepPurple),
+                                                ),
+                                                TextSpan(
+                                                  text:
                                                       "   ${timeago.format(timestamp.toDate(), locale: 'ru')}",
-                                                      style: TextStyle(
-                                                          fontSize: 12.0,
-                                                          color: Colors.grey),
-                                                    ),
-                                                  ]),
-                                                  overflow: TextOverflow.ellipsis,
-                                                )),
+                                                  style: TextStyle(
+                                                      fontSize: 12.0,
+                                                      color: Colors.grey),
+                                                ),
+                                              ]),
+                                              overflow: TextOverflow.ellipsis,
+                                            )),
                                             flex: 10,
                                           ),
                                           Expanded(
@@ -400,20 +481,20 @@ class _CustomCardState extends State<CustomCard> {
                                       ),
                                       Container(
                                         alignment:
-                                        AlignmentDirectional.centerStart,
+                                            AlignmentDirectional.centerStart,
                                         child: Text(
-                                          widget.document['authorRole'],
+                                          widget.document['type'] ?? 'null',
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                               fontSize: 12.0,
-                                              fontWeight: FontWeight.bold, color:cardColor),
+                                              fontWeight: FontWeight.bold,
+                                              color: cardColor),
                                         ),
                                       ),
                                       SizedBox(height: 2),
-
                                       Container(
                                         alignment:
-                                        AlignmentDirectional.centerStart,
+                                            AlignmentDirectional.centerStart,
                                         child: Text(
                                           widget.document['postTitle'],
                                           textAlign: TextAlign.start,
@@ -426,7 +507,7 @@ class _CustomCardState extends State<CustomCard> {
                                   )),
                               Padding(
                                 padding:
-                                const EdgeInsets.symmetric(vertical: 4.0),
+                                    const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Text(
                                   widget.document['postText'],
                                   style: TextStyle(fontSize: 18.0),
@@ -438,29 +519,35 @@ class _CustomCardState extends State<CustomCard> {
                               Container(
                                 alignment: AlignmentDirectional.centerStart,
                                 child: Image.network(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTNrA6zRRhXYWUsF5qAn2ThtMeT8GeXtAjxXA&usqp=CAU' ?? ' ',
+                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTNrA6zRRhXYWUsF5qAn2ThtMeT8GeXtAjxXA&usqp=CAU' ??
+                                      ' ',
                                   width: 50,
                                   height: 50,
                                 ),
                               ),
                               InkWell(
-                                onTap: (){
+                                onTap: () {
                                   like();
                                 },
-                                child:   Container(
+                                child: Container(
                                     alignment: AlignmentDirectional.bottomEnd,
                                     child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Text(likes.length.toString() ?? '0', style: TextStyle(color: Colors.grey, fontSize: 16),),
+                                        Text(
+                                          likes.length.toString() ?? '0',
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 16),
+                                        ),
                                         SizedBox(width: 5),
-                                        Icon(Icons.favorite, color: likeButton, size: 16,),
-
-                                      ],)
-                                ),
+                                        Icon(
+                                          Icons.favorite,
+                                          color: likeButton,
+                                          size: 16,
+                                        ),
+                                      ],
+                                    )),
                               )
-
                             ],
                           ),
                         )
@@ -468,6 +555,7 @@ class _CustomCardState extends State<CustomCard> {
                     ),
                   ),
                 ],
-              ))),);
+              ))),
+    );
   }
 }
