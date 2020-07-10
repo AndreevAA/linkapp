@@ -698,7 +698,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
       _buttonMessageExistance = true;
     }
 
-    if (UserSettings.userDocument['friends'].contains(UserSettings.UID.toString()) == true){
+    if (UserSettings.userDocument['friends'].contains(UserSettings.UID.toString()) == true || _friends.contains(_token) == true){
       _isFriends = true;
     }
 
