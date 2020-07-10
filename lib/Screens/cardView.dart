@@ -62,7 +62,7 @@ class _CardView extends State<CardView>{
                                 TextSpan(
                                   text: '\n'),
                             TextSpan(
-                              text: 'Работа',
+                              text: widget.document['type'],
                               style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.bold, color: Colors.deepPurpleAccent),
@@ -97,10 +97,12 @@ class _CardView extends State<CardView>{
               ),
               SizedBox(height: 10,),
               Container(
-                alignment: AlignmentDirectional.center,
-                child: Image.network(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTNrA6zRRhXYWUsF5qAn2ThtMeT8GeXtAjxXA&usqp=CAU' ?? ' ',
-                 fit: BoxFit.fill,
+                alignment: AlignmentDirectional.centerStart,
+                child: widget.document['attachment'] == 'none' ? Text(' ') :
+                Image.network(
+                  widget.document['attachment'],
+                  headers: {'accept': 'image/*'},
+                fit: BoxFit.fill,
                 ),
               ),
               SizedBox(height: 10,),
@@ -117,7 +119,23 @@ class _CardView extends State<CardView>{
                       Icon(Icons.favorite, color: likeButton, size: 18,),
 
                     ],)
-              )
+              ),
+              Container(
+                alignment: AlignmentDirectional.center,
+                child: widget.document['type'] != 'work' ? Text(' ') :
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  color: Colors.green,
+                  child: Text('Откикнутся на предложение', style: TextStyle(color: Colors.white, fontSize: 16),),
+                  onPressed: (){
+                    print('иду на работу епт');
+                  },
+                ),
+
+              ),
+              SizedBox(height: 10,),
             ],
           ),
 

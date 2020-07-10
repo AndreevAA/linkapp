@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  call_with_whatsapp:
+    dependency: "direct main"
+    description:
+      name: call_with_whatsapp
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   charcode:
     dependency: transitive
     description:
@@ -217,6 +224,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  giphy_client:
+    dependency: "direct main"
+    description:
+      name: giphy_client
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
+  giphy_picker:
+    dependency: "direct main"
+    description:
+      name: giphy_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   grouped_buttons:
     dependency: "direct main"
     description:

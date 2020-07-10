@@ -1,4 +1,5 @@
 import 'package:backdrop_modal_route/backdrop_modal_route.dart';
+import 'package:call_with_whatsapp/call_with_whatsapp.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -268,13 +269,29 @@ class _NewsScreen extends State<NewsScreen> {
                         },
                       ),
                     ),
-//                    IconButton(
-//                      icon: Icon(Icons.favorite),
-//                      color: Colors.red,
-//                      iconSize: 30,
-//                      onPressed: () => Navigator.push(context,
-//                          MaterialPageRoute(builder: (context) => MyLikes())),
-//                    ),
+                    IconButton(
+                      icon: Icon(Icons.favorite),
+                      color: Colors.red,
+                      iconSize: 30,
+                      onPressed: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MyLikes())),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.call),
+                      color: Colors.green,
+                      iconSize: 30,
+                      onPressed: () {
+                        CallWithWhatsapp.requestPermissions().then((x){
+                          print("success");
+                        }).catchError((e){
+                          print(e);
+                        });
+                        CallWithWhatsapp.initiateCall("89267105770").then((x){
+                          print("success");
+                        }).catchError((e){
+                          print(e);
+                        });
+                      }),
                     Ink(
                       width: 45.0,
                       height: 45.0,
@@ -345,16 +362,7 @@ class _CustomCardState extends State<CustomCard> {
       return temp.substring(0, maxLength).trim() + "...";
   }
 
-  String switchType(String type) {
-    switch (type) {
-      case "worksearch":
-        return "Работа";
-      case "homesearch":
-        return "Жилье";
-      default:
-        return " ";
-    }
-  }
+
 
   Future<void> like() async {
     List<String> list = new List();
@@ -518,11 +526,12 @@ class _CustomCardState extends State<CustomCard> {
                               ),
                               Container(
                                 alignment: AlignmentDirectional.centerStart,
-                                child: Image.network(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTNrA6zRRhXYWUsF5qAn2ThtMeT8GeXtAjxXA&usqp=CAU' ??
-                                      ' ',
-                                  width: 50,
-                                  height: 50,
+                                child: widget.document['attachment'] == 'none' ? Text(' ') :
+                                Image.network(
+                                  widget.document['attachment'],
+                                  headers: {'accept': 'image/*'},
+                                  width: 200,
+                                  height: 200,
                                 ),
                               ),
                               InkWell(

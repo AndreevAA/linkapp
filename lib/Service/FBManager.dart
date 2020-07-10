@@ -436,7 +436,7 @@ static Future<QuerySnapshot> getAppliedOrders() async {
   static Stream<QuerySnapshot> getChatStream() {
     try {
       return fbStore
-          .collection('chatrooms')
+          .collection('privatdialog')
           .where('users', arrayContains: UserSettings.UID)
           .orderBy("post_time", descending: true)
           .snapshots();
