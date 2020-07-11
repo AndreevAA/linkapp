@@ -1085,7 +1085,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
-              color: BlockColors.accentColor,
+              color: BlockColors.additionalColor,
             ),
             child: FlatButton(
               child: TextSettings.buttonNameTwoCenter(whatToSayText),

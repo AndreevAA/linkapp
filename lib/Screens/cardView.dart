@@ -15,6 +15,7 @@ class CardView extends StatefulWidget {
 }
 
 bool appliedWorker = false;
+List <dynamic> workersList = [];
 
 class _CardView extends State<CardView> {
   Color likeButton = Colors.grey;
@@ -27,7 +28,7 @@ class _CardView extends State<CardView> {
 
     if (likes.contains(UserSettings.UID)) likeButton = Colors.red;
 
-    List<dynamic> workersList = widget.document['workers'] ?? [];
+    workersList = widget.document['workers'] ?? [];
 
     if (workersList.contains(UserSettings.UID)) {
       appliedWorker = true;
@@ -145,7 +146,7 @@ class _CardView extends State<CardView> {
                     : Container(
                         child: UserSettings.UID == widget.document['user_id']
                             ? Container(
-                                child: widget.document['workers'] == null
+                                child: widget.document['workers'] != null
                                     ? Container(
                                         padding: const EdgeInsets.fromLTRB(
                                             0, 0, 0, 0),
@@ -224,8 +225,7 @@ class _CardView extends State<CardView> {
                                                             horizontal: 20.0,
                                                             vertical: 2.0),
                                                         child: Text(
-                                                          getNameSnap.data['name'] ??
-                                                              "ER",
+                                              "${getNameSnap.data['name']} ${getNameSnap.data['surname']}",
                                                           style: TextStyle(
                                                             fontWeight:
                                                             FontWeight.bold,
