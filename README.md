@@ -1,6 +1,6 @@
 # linkapp
 
-Social network
+Social network for professionals and migrants who want to find life quickly in a new country.
 
 ## Getting Started
 
