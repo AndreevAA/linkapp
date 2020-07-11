@@ -38,7 +38,7 @@ class TextSettings {
   }
 
   static Text descriptionTwoCenter (String _inputText){
-    return Text(_inputText, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.0, ), textAlign: TextAlign.center,);
+    return Text(_inputText, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.0, ), textAlign: TextAlign.center, overflow: TextOverflow.ellipsis,);
   }
 
   static Text descriptionFourCenter (String _inputText){

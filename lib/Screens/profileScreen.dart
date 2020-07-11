@@ -580,7 +580,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           );
         } else if (_isFriends == false) {
-          _buttonOneText = "Добавить в друзья";
+          _buttonOneText = "Подписаться";
+
+          if (_ispublic == true) _buttonOneText = "Добавить в друзья";
 
           return Container(
             padding: const EdgeInsets.fromLTRB(
@@ -1016,6 +1018,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             }
                           }
                           return Container(
+
                               child: TextSettings.descriptionTwoCenter(
                                   getNameSnap.data['name']));
                         }),
@@ -1195,23 +1198,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     print("\n\n_isAuthorProfile: " + _isAuthorProfile.toString());
 
+    print(_token);
+
     return Scaffold(
-//      appBar: AppBar(
-//        title: Container(
-//            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-//            child: InkWell(
-//
-//              // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
-//              child: Text("", style: TextStyle(color: Colors.black),),
-//            )
-//        ),
-//
-//        backgroundColor: Colors.white,
-//        elevation: 0.0,
-//        actions: <Widget>[
-//          setSettingsWidget(_isAuthorProfile),
-//        ],
-//      ),
+      appBar: AppBar(
+        leading: _isAuthorProfile ? Text("Профиль", style: TextStyle(color: Colors.white),) : BackButton(color: Colors.black),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        title: _isAuthorProfile ? Container(alignment: Alignment.center, child:Text("", style: TextStyle(color: Colors.black), textAlign: TextAlign.left,)) : Text("Профиль", style: TextStyle(color: Colors.transparent),),
+      ),
 
       body: SingleChildScrollView(
         child: new Column(
@@ -1251,6 +1246,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             (_isAuthorProfile == false ? (Container()) : (setPostField(true))),
 
             //DisignElements.setDivisionFieldOne(),
+
 
             Container(
                 padding: const EdgeInsets.all(10.0),
