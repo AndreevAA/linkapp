@@ -91,31 +91,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   static int _tempPositionCursor;
 
-//  Container startDialogueButton(DocumentSnapshot documentSnapshot) {
-//    if (chatStream == null)
-//      chatStream = FBManager.getChatStream();
-//    chatStream.toList().then((List<dynamic> list) {
-//      list.forEach((element) {
-//        print("type: " + element.runtimeType.toString());
-//        return Container(
-//
-//          padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0,
-//              BlockPaddings.globalBorderPadding, 0),
-//          child: Container(
-//              width: double.infinity,
-//              color: BlockColors.accentColor,
-//              child: FlatButton(
-//                child: TextSettings.buttonNameTwoCenter("Начать диалог"),
-//                onPressed: () {
-//
-//                },
-//              )
-//          ),
-//        );
-//      });
-//    });
-//  }
-
   Container getCircleAvatar() {
     return Container(
       padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0,
@@ -152,7 +127,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Container getProfile() {
-    if (_ispublic == true) {
+    print(_ispublic);
+    if (_ispublic == false) {
       return Container(
         child: // Верхний блок личных данных
             Center(
@@ -194,13 +170,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       );
-    } else if (_ispublic == false) {
+    }
+    else if (_ispublic == true) {
       int postsNumber = 0;
       int followersNumber = 0;
 
       if (_posts != null) postsNumber = _posts.length;
 
-      if (_followers != null) followersNumber = _followers.length;
+      if (_followers != null) followersNumber = _friends.length;
 
       return Container(
         child: Column(
@@ -280,21 +257,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 15),
-                  child: Text(
-                    "Публикации: " + (postsNumber.toString() ?? "Загрузка"),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
-                        color: Colors.black26),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ],
-            ),
+//            Row(
+//              children: <Widget>[
+//                Container(
+//                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 15),
+//                  child: Text(
+//                    "Публикации: " + (postsNumber.toString() ?? "Загрузка"),
+//                    style: TextStyle(
+//                        fontWeight: FontWeight.w600,
+//                        fontSize: 14.0,
+//                        color: Colors.black26),
+//                    textAlign: TextAlign.left,
+//                  ),
+//                ),
+//
+//
+//              ],
+//            ),
+
+            setButtonProfileDataEdit(),
           ],
         ),
       );
@@ -320,12 +301,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () {},
             )),
       );
-    print("KAKAKAK");
+
+    print("_ispublic " + _ispublic.toString());
+    print("_isAuthorProfile " + _isAuthorProfile.toString());
+    print("_isFriends " + _isFriends.toString());
+
     // Текущая страница - сообщество
     if (_ispublic == true) {
-      print("KAKAKAK");
-      if (_isAuthorProfile == true) {
-        print("KAKAKAK");
+      if (_isAuthorProfile == true)
+      {
 
         _buttonOneText = "Редактировать";
 
@@ -348,9 +332,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
               )),
         );
-      } else if (_isAuthorProfile == false) {
-        if (_isFriends == true) {
-          _buttonOneText = "  Удалить из друзей    ";
+      }
+
+      else if (_isAuthorProfile == false) {
+
+        // Отписаться и написать сообщение
+        if (_isFriends == true)
+        {
+          _buttonOneText = "Отписаться            ";
 
           return Container(
             padding: const EdgeInsets.fromLTRB(
@@ -412,6 +401,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         setState(() {
                           ProfileScreen.blocked = true;
                         });
+
                         FBManager.fbStore
                             .collection(USERS_COLLECTION)
                             .document(UserSettings.UID)
@@ -441,10 +431,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         print(UserSettings.userDocument.data['friends']
                             .toString());
 
+                        _isFriends = false;
                         _buttonMessageExistance = false;
                         _isAuthorProfile = false;
+                        ProfileScreen.blocked = false;
 
                         FriendsScreen.needsUpdate = true;
+
+                        print("_ispublic " + _ispublic.toString());
+                        print("_isAuthorProfile " + _isAuthorProfile.toString());
+                        print("_isFriends " + _isFriends.toString());
                       },
                     )),
                 Container(
@@ -530,10 +526,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           );
-        } else if (_isFriends == false) {
-          _buttonOneText = "Подписаться";
+        }
 
-          if (_ispublic == true) _buttonOneText = "Добавить в друзья";
+        // Подписаться
+        else if (_isFriends == false)
+        {
+
+          _buttonOneText = "Подписаться";
 
           return Container(
             padding: const EdgeInsets.fromLTRB(
@@ -599,7 +598,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     // Личная страница
     else if (_ispublic == false) {
-      if (_isAuthorProfile == true) {
+      if (_isAuthorProfile == true)
+      {
         _buttonOneText = "Редактировать";
 
         return Container(
@@ -621,8 +621,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
               )),
         );
-      } else if (_isAuthorProfile == false) {
-        if (_isFriends == true) {
+      }
+
+      else if (_isAuthorProfile == false) {
+        if (_isFriends == true)
+        {
           _buttonOneText = "  Удалить из друзей    ";
 
           return Container(
@@ -832,7 +835,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           );
-        } else if (_isFriends == false) {
+        }
+        else if (_isFriends == false)
+        {
           _buttonOneText = "Добавить в друзья";
 
           return Container(
@@ -904,9 +909,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (_inputFriendList != null) _numberOfFriends = _inputFriendList.length;
 
-    if (_ispublic == false) {
+    if (_ispublic == true) {
       return Container();
-    } else if (_ispublic == true) {
+    } else if (_ispublic == false) {
       return Container(
         padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0,
             BlockPaddings.globalBorderPadding, 0),
@@ -984,9 +989,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Container setFriendGrid(var _inputFriendList) {
-    if (_ispublic == false) {
+    if (_ispublic == true) {
       return Container();
-    } else if (_ispublic == true) {
+    } else if (_ispublic == false) {
       int _numberOfFriends = 0;
       _tempPositionCursor = -1;
 
@@ -1063,9 +1068,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Container setPostField(bool _isUserProfile) {
     String whatToSayText;
 
-    if (_ispublic == true)
+    if (_ispublic == false)
       whatToSayText = "Расскажите, что у Вас нового";
-    else if (_ispublic == false) whatToSayText = "Поделитесь с подписчиками";
+
+    else if (_ispublic == true)
+      whatToSayText = "Поделитесь с подписчиками";
 
     if (_isUserProfile == true) {
       return Container(
@@ -1351,6 +1358,7 @@ class _CustomCardState extends State<CustomCard> {
 
   @override
   Widget build(BuildContext context) {
+
     Timestamp timestamp = widget.document['publicDate'];
     List<dynamic> likes = widget.document['likes'];
     if (likes.contains(UserSettings.UID)) likeButton = Colors.red;

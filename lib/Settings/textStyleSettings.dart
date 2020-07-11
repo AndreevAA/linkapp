@@ -9,6 +9,8 @@ class TextColors {
   static Color deactivatedColor = Colors.grey;
 
   static Color activeColor = Colors.green;
+
+  static Color enjoyColor = Colors.blue;
 }
 
 class TextSettings {

@@ -287,7 +287,7 @@ class MyFormState extends State {
                           activeColor: Colors.deepPurpleAccent,
                           value: _user,
                           title: new Container(
-                              child: Text('Я партнер'),
+                              child: Text('Я рекрутер'),
                           ),
                           onChanged: (bool value) =>
                               setState(() => _user = value)),
