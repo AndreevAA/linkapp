@@ -103,8 +103,8 @@ class _OrderChatView extends State<OrderChatView> {
         leading: BackButton(color: Colors.black),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: const Text(
-          "захаркодино",
+        title: Text(
+          listOfUsers == null ? "Загрузка" : (getDocument(listOfUids.elementAt(listOfUids.indexOf(UserSettings.UID) == 0 ? 1 : 0))['name'] ?? "err").toString(),
           style: TextStyle(color: Colors.black),
         ),
         actions: [
@@ -118,7 +118,7 @@ class _OrderChatView extends State<OrderChatView> {
                 }).catchError((e){
                   print(e);
                 });
-                CallWithWhatsapp.initiateCall("89267105770").then((x){
+                CallWithWhatsapp.initiateCall(listOfUsers == null ? "89267105770" : (getDocument(listOfUids.elementAt(listOfUids.indexOf(UserSettings.UID) == 0 ? 1 : 0))['phone'] ?? "89267105770").toString()).then((x){
                   print("success");
                 }).catchError((e){
                   print(e);
