@@ -1,7 +1,7 @@
 class NumberExist{
 
   // Возвращает информацию о наличии
-  static String getTextNumber(String _startText, int _inputNumber){
+  static String getTextNumber(String _startText, int _inputNumber) {
 
     String answer = _startText;
 
@@ -12,4 +12,8 @@ class NumberExist{
 
     return answer;
   }
+//
+//  static String getChatUidString(String target) {
+//    return
+//  }
 }

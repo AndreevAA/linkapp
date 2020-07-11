@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class IconColors {
-  static Color accentColor = Color.fromRGBO(92, 0, 92, 1);
+  static Color accentColor = Color.fromRGBO(157, 68, 254, 1);
 
   static Color additionalColor = Colors.grey;
 }
@@ -10,7 +10,7 @@ class IconColors {
 class IconSizes {
   static const double bottomNavigationBarSize = 10;
 
-  static const double avatarCircleSize = 80;
+  static const double avatarCircleSize = 50;
 
-  static const double avatarCircleSizeThree = 20;
+  static const double avatarCircleSizeThree = 30;
 }

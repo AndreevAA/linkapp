@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 
 class BlockColors {
-  static Color accentColor = Color.fromRGBO(92, 0, 92, 1);
+  static Color accentColor = Color.fromRGBO(157, 68, 254, 1);
 
   static Color additionalColor = Colors.grey;
 
   static Color mainColor = Colors.white;
 
-  static Color divisionField = Color.fromRGBO(214, 214, 214, 1);
+  static Color divisionField = Color.fromRGBO(235, 235, 235, 1);
 }
 
 class BlockPaddings {

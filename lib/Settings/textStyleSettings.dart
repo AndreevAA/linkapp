@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class TextColors {
-  static Color accentColor = Color.fromRGBO(92, 0, 92, 1);
+  static Color accentColor = Color.fromRGBO(157, 68, 254, 1);
 
   static Color descriptionColor = Colors.grey;
 
@@ -39,6 +39,10 @@ class TextSettings {
 
   static Text descriptionTwoCenter (String _inputText){
     return Text(_inputText, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.0, ), textAlign: TextAlign.center,);
+  }
+
+  static Text descriptionFourCenter (String _inputText){
+    return Text(_inputText, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10.0, ), textAlign: TextAlign.center,);
   }
 
   static Text buttonNameTwoCenter (String _inputText){

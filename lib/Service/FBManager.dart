@@ -13,6 +13,7 @@ class FBManager {
 
   static void init() {
     fbStore = Firestore.instance;
+    print("FBManager inited");
    //geo = Geoflutterfire();
   }
 
@@ -65,7 +66,7 @@ class FBManager {
     /// ПРОВЕРКА ПОЛЬЗОВАТЕЛЯ НА НАЛИЧИЕ В БАЗЕ ДАННЫХ
     try {
       DocumentSnapshot _documentSnapshot = await fbStore
-          .collection(USERS_COLLECTION)
+          .collection('users')
           .document(_uid)
           .get();
       return _documentSnapshot;
@@ -83,6 +84,31 @@ class FBManager {
           .setData(map);
     } catch (e) {
       Logs.addNode("FBManager", "AddNewUser", e.toString());
+    }
+  }
+
+  static Future<void> addPrivateChat(String partnerUid, String partnerName) async {
+    try {
+      //await checkUserIdIfSet();
+      await fbStore
+          .collection("privatechat")
+          .document(UserSettings.UID.toString().substring(0, 14) + partnerUid.substring(14))
+          .setData({"users" : [partnerUid, UserSettings.UID],
+      "names" : [partnerName, UserSettings.userDocument['name']]});
+    } catch (e) {
+      Logs.addNode("FBManager", "addPrivateChat", e.toString());
+    }
+  }
+
+  static Future<List<DocumentSnapshot>> getChatsList() async {
+    try {
+      return (await fbStore
+          .collection('privatechat')
+          .where('users', arrayContains: UserSettings.UID)
+          .getDocuments()).documents;
+    } catch (e) {
+      Logs.addNode("FBManager", "getChatsList", e.toString());
+
     }
   }
 
@@ -155,8 +181,7 @@ class FBManager {
     }
   }
 
-
-static Future<QuerySnapshot> getOrdersList(Map<String, dynamic> searchParameters) async {
+  static Future<QuerySnapshot> getOrdersList(Map<String, dynamic> searchParameters) async {
     try {
       Logs.addNode("FBManager", "getOrdersList",
           "radiusType: " + searchParameters['radius'].runtimeType.toString());
@@ -402,29 +427,31 @@ static Future<QuerySnapshot> getAppliedOrders() async {
         .updateData({"query": listQuery, "applied": listApplied});
   }
 
-  static Future<void> sendMessage(String orderToken, String text) async {
+  static Future<void> sendMessage(String chatUid, String text) async {
     try {
       await fbStore
-          .collection(ORDERS_COLLECTION)
-          .document(orderToken)
-          .collection(MESSAGES_COLLECTION)
+          .collection('privatechat')
+          .document(chatUid)
+          .collection('messages')
           .add({
-        "user" : UserSettings.UID,
+        "author" : UserSettings.UID,
         "text" : text,
-        "post_time" : Timestamp.now(),
-        "name" : UserSettings.userDocument['name']});
+        "sent" : Timestamp.now(),
+        "read" : false,
+        //"name" : UserSettings.userDocument['name']
+          });
     } catch (e) {
       Logs.addNode("FBManager", "sendMessage", e.toString());
     }
   }
 
-  static Stream<QuerySnapshot> getChatStream(String orderToken) {
+  static Stream<QuerySnapshot> getChatStream(String chatUid) {
     try {
       return fbStore
-          .collection(ORDERS_COLLECTION)
-          .document(orderToken)
-          .collection(MESSAGES_COLLECTION)
-          .orderBy("post_time", descending: true)
+          .collection('privatechat')
+          .document(chatUid)
+          .collection('messages')
+          .orderBy("sent", descending: true)
           .snapshots();
     } catch (e) {
       Logs.addNode("FBManager", "getChatStream", e.toString());
@@ -504,4 +531,27 @@ static Future<QuerySnapshot> getAppliedOrders() async {
       Logs.addNode("FBManager", "incrementLinkViews", e);
     }
   }
+  
+  static Future<List<DocumentSnapshot>> getFriendsList (List<dynamic> uids) async {
+    try {
+      return (await fbStore
+          .collection('users')
+          .where('token', whereIn: uids)
+          .getDocuments()).documents;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  static Future<List<DocumentSnapshot>> getPostsList (List<dynamic> uids) async {
+    try {
+      return (await fbStore
+          .collection('posts')
+          .where('token', whereIn: uids)
+          .getDocuments()).documents;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
 }

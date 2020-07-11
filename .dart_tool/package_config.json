@@ -20,6 +20,12 @@
       "languageVersion": "2.4"
     },
     {
+      "name": "call_with_whatsapp",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/call_with_whatsapp-0.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "charcode",
       "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/charcode-1.1.3",
       "packageUri": "lib/",
@@ -176,6 +182,18 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "giphy_client",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/giphy_client-0.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "giphy_picker",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/giphy_picker-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "grouped_buttons",
       "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/grouped_buttons-1.0.4",
       "packageUri": "lib/",
@@ -216,6 +234,24 @@
       "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/js-0.6.2",
       "packageUri": "lib/",
       "languageVersion": "2.0"
+    },
+    {
+      "name": "location",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/location-3.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "location_platform_interface",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/location_platform_interface-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.4"
+    },
+    {
+      "name": "location_web",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/location_web-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
     },
     {
       "name": "matcher",
@@ -356,6 +392,12 @@
       "languageVersion": "2.4"
     },
     {
+      "name": "timeago",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/timeago-2.0.26",
+      "packageUri": "lib/",
+      "languageVersion": "2.6"
+    },
+    {
       "name": "typed_data",
       "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/typed_data-1.1.6",
       "packageUri": "lib/",
@@ -380,7 +422,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-07-08T19:53:03.495403Z",
+  "generated": "2020-07-11T14:22:12.960115Z",
   "generator": "pub",
   "generatorVersion": "2.9.0-8.2.beta"
 }
