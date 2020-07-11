@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:backdrop_modal_route/backdrop_modal_route.dart';
@@ -22,7 +23,7 @@ class DialogsScreen extends StatefulWidget {
 
 
 class _DialogsScreenState extends State<DialogsScreen> {
-  static List<DocumentSnapshot> dialogsList;
+  List<DocumentSnapshot> dialogsList;
 
 
   DocumentSnapshot getFromFriends(String uid) {
@@ -33,6 +34,26 @@ class _DialogsScreenState extends State<DialogsScreen> {
       }
     });
     return null;
+  }
+
+  Timer _timer;
+  int _start = 0;
+
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+          (Timer timer) {
+            if (_start < 1) {
+              timer.cancel();
+              setState(() {
+
+              });
+            } else {
+              _start = _start - 1;
+            }
+          }
+    );
   }
 
   @override
@@ -60,8 +81,10 @@ class _DialogsScreenState extends State<DialogsScreen> {
     if (dialogsList == null)
       FBManager.getChatsList().then((List chatlist) {
         setState(() {
+//          startTimer();
   //        sleep(Duration(seconds: DialogsScreen.timer));
   //        DialogsScreen.timer += 2;
+
           dialogsList = chatlist;
         });
       });
@@ -165,7 +188,7 @@ class _CustomCard extends State<CustomCard> {
                       radius: 30,
                       backgroundColor: TextColors.accentColor,
                       child: Text(
-                        document['names'][0] == UserSettings.userDocument['name'] ? document['names'][1][0] : document['names'][0][0],
+                        ((document)['names'] ?? ['err'])[0] == UserSettings.userDocument['name'] ? document['names'][1][0] : document['names'][0][0],
                         style:
                         (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),
                       ),

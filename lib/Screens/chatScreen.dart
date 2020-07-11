@@ -16,7 +16,7 @@ class OrderChatView extends StatefulWidget {
   OrderChatView({@required this.chatUid, @required this.listOfUids});
 
   @override
-  _OrderChatView createState() => _OrderChatView(chatUid: chatUid);
+  _OrderChatView createState() => _OrderChatView(chatUid: chatUid, listOfUids: listOfUids);
 }
 
 class _OrderChatView extends State<OrderChatView> {
