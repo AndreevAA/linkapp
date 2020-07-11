@@ -26,11 +26,6 @@ class _FriendsScreenState extends State<FriendsScreen> {
   @override
   Widget build(BuildContext context) {
     print("building friendsScreen update " + FriendsScreen.needsUpdate.toString());
-//    if (FriendsScreen.needsUpdate){
-//      setState(() {
-//        FriendsScreen.needsUpdate = false;
-//      });
-//    }
 
     if (FriendsScreen.friendsList == null || FriendsScreen.needsUpdate) {
       FriendsScreen.needsUpdate = false;
@@ -65,8 +60,6 @@ class _FriendsScreenState extends State<FriendsScreen> {
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => FindFriends()));
-            // showDialog(context);
-//            //OrdersSearchManager.sortListByDate();
           },
           child: Icon(Icons.search),
           backgroundColor: TextColors.accentColor,
