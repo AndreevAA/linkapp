@@ -31,7 +31,7 @@ class _CardView extends State<CardView>{
         elevation: 0.0,
         title:  Text(widget.document['postTitle'], style: TextStyle(color: Colors.black),),
       ),
-      body: Container(
+      body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               Padding(

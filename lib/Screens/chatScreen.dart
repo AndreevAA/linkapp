@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:call_with_whatsapp/call_with_whatsapp.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/NotifManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import 'LogsView.dart';
 
@@ -42,17 +44,7 @@ class _OrderChatView extends State<OrderChatView> {
                 })
                 .toList()
                 .toString());
-//        NotifManager.NotifyUsersOfMessage(
-//            listOfUsers
-//                .map((DocumentSnapshot snap) {
-//                  return (snap['device_token'] ?? "err").toString();
-//                })
-//                .toList()
-//                .cast<String>(),
-//            order.documentID,
-//            UserSettings.userDocument['name'],
-//            _messageText,
-//            order['title']);
+
 
         _textEditingController.clear();
         _messageText = '';
@@ -81,6 +73,7 @@ class _OrderChatView extends State<OrderChatView> {
     print("returning null");
     return null;
   }
+  String titleName = ' ';
 
   @override
   Widget build(BuildContext context) {
@@ -104,15 +97,34 @@ class _OrderChatView extends State<OrderChatView> {
 //    });
 
 
+
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: const Text(
-          'Обсуждение вакансии',
+          "захаркодино",
           style: TextStyle(color: Colors.black),
         ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.call),
+              color: Colors.green,
+              iconSize: 30,
+              onPressed: () {
+                CallWithWhatsapp.requestPermissions().then((x){
+                  print("success");
+                }).catchError((e){
+                  print(e);
+                });
+                CallWithWhatsapp.initiateCall("89267105770").then((x){
+                  print("success");
+                }).catchError((e){
+                  print(e);
+                });
+              }),
+        ],
       ),
       body: Container(
         child: Column(children: <Widget>[
@@ -138,7 +150,8 @@ class _OrderChatView extends State<OrderChatView> {
                       reverse: true,
                       children: snapshot.data.documents
                           .map((DocumentSnapshot document) {
-                            print("authro ; " + (getDocument(document['author']) == null).toString());
+
+                        print("authro ; " + (getDocument(document['author']) == null).toString());
                         return new ChatMessage(
                             message: document, author: getDocument(document['author']));
                       }).toList(),
@@ -200,165 +213,37 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    if (document['user'] == UserSettings.UID) {
-//      _posotion = CrossAxisAlignment.end;
-//      _colorMessage = Colors.blue[600];
-//    } else if (emplToken == document['user']) {
-//      _posotion = CrossAxisAlignment.start;
-//      _colorMessage = Colors.green[600];
-//      _status = "(Менеджер)";
-//    }
+    Timestamp timestamp = message['sent'];
+
+    if (author['token'] == UserSettings.UID) {
+      _posotion = CrossAxisAlignment.end;
+      _colorMessage = Colors.blue[600];
+    } else  {
+      _posotion = CrossAxisAlignment.start;
+      _colorMessage = Colors.green[600];
+      _status = "(Менеджер)";
+    }
   print("author: " + (author == null).toString());
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
       child: Column(
         crossAxisAlignment: _posotion,
         children: <Widget>[
-          Container(
-            margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: InkWell(
-                child: Text(author['name'] + " " + author['surname'],
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.0,
-                        color: Colors.black)),
-                onTap: () async {
-                  if (_colorMessage == Colors.blue[600] ||
-                      _colorMessage == Colors.grey[600]) {
-//                    return showDialog(
-//                        context: context,
-//                        builder: (BuildContext context) {
-//                          return FutureBuilder(
-//                              builder: (context, AsyncSnapshot projectSnap) {
-////                                if (!projectSnap.hasData) {
-////                                  if (projectSnap.data == null) {
-////                                    return Text('');
-////                                  }
-////                                }
-//                                return AlertDialog(
-//                                    shape: RoundedRectangleBorder(
-//                                        borderRadius:
-//                                            BorderRadius.circular(30)),
-//                                    title: Row(
-//                                      children: <Widget>[
-//                                        Container(
-//                                            padding: const EdgeInsets.fromLTRB(
-//                                                14, 0, 0, 10),
-//                                            child: CircleAvatar(
-//                                              radius: 20,
-//                                              backgroundColor: Colors.blue,
-//                                              child: Text(
-//                                                projectSnap.data['name'][0] ??
-//                                                    "error 404" +
-//                                                        projectSnap
-//                                                                .data['surname']
-//                                                            [0] ??
-//                                                    "error 404",
-//                                                style: (TextStyle(
-//                                                    fontWeight: FontWeight.bold,
-//                                                    fontSize: 14.0)),
-//                                              ),
-//                                              foregroundColor: Colors.white,
-//                                            )),
-//                                        SizedBox(width: 10),
-//                                        Text(
-//                                            '${projectSnap.data['name'] ?? "err"}  ${projectSnap.data['surname'] ?? "error 404"}',
-//                                            style: TextStyle(
-//                                                fontWeight: FontWeight.bold,
-//                                                fontSize: 14.0)),
-//                                      ],
-//                                    ),
-//                                    content: Column(
-//                                        crossAxisAlignment:
-//                                            CrossAxisAlignment.start,
-//                                        mainAxisSize: MainAxisSize.min,
-//                                        children: <Widget>[
-//                                          Container(
-//                                            child: ListTile(
-//                                                leading: const Icon(
-//                                                  Icons.calendar_today,
-//                                                  color: Colors.grey,
-//                                                ),
-//                                                title: Text("Год рождения"),
-//                                                subtitle: Text(projectSnap
-//                                                        .data['birthday'] ??
-//                                                    "error 404")),
-//                                          ),
-//                                          Container(
-//                                            child: ListTile(
-//                                                leading: const Icon(
-//                                                  Icons.flag,
-//                                                  color: Colors.grey,
-//                                                ),
-//                                                title: Text("Страна"),
-//                                                subtitle: Text(projectSnap
-//                                                        .data['country'] ??
-//                                                    "error 404")),
-//                                          ),
-//                                          Container(
-//                                            child: ListTile(
-//                                                leading: const Icon(
-//                                                  Icons.description,
-//                                                  color: Colors.grey,
-//                                                ),
-//                                                title: Text("Патент"),
-//                                                subtitle: Text(projectSnap
-//                                                        .data['patent'] ??
-//                                                    "error 404")),
-//                                          ),
-//                                        ]));
-//                              },
-//                              future: FBManager.getUser(document['user']));
-//                        });
-//                  } else {
-//                    return showDialog(
-//                        context: context,
-//                        builder: (BuildContext context) {
-//                          return FutureBuilder(
-//                              builder: (context, projectSnap) {
-//                                if (!projectSnap.hasData) {
-//                                  if (projectSnap.data == null) {
-//                                    return Text('');
-//                                  }
-//                                }
-//                                return AlertDialog(
-//                                  shape: RoundedRectangleBorder(
-//                                      borderRadius: BorderRadius.circular(30)),
-//                                  title: Row(
-//                                    children: <Widget>[
-//                                      Container(
-//                                          padding: const EdgeInsets.fromLTRB(
-//                                              14, 0, 0, 10),
-//                                          child: CircleAvatar(
-//                                            radius: 20,
-//                                            backgroundColor: Colors.green,
-//                                            child: Text(
-//                                              projectSnap.data['name'][0] ??
-//                                                  "error 404" +
-//                                                      projectSnap
-//                                                          .data['surname'][0] ??
-//                                                  "error 404",
-//                                              style: (TextStyle(
-//                                                  fontWeight: FontWeight.bold,
-//                                                  fontSize: 14.0)),
-//                                            ),
-//                                            foregroundColor: Colors.white,
-//                                          )),
-//                                      SizedBox(width: 10),
-//                                      Text(
-//                                          '${projectSnap.data['name']}  ${projectSnap.data['surname'] ?? "error 404"}',
-//                                          style: TextStyle(
-//                                              fontWeight: FontWeight.bold,
-//                                              fontSize: 14.0)),
-//                                    ],
-//                                  ),
-//                                );
-//                              },
-//                              future: FBManager.getUser(document['user']));
-//                        });
-                  }
-                }),
-          ),
+//          Container(
+//            margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+//            child: InkWell(
+//                child: Text(author['name'] + " " + author['surname'],
+//                    style: TextStyle(
+//                        fontWeight: FontWeight.w500,
+//                        fontSize: 16.0,
+//                        color: Colors.black)),
+//                onTap: () async {
+//                  if (_colorMessage == Colors.blue[600] ||
+//                      _colorMessage == Colors.grey[600]) {
+////
+//                  }
+//                }),
+//          ),
           SizedBox(
             height: 5,
           ),
@@ -381,24 +266,8 @@ class ChatMessage extends StatelessWidget {
           SizedBox(height: 7),
           Container(
             child: Text(
-                (message['sent'] as Timestamp).toDate().day.toString() +
-                    "." +
-                    (message['sent']  as Timestamp)
-                        .toDate()
-                        .month
-                        .toString() +
-                    " " +
-                    (message['sent']  as Timestamp)
-                        .toDate()
-                        .hour
-                        .toString() +
-                    ":" +
-                    (message['sent']  as Timestamp)
-                        .toDate()
-                        .minute
-                        .toString(),
+                "   ${timeago.format(timestamp.toDate(), locale: 'ru')}",
                 style: TextStyle(
-                    fontStyle: FontStyle.italic,
                     fontSize: 9.0,
                     color: Colors.grey)),
           ),

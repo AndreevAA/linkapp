@@ -19,7 +19,8 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreen extends State<NewsScreen> {
 
-  Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').snapshots();
+  Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').orderBy("publicDate", descending: true)
+      .snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-                          stream = Firestore.instance.collection('posts').snapshots();
+                          stream = Firestore.instance.collection('posts').orderBy("publicDate", descending: true).snapshots();
                         });
                       },
                       child: Text(
@@ -71,7 +72,7 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'friends').snapshots();
+                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'friends').orderBy("publicDate", descending: true).snapshots();
                         });
                       },
                       child: Text(
@@ -92,7 +93,7 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'work').snapshots();
+                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'work').orderBy("publicDate", descending: true).snapshots();
                         });
                       },
                       child: Text(
@@ -114,7 +115,7 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'ads').snapshots();
+                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'ads').orderBy("publicDate", descending: true).snapshots();
                         });
                       },
                       child: Text(
@@ -271,41 +272,13 @@ class _NewsScreen extends State<NewsScreen> {
                     ),
                     IconButton(
                       icon: Icon(Icons.favorite),
-                      color: Colors.red,
+                      color: Colors.red[300],
                       iconSize: 30,
                       onPressed: () => Navigator.push(context,
                           MaterialPageRoute(builder: (context) => MyLikes())),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.call),
-                      color: Colors.green,
-                      iconSize: 30,
-                      onPressed: () {
-                        CallWithWhatsapp.requestPermissions().then((x){
-                          print("success");
-                        }).catchError((e){
-                          print(e);
-                        });
-                        CallWithWhatsapp.initiateCall("89267105770").then((x){
-                          print("success");
-                        }).catchError((e){
-                          print(e);
-                        });
-                      }),
-                    Ink(
-                      width: 45.0,
-                      height: 45.0,
-                      decoration: const ShapeDecoration(
-                        //color: Colors.grey,
-                        shape: CircleBorder(),
-                      ),
-                      child: IconButton(
-                        icon: Icon(Icons.search),
-                        color: TextColors.accentColor,
-                        iconSize: 30,
-                        onPressed: () {},
-                      ),
-                    ),
+
+
                   ],
                 )),
           ],
@@ -518,6 +491,8 @@ class _CustomCardState extends State<CustomCard> {
                                     const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Text(
                                   widget.document['postText'],
+                                  overflow: TextOverflow.ellipsis,
+
                                   style: TextStyle(fontSize: 18.0),
                                 ),
                               ),

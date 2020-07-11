@@ -11,6 +11,7 @@ import 'package:linkapp/Service/DataBaseNamings.dart';
 import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
+import 'package:location/location.dart';
 
 //https://pub.dev/packages/image_picker#-readme-tab- ДОБАВИТЬ ВЕБ ПОДДЕРЖКУ
 class CreatePost extends StatefulWidget {
@@ -35,11 +36,41 @@ class _CreatePostState extends State<CreatePost> {
   TextEditingController dateCtl;
   var storage = FirebaseStorage.instance;
 
+  Location location = new Location();
+
+  bool _serviceEnabled;
+  PermissionStatus _permissionGranted;
+  LocationData _locationData;
+
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       _image = File(pickedFile.path);
+      _gif = null;
     });
+  }
+  getPermision() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    return _locationData;
+
+  }
+
+  getLocation() async {
+    _locationData = await location.getLocation();
   }
 
   Future getGif() async {
@@ -65,6 +96,7 @@ class _CreatePostState extends State<CreatePost> {
 
   @override
   Widget build(BuildContext context) {
+    getLocation();
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -97,8 +129,8 @@ class _CreatePostState extends State<CreatePost> {
               final String downloadUrl = await snapshot.ref.getDownloadURL();
               await FBManager.fbStore.collection("posts").add({
                 'user_id': UserSettings.UID,
-                'postTitle': _postTitle,
-                'postText': _postText,
+                'postTitle': _postTitle ?? ' ',
+                'postText': _postText  ?? ' ',
                 'authorToken': _authorToken,
                 'authorRole': _authorRole,
                 'type': _postType,
@@ -106,7 +138,10 @@ class _CreatePostState extends State<CreatePost> {
                 'name': UserSettings.userDocument['name'],
                 'surname': UserSettings.userDocument['surname'],
                 'attachment':downloadUrl,
-                'publicDate': Timestamp.now()
+                'publicDate': Timestamp.now(),
+                'location': GeoPoint(_locationData.latitude, _locationData.longitude)
+
+
               });
 
             } else if (_gif != null){
@@ -121,7 +156,8 @@ class _CreatePostState extends State<CreatePost> {
                 'name': UserSettings.userDocument['name'],
                 'surname': UserSettings.userDocument['surname'],
                 'attachment':_gif.images.original.url,
-                'publicDate': Timestamp.now()
+                'publicDate': Timestamp.now(),
+                'location': GeoPoint(_locationData.latitude, _locationData.longitude)
               });
             }
             else{
@@ -136,7 +172,8 @@ class _CreatePostState extends State<CreatePost> {
                 'name': UserSettings.userDocument['name'],
                 'surname': UserSettings.userDocument['surname'],
                 'attachment':'none',
-                'publicDate': Timestamp.now()
+                'publicDate': Timestamp.now(),
+                'location': GeoPoint(_locationData.latitude, _locationData.longitude)
               });
             }
 
@@ -288,6 +325,7 @@ class _CreatePostState extends State<CreatePost> {
                           style: TextStyle(color: Colors.white),
                         )),
                   ),
+
                   SizedBox(
                     height: 20,
                   ),

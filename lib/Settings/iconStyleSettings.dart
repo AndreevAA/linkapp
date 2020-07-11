@@ -10,7 +10,7 @@ class IconColors {
 class IconSizes {
   static const double bottomNavigationBarSize = 10;
 
-  static const double avatarCircleSize = 80;
+  static const double avatarCircleSize = 50;
 
   static const double avatarCircleSizeThree = 30;
 }
