@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       title: 'linkapp',
       theme: ThemeData(
         //backgroundColor: Colors.white,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
         //visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'linkapp'),

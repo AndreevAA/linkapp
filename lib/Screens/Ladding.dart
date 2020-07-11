@@ -255,7 +255,7 @@ class StepperDemoState extends State<StepperDemo> {
                           onConfirm: (birthday) {
                             print(Timestamp.fromDate(birthday).toString());
                             setState(() {
-                              dateCtl.text = birthday.year.toString();
+                              dateCtl.text = birthday.day.toString() + "." + birthday.month.toString() + "." + birthday.year.toString();
                               _birthday = dateCtl.text;
                               print(_birthday);
 

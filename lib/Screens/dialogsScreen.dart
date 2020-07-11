@@ -96,7 +96,7 @@ class _DialogsScreenState extends State<DialogsScreen> {
               child: InkWell(
                 // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
                 child: Text(
-                  "Друзья",
+                  "Диалоги",
                   style: TextStyle(color: Colors.black),
                 ),
               )),
@@ -110,7 +110,7 @@ class _DialogsScreenState extends State<DialogsScreen> {
             // showDialog(context);
 //            //OrdersSearchManager.sortListByDate();
           },
-          child: Icon(Icons.search),
+          child: Icon(Icons.add),
           backgroundColor: TextColors.accentColor,
         ),
         body: Center(
