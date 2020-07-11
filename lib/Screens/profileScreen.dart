@@ -922,7 +922,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               child: TextSettings.titleTwoLeft(
                   NumberExist.getTextNumber("Друзья: ", _numberOfFriends)),
-            )
+            ),
+
+            SizedBox(height: 10,),
           ],
         ),
       );
@@ -1075,23 +1077,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
       whatToSayText = "Поделитесь с подписчиками";
 
     if (_isUserProfile == true) {
+
       return Container(
-        child: RaisedButton.icon(
-            color: Colors.purple,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0),
+        padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding,
+            0, BlockPaddings.globalBorderPadding, 0),
+        child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: BlockColors.accentColor,
             ),
-            onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => CreatePost())),
-            icon: Icon(
-              Icons.create,
-              color: Colors.white,
-            ),
-            label: Text(
-              whatToSayText,
-              style: TextStyle(color: Colors.white),
+            child: FlatButton(
+              child: TextSettings.buttonNameTwoCenter(whatToSayText),
+              onPressed: () => Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => CreatePost())),
             )),
       );
+
+//      return Container(
+//        child: RaisedButton.icon(
+//            color: Colors.purple,
+//            shape: RoundedRectangleBorder(
+//              borderRadius: BorderRadius.circular(16.0),
+//            ),
+//            onPressed: () => Navigator.push(
+//                context, MaterialPageRoute(builder: (context) => CreatePost())),
+//            icon: Icon(
+//              Icons.create,
+//              color: Colors.white,
+//            ),
+//            label: Text(
+//              whatToSayText,
+//              style: TextStyle(color: Colors.white),
+//            )),
+//      );
     }
   }
 
