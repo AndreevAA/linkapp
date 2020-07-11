@@ -4,7 +4,10 @@ import 'dart:io';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:call_with_whatsapp/call_with_whatsapp.dart';
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
@@ -22,7 +25,10 @@ import 'package:linkapp/Service/UserSettings.dart';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:timeago/timeago.dart' as timeago;
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
@@ -72,8 +78,11 @@ class _OrderChatView extends State<OrderChatView> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
@@ -94,6 +103,9 @@ class _OrderChatView extends State<OrderChatView> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+=======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
@@ -133,7 +145,10 @@ class _OrderChatView extends State<OrderChatView> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   String titleName = ' ';
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
@@ -169,7 +184,10 @@ class _OrderChatView extends State<OrderChatView> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
@@ -184,6 +202,7 @@ class _OrderChatView extends State<OrderChatView> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: const Text(
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -209,6 +228,11 @@ class _OrderChatView extends State<OrderChatView> {
                 });
               }),
         ],
+=======
+          'Обсуждение вакансии',
+          style: TextStyle(color: Colors.black),
+        ),
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
           'Обсуждение вакансии',
           style: TextStyle(color: Colors.black),
@@ -258,8 +282,12 @@ class _OrderChatView extends State<OrderChatView> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
                         print("authro ; " + (getDocument(document['author']) == null).toString());
+=======
+                            print("authro ; " + (getDocument(document['author']) == null).toString());
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
                             print("authro ; " + (getDocument(document['author']) == null).toString());
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
@@ -337,6 +365,7 @@ class ChatMessage extends StatelessWidget {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     Timestamp timestamp = message['sent'];
 
     if (author['token'] == UserSettings.UID) {
@@ -354,6 +383,8 @@ class ChatMessage extends StatelessWidget {
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 //    if (document['user'] == UserSettings.UID) {
 //      _posotion = CrossAxisAlignment.end;
 //      _colorMessage = Colors.blue[600];
@@ -365,6 +396,9 @@ class ChatMessage extends StatelessWidget {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+=======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
@@ -378,6 +412,7 @@ class ChatMessage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: _posotion,
         children: <Widget>[
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -398,6 +433,8 @@ class ChatMessage extends StatelessWidget {
 //                }),
 //          ),
 =======
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
@@ -552,6 +589,9 @@ class ChatMessage extends StatelessWidget {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+=======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
@@ -585,9 +625,12 @@ class ChatMessage extends StatelessWidget {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "   ${timeago.format(timestamp.toDate(), locale: 'ru')}",
                 style: TextStyle(
 =======
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
@@ -615,6 +658,9 @@ class ChatMessage extends StatelessWidget {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+=======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 =======
 >>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
