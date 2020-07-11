@@ -20,6 +20,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'Registration.dart';
 import 'accountSettingsScreen.dart';
 import 'cardView.dart';
+import 'chatScreen.dart';
 import 'createPost.dart';
 import 'friendsScreen.dart';
 
@@ -509,6 +510,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 UserSettings.UID.toString().substring(0, 14) +
                                     _token.toString().substring(0, 14)) ==
                             true) {
+                          FBManager.addPrivateChat(_token, _name).then((val) async {
+                            await FBManager.fbStore
+                                .collection(USERS_COLLECTION)
+                                .document(UserSettings.UID.toString())
+                                .updateData({
+                              'dialogs' : UserSettings.userDocument['dialogs'] + [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)],
+                            });
+                            await FBManager.fbStore
+                                .collection(USERS_COLLECTION)
+                                .document(_token.toString())
+                                .updateData({
+                              'dialogs' : _dialogs + [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)],
+                            });
+                            UserSettings.userDocument = await FBManager.getUserStats(UserSettings.UID);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.substring(14),)));
+                          });
+
                           // Переход в диалог
                         } else {
                           await FBManager.fbStore
@@ -1236,7 +1257,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: Firestore.instance
                       .collection('posts')
-                      .where('user_id', isEqualTo: UserSettings.UID).orderBy("publicDate", descending: true).snapshots(),
+                      .where('user_id', isEqualTo: _token).orderBy("publicDate", descending: true).snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError)
