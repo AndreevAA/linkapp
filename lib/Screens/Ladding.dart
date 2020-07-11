@@ -13,9 +13,12 @@ import 'package:linkapp/Service/iputDataVerification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
+import 'Registration.dart';
 
 class StepperDemo extends StatefulWidget {
-  StepperDemo() : super();
+  final bool ispublic;
+
+  StepperDemo({Key key, this.ispublic}) : super(key: key);
 
   final String title = "Stepper Demo";
 
@@ -37,7 +40,6 @@ class StepperDemoState extends State<StepperDemo> {
   String _birthday;
   TextEditingController dateCtl = TextEditingController();
   String date;
-
 
   List<Step> get steps =>
       [
@@ -458,6 +460,7 @@ return MaterialApp(
         'role' : 'user',
         'device_token' : _token,
         'birthday':  _birthday,
+        'ispublic': widget.ispublic,
         'phone' : _phone,
         'friends' : [],
         'dialogs' : [],

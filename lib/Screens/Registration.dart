@@ -30,6 +30,7 @@ class MyFormState extends State {
   String verifId;
   String smsCode;
   bool _agreement = false;
+
   bool _user = false;
 
   Future<void> redirectUser(String uid) async {
@@ -46,7 +47,7 @@ class MyFormState extends State {
         Logs.addNode("Registration", "redirectUser", "NULL"); // WORKER
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => StepperDemo(),
+            MaterialPageRoute(builder: (context) => StepperDemo(ispublic : _user,),
               settings: RouteSettings(name: 'Profile_filling'),
             ));
       }
