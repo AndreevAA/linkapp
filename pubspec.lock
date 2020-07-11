@@ -38,6 +38,25 @@ packages:
     version: "2.0.0"
   call_with_whatsapp:
     dependency: "direct main"
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+    description:
+      name: call_with_whatsapp
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
+  charcode:
+    dependency: transitive
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+=======
+>>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
     description:
       name: call_with_whatsapp
       url: "https://pub.dartlang.org"
