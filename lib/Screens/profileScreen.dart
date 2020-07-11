@@ -1109,9 +1109,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Container setPostField(bool _isUserProfile) {
     String whatToSayText;
 
-    if (_ispublic == false)
+    if (_ispublic == true)
       whatToSayText = "Расскажите, что у Вас нового";
-    else if (_ispublic == true) whatToSayText = "Поделитесь с подписчиками";
+    else if (_ispublic == false) whatToSayText = "Поделитесь с подписчиками";
 
     if (_isUserProfile == true) {
       return Container(

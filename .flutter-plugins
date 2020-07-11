@@ -1,33 +1,4 @@
 # This is a generated file; do not edit or check into version control.
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-call_with_whatsapp=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/call_with_whatsapp-0.0.1/
-cloud_firestore=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.13.7/
-cloud_firestore_web=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.1.1+2/
-firebase_auth=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.16.1/
-firebase_auth_web=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-0.1.3+1/
-firebase_core=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.5/
-firebase_core_web=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.1.1+2/
-firebase_messaging=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-6.0.16/
-firebase_storage=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/firebase_storage-3.1.6/
-flutter_plugin_android_lifecycle=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.8/
-image_picker=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/image_picker-0.6.7+4/
-location=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/location-3.0.2/
-location_web=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/location_web-1.0.0/
-path_provider_linux=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-0.0.1+2/
-shared_preferences=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.8/
-shared_preferences_linux=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-0.0.2+1/
-shared_preferences_macos=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/shared_preferences_macos-0.0.1+10/
-shared_preferences_web=/Users/pavel/development/flutter 3/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-0.1.2+7/
-=======
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 call_with_whatsapp=/Users/aleksandrandreev/development/flutter/.pub-cache/hosted/pub.dartlang.org/call_with_whatsapp-0.0.1/
 cloud_firestore=/Users/aleksandrandreev/development/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.13.7/
 cloud_firestore_web=/Users/aleksandrandreev/development/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.1.1+2/
@@ -46,13 +17,3 @@ shared_preferences=/Users/aleksandrandreev/development/flutter/.pub-cache/hosted
 shared_preferences_linux=/Users/aleksandrandreev/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-0.0.2+1/
 shared_preferences_macos=/Users/aleksandrandreev/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_macos-0.0.1+10/
 shared_preferences_web=/Users/aleksandrandreev/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-0.1.2+7/
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
