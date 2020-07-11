@@ -1151,86 +1151,171 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     print(_token);
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: _isAuthorProfile ? Text("Профиль", style: TextStyle(color: Colors.white),) : BackButton(color: Colors.black),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: _isAuthorProfile ? Container(alignment: Alignment.center, child:Text("", style: TextStyle(color: Colors.black), textAlign: TextAlign.left,)) : Text("Профиль", style: TextStyle(color: Colors.transparent),),
-      ),
+    if (_isAuthorProfile){
+      return Scaffold(
+//        appBar: AppBar(
+//          leading: _isAuthorProfile ? Text("Профиль", style: TextStyle(color: Colors.white),) : BackButton(color: Colors.black),
+//          backgroundColor: Colors.transparent,
+//          elevation: 0.0,
+//          title: _isAuthorProfile ? Container(alignment: Alignment.center, child:Text("", style: TextStyle(color: Colors.black), textAlign: TextAlign.left,)) : Text("Профиль", style: TextStyle(color: Colors.transparent),),
+//        ),
 
-      body: SingleChildScrollView(
-        child: new Column(
-          children: <Widget>[
-            SizedBox(
-              height: 40,
-            ),
+        body: SingleChildScrollView(
+          child: new Column(
+            children: <Widget>[
+              SizedBox(
+                height: 40,
+              ),
 
-            getProfile(),
-
-
-
-            // Блок с иконками друзей
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: (_ispublic == false ? (0) : (20)),
-                ),
-                setFriendsInformation(_friends),
-                SizedBox(
-                  height: (_ispublic == false ? (0) : (10)),
-                ),
-                setFriendGrid(_friends),
-                SizedBox(
-                  height: (_ispublic == false ? (0) : (20)),
-                ),
-              ],
-            ),
-
-            //  (_isAuthorProfile == false ? (Container()) : (DisignElements.setDivisionFieldOne())),
-
-            //   (_isAuthorProfile == false ? (Container()) : (SizedBox(height: 20,))),
-
-            // Блок ввода данных Post
-            (_isAuthorProfile == false ? (Container()) : (setPostField(true))),
-
-            //DisignElements.setDivisionFieldOne(),
+              getProfile(),
 
 
-            Container(
-                padding: const EdgeInsets.all(10.0),
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: Firestore.instance
-                      .collection('posts')
-                      .where('user_id', isEqualTo: _token).orderBy("publicDate", descending: true).snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError)
-                      return new Text('Error: ${snapshot.error}');
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return new CircularProgressIndicator();
-                      default:
-                        return new ListView(
-                          //scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: ScrollPhysics(),
-                          children: snapshot.data.documents
-                              .map((DocumentSnapshot document) {
-                            return new CustomCard(
-                              document: document,
-                            );
-                          }).toList(),
-                        );
-                    }
-                  },
-                )),
-          ],
+
+              // Блок с иконками друзей
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    height: (_ispublic == false ? (0) : (20)),
+                  ),
+                  setFriendsInformation(_friends),
+                  SizedBox(
+                    height: (_ispublic == false ? (0) : (10)),
+                  ),
+                  setFriendGrid(_friends),
+                  SizedBox(
+                    height: (_ispublic == false ? (0) : (20)),
+                  ),
+                ],
+              ),
+
+              //  (_isAuthorProfile == false ? (Container()) : (DisignElements.setDivisionFieldOne())),
+
+              //   (_isAuthorProfile == false ? (Container()) : (SizedBox(height: 20,))),
+
+              // Блок ввода данных Post
+              (_isAuthorProfile == false ? (Container()) : (setPostField(true))),
+
+              //DisignElements.setDivisionFieldOne(),
+
+
+              Container(
+                  padding: const EdgeInsets.all(10.0),
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: Firestore.instance
+                        .collection('posts')
+                        .where('user_id', isEqualTo: _token).orderBy("publicDate", descending: true).snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError)
+                        return new Text('Error: ${snapshot.error}');
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return new CircularProgressIndicator();
+                        default:
+                          return new ListView(
+                            //scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            children: snapshot.data.documents
+                                .map((DocumentSnapshot document) {
+                              return new CustomCard(
+                                document: document,
+                              );
+                            }).toList(),
+                          );
+                      }
+                    },
+                  )),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
+    else{
+      return Scaffold(
+        appBar: AppBar(
+          leading: _isAuthorProfile ? Text("Профиль", style: TextStyle(color: Colors.white),) : BackButton(color: Colors.black),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          title: _isAuthorProfile ? Container(alignment: Alignment.center, child:Text("", style: TextStyle(color: Colors.black), textAlign: TextAlign.left,)) : Text("Профиль", style: TextStyle(color: Colors.transparent),),
+        ),
+
+        body: SingleChildScrollView(
+          child: new Column(
+            children: <Widget>[
+              SizedBox(
+                height: 40,
+              ),
+
+              getProfile(),
+
+
+
+              // Блок с иконками друзей
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    height: (_ispublic == false ? (0) : (20)),
+                  ),
+                  setFriendsInformation(_friends),
+                  SizedBox(
+                    height: (_ispublic == false ? (0) : (10)),
+                  ),
+                  setFriendGrid(_friends),
+                  SizedBox(
+                    height: (_ispublic == false ? (0) : (20)),
+                  ),
+                ],
+              ),
+
+              //  (_isAuthorProfile == false ? (Container()) : (DisignElements.setDivisionFieldOne())),
+
+              //   (_isAuthorProfile == false ? (Container()) : (SizedBox(height: 20,))),
+
+              // Блок ввода данных Post
+              (_isAuthorProfile == false ? (Container()) : (setPostField(true))),
+
+              //DisignElements.setDivisionFieldOne(),
+
+
+              Container(
+                  padding: const EdgeInsets.all(10.0),
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: Firestore.instance
+                        .collection('posts')
+                        .where('user_id', isEqualTo: _token).orderBy("publicDate", descending: true).snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError)
+                        return new Text('Error: ${snapshot.error}');
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return new CircularProgressIndicator();
+                        default:
+                          return new ListView(
+                            //scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            children: snapshot.data.documents
+                                .map((DocumentSnapshot document) {
+                              return new CustomCard(
+                                document: document,
+                              );
+                            }).toList(),
+                          );
+                      }
+                    },
+                  )),
+            ],
+          ),
+        ),
+      );
+    }
+
   }
 }
 

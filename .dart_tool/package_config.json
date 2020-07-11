@@ -309,7 +309,7 @@
     },
     {
       "name": "pedantic",
-      "rootUri": "file:///Users/aleksandrandreev/development/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.9.0",
+      "rootUri": "file:///Users/aleksandrandreev/development/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.8.0+1",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -464,7 +464,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-07-11T16:03:02.114312Z",
+  "generated": "2020-07-11T17:18:43.292853Z",
   "generator": "pub",
   "generatorVersion": "2.8.0-dev.18.0.flutter-eea9717938"
 }
