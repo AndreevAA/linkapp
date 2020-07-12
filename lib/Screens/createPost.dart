@@ -139,8 +139,9 @@ class _CreatePostState extends State<CreatePost> {
                 'surname': UserSettings.userDocument['surname'],
                 'attachment':downloadUrl,
                 'publicDate': Timestamp.now(),
-                'location': GeoPoint(_locationData.latitude, _locationData.longitude)
-
+                'location': GeoPoint(_locationData.latitude, _locationData.longitude),
+                'lat': _locationData.latitude,
+                'lon':  _locationData.longitude,
 
               });
 
@@ -157,7 +158,10 @@ class _CreatePostState extends State<CreatePost> {
                 'surname': UserSettings.userDocument['surname'],
                 'attachment':_gif.images.original.url,
                 'publicDate': Timestamp.now(),
-                'location': GeoPoint(_locationData.latitude, _locationData.longitude)
+                'location': GeoPoint(_locationData.latitude, _locationData.longitude),
+                'lat': _locationData.latitude,
+                'lon':  _locationData.longitude,
+
               });
             }
             else{
@@ -173,7 +177,10 @@ class _CreatePostState extends State<CreatePost> {
                 'surname': UserSettings.userDocument['surname'],
                 'attachment':'none',
                 'publicDate': Timestamp.now(),
-                'location': GeoPoint(_locationData.latitude, _locationData.longitude)
+                'location': GeoPoint(_locationData.latitude, _locationData.longitude),
+                'lat': _locationData.latitude,
+                'lon':  _locationData.longitude,
+
               });
             }
 
