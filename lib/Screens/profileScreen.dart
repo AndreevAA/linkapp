@@ -459,31 +459,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       label: TextSettings.buttonNameTwoCenter(_buttonTwoText),
                       onPressed: () async {
-                        await FBManager.addPrivateChat(_token, _name);
-
-                        await FBManager.fbStore
-                            .collection(USERS_COLLECTION)
-                            .document(UserSettings.UID.toString())
-                            .updateData({
-                          'dialogs': [
-                            UserSettings.UID.toString().substring(0, 14) +
-                                _token.toString().substring(0, 14)
-                          ],
-                        });
-
-                        await FBManager.fbStore
-                            .collection(USERS_COLLECTION)
-                            .document(_token.toString())
-                            .updateData({
-                          'dialogs': [
-                            UserSettings.UID.toString().substring(0, 14) +
-                                _token.toString().substring(0, 14)
-                          ],
-                        });
-
-                        // Обновление данных document из FB
-                        UserSettings.userDocument =
-                            await FBManager.getUserStats(UserSettings.UID);
 
                         FriendsScreen.needsUpdate = true;
 
@@ -491,16 +466,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         // Если диалог уже начат, то переходим на страницу диалога
                         if (_dialogs.contains(
-                                UserSettings.UID.toString().substring(0, 14) +
-                                    _token.toString().substring(0, 14)) ==
-                            true) {
-                            Navigator.push(
+                            UserSettings.userDocument['dialogs'] + [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)]) ==
+                            true)
+                        {
+
+                          Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.substring(14), listOfUids: [UserSettings.UID, _token],)));
+                                    builder: (context) => OrderChatView(chatUid: UserSettings.userDocument['dialogs'] + [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)],)));
 
                           // Переход в диалог
-                        } else {
+                        }
+                        else {
                           FBManager.addPrivateChat(_token, _name).then((val) async {
                             await FBManager.fbStore
                                 .collection(USERS_COLLECTION)
@@ -508,17 +485,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 .updateData({
                               'dialogs' : UserSettings.userDocument['dialogs'] + [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)],
                             });
+
                             await FBManager.fbStore
                                 .collection(USERS_COLLECTION)
                                 .document(_token.toString())
                                 .updateData({
                               'dialogs' : _dialogs + [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)],
                             });
+
                             UserSettings.userDocument = await FBManager.getUserStats(UserSettings.UID);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.substring(14), listOfUids: [UserSettings.UID, _token],)));
+                                    builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.substring(14),)));
                           });
                         }
                       },
@@ -694,7 +673,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             .updateData({
                           'friends': _friendsListTwoNew ?? []
                         }).then((val) async {
-                          //UserSettings.userDocument = await FBManager.getUser(UserSettings.UID);
                           setState(() {
                             _isFriends = false;
                             ProfileScreen.blocked = false;
@@ -707,7 +685,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             .updateData({
                           'friends': _friendsListOneNew ?? []
                         }).then((val) async {
-                          //UserSettings.userDocument = await FBManager.getUser(_token.toString());
                           setState(() {
                             _isFriends = false;
                             ProfileScreen.blocked = false;
@@ -719,6 +696,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         _buttonMessageExistance = false;
                         _isAuthorProfile = false;
+                        _isFriends = false;
 
                         FriendsScreen.needsUpdate = true;
                       },
@@ -739,96 +717,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       label: TextSettings.buttonNameTwoCenter(_buttonTwoText),
                       onPressed: () async {
-                        await FBManager.fbStore
-                            .collection("privatechat")
-                            .document(
-                                UserSettings.UID.toString().substring(0, 14) +
-                                    _token.toString().substring(0, 14))
-                            .setData({
-                          'publicDate': Timestamp.now(),
-                          'users': [
-                            UserSettings.UID.toString(),
-                            _token.toString()
-                          ], //
-                        });
 
-                        await FBManager.fbStore
-                            .collection(USERS_COLLECTION)
-                            .document(UserSettings.UID.toString())
-                            .updateData({
-                          'dialogs': [
-                            UserSettings.UID.toString().substring(0, 14) +
-                                _token.toString().substring(0, 14)
-                          ],
-                        });
 
-                        await FBManager.fbStore
-                            .collection(USERS_COLLECTION)
-                            .document(_token.toString())
-                            .updateData({
-                          'dialogs': [
-                            UserSettings.UID.toString().substring(0, 14) +
-                                _token.toString().substring(0, 14)
-                          ],
-                        });
-
-                        // Обновление данных document из FB
-                        UserSettings.userDocument =
-                            await FBManager.getUserStats(UserSettings.UID);
-
-                        FriendsScreen.needsUpdate = true;
 
                         // Закрытие окна и возврат в профиль
-                        Navigator.pop(context, true);
+
+                        print(UserSettings.userDocument['dialogs']);
+                        print(UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14));
 
                         // Если диалог уже начат, то переходим на страницу диалога
-                        if (_dialogs.contains(
-                                UserSettings.UID.toString().substring(0, 14) +
-                                    _token.toString().substring(0, 14)) ==
-                            true) {
+                        if (UserSettings.userDocument['dialogs'].contains(
+                            UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)) ==
+                            true)
+                        {
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OrderChatView(chatUid: (UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)) ?? "", )));
+
                           // Переход в диалог
-                        } else {
-                          await FBManager.fbStore
-                              .collection("privatechat")
-                              .document(
-                                  UserSettings.UID.toString().substring(0, 14) +
-                                      _token.toString().substring(0, 14))
-                              .setData({
-                            'publicDate': Timestamp.now(),
-                            'users': [
-                              UserSettings.UID.toString(),
-                              _token.toString()
-                            ], //
+                        }
+                        else {
+                          FBManager.addPrivateChat(_token, _name).then((val) async {
+                            await FBManager.fbStore
+                                .collection(USERS_COLLECTION)
+                                .document(UserSettings.UID.toString())
+                                .updateData({
+                              'dialogs' : UserSettings.userDocument['dialogs'] + [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)],
+                            });
+
+                            await FBManager.fbStore
+                                .collection(USERS_COLLECTION)
+                                .document(_token.toString())
+                                .updateData({
+                              'dialogs' : _dialogs + [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)],
+                            });
+                            FriendsScreen.needsUpdate = true;
+                            UserSettings.userDocument = await FBManager.getUserStats(UserSettings.UID);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.substring(14),)));
                           });
-
-                          await FBManager.fbStore
-                              .collection(USERS_COLLECTION)
-                              .document(UserSettings.UID.toString())
-                              .updateData({
-                            'dialogs': [
-                              UserSettings.UID.toString().substring(0, 14) +
-                                  _token.toString().substring(0, 14)
-                            ],
-                          });
-
-                          await FBManager.fbStore
-                              .collection(USERS_COLLECTION)
-                              .document(_token.toString())
-                              .updateData({
-                            'dialogs': [
-                              UserSettings.UID.toString().substring(0, 14) +
-                                  _token.toString().substring(0, 14)
-                            ],
-                          });
-
-                          // Обновление данных document из FB
-                          UserSettings.userDocument =
-                              await FBManager.getUserStats(UserSettings.UID);
-
-                          FriendsScreen.needsUpdate = true;
-
-                          // Закрытие окна и возврат в профиль
-                          Navigator.pop(context, true);
                         }
                       },
                     )),
@@ -865,36 +796,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ProfileScreen.blocked = true;
                     });
 
-                    FBManager.fbStore
-                        .collection(USERS_COLLECTION)
-                        .document(UserSettings.UID)
-                        .updateData({'friends': _friendsListTwo ?? []}).then(
-                            (val) async {
+                    if (UserSettings.userDocument['friends'].contains(_token) == false){
+                      FBManager.fbStore
+                          .collection(USERS_COLLECTION)
+                          .document(UserSettings.UID)
+                          .updateData({'friends': _friendsListTwo ?? []}).then(
+                      (val) async {
                       UserSettings.userDocument =
-                          await FBManager.getUser(UserSettings.UID);
+                      await FBManager.getUser(UserSettings.UID);
                       setState(() {
-                        _isFriends = true;
-                        ProfileScreen.blocked = false;
+                      _isFriends = true;
+                      ProfileScreen.blocked = false;
+                      FriendsScreen.needsUpdate = true;
                       });
-                    });
+                      });
+                    }
 
-                    FBManager.fbStore
-                        .collection(USERS_COLLECTION)
-                        .document(_token.toString())
-                        .updateData({'friends': _friendsListOne ?? []}).then(
-                            (val) async {
+                    if (_friends.contains(UserSettings.UID.toString()) == false)
+                    {
+                      FBManager.fbStore
+                          .collection(USERS_COLLECTION)
+                          .document(_token.toString())
+                          .updateData({'friends': _friendsListOne ?? []}).then(
+                      (val) async {
                       UserSettings.userDocument =
-                          await FBManager.getUser(_token.toString());
+                      await FBManager.getUser(_token.toString());
                       setState(() {
-                        _isFriends = true;
-                        ProfileScreen.blocked = false;
+                      _isFriends = true;
+                      ProfileScreen.blocked = false;
+                      FriendsScreen.needsUpdate = true;
                       });
-                    });
+                      });
+                    }
 
                     _buttonMessageExistance = true;
                     _isAuthorProfile = false;
 
-                    FriendsScreen.needsUpdate = true;
+
                   },
                 )),
           );
@@ -1238,7 +1176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         return new Text('Error: ${snapshot.error}');
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return new CircularProgressIndicator();
+                          return new Container();
                         default:
                           return new ListView(
                             //scrollDirection: Axis.vertical,
@@ -1276,8 +1214,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
 
               getProfile(),
-
-
 
               // Блок с иконками друзей
               Column(
