@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:backdrop_modal_route/backdrop_modal_route.dart';
 import 'package:call_with_whatsapp/call_with_whatsapp.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +9,7 @@ import 'package:linkapp/Screens/myLikes.dart';
 import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
+import 'package:location/location.dart';
 
 import 'cardView.dart';
 import 'createPost.dart';
@@ -16,14 +19,25 @@ class NewsScreen extends StatefulWidget {
   @override
   _NewsScreen createState() => _NewsScreen();
 }
+var laton1;
+var laton2;
+
 
 class _NewsScreen extends State<NewsScreen> {
 
   Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').orderBy("publicDate", descending: true)
       .snapshots();
 
+  Location location = new Location();
+  LocationData _locationData;
+
+  getLocation() async {
+    _locationData = await location.getLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
+    getLocation();
     return Scaffold(
         appBar: AppBar(
           title: Container(
@@ -56,6 +70,33 @@ class _NewsScreen extends State<NewsScreen> {
                       },
                       child: Text(
                         'Все',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: FlatButton(
+                      color: Colors.purple[400],
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      onPressed: () {
+
+
+                        setState(() {
+                          double deltaLat = 5.0 / (cos(pi / 180 * _locationData.latitude) * 111.321377778);
+                          double deltaLon =  5.0  / 111;
+                          laton1 =  GeoPoint(_locationData.latitude - deltaLat, _locationData.longitude - deltaLon);
+                          laton2 =  GeoPoint(_locationData.latitude + deltaLat, _locationData.longitude + deltaLon);
+                         stream = Firestore.instance.collection('posts').where('location', isGreaterThan: laton1, isLessThan: laton2).snapshots();
+                        });
+                      },
+                      child: Text(
+                        'Рядом',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
@@ -307,6 +348,10 @@ class _NewsScreen extends State<NewsScreen> {
                         return new ListView(
                           children: snapshot.data.documents
                               .map((DocumentSnapshot document) {
+                                if(laton1 != null){
+
+                                }
+
                             return new CustomCard(
                               document: document,
                             );
@@ -328,13 +373,6 @@ class CustomCard extends StatefulWidget {
 
 class _CustomCardState extends State<CustomCard> {
   //Color heartColor = TextColors.accentColor;
-  String formatOutput(String temp, int maxLength) {
-    if (temp.length <= maxLength)
-      return temp;
-    else
-      return temp.substring(0, maxLength).trim() + "...";
-  }
-
 
 
   Future<void> like() async {
@@ -352,6 +390,9 @@ class _CustomCardState extends State<CustomCard> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     Timestamp timestamp = widget.document['publicDate'];
     List<dynamic> likes = widget.document['likes'];
     if (likes.contains(UserSettings.UID)) likeButton = Colors.red;
@@ -486,16 +527,18 @@ class _CustomCardState extends State<CustomCard> {
                                       )
                                     ],
                                   )),
-                              Padding(
+                              Container(
+                                  alignment:
+                                  AlignmentDirectional.centerStart,
+                              child :Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Text(
                                   widget.document['postText'],
                                   overflow: TextOverflow.ellipsis,
 
-                                  style: TextStyle(fontSize: 18.0),
-                                ),
-                              ),
+                                  style: TextStyle(fontSize: 18.0),),
+                              )),
                               SizedBox(
                                 height: 10,
                               ),
