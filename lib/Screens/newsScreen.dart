@@ -19,14 +19,52 @@ class NewsScreen extends StatefulWidget {
   @override
   _NewsScreen createState() => _NewsScreen();
 }
-var laton1;
-var laton2;
 
 
 class _NewsScreen extends State<NewsScreen> {
 
   Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').orderBy("publicDate", descending: true)
       .snapshots();
+  bool near = false;
+
+
+  getDocumentNearBy(latitude,  longitude,  distance ) {
+//
+//    double lat = _locationData.latitude;
+//    double lon = _locationData.longitude;
+//
+//    double distance = 2.0;
+//
+//    double lowerLat = latitude - (lat * distance);
+//    double lowerLon = longitude - (lon * distance);
+//
+//    double greaterLat = latitude + (lat * distance);
+//    double greaterLon = longitude + (lon * distance);
+//
+//    GeoPoint lesserGeopoint = GeoPoint(lowerLat, lowerLon);
+//    GeoPoint greaterGeopoint = GeoPoint( greaterLat, greaterLon);
+//
+
+//    print(near.toString());
+//
+//    stream = Firestore.instance.collection('posts').where('location', isGreaterThan: lesserGeopoint, isLessThan: greaterGeopoint).snapshots();
+
+      double deltaLat = distance / (cos(pi / 180 * _locationData.latitude) * 111.321377778);
+      double deltaLon =  distance  / 111;
+      GeoPoint laton1 =  GeoPoint(latitude - deltaLat, longitude - deltaLon);
+      GeoPoint laton2 =  GeoPoint(latitude + deltaLat, longitude + deltaLon);
+
+      print("laton1: ${laton1.longitude} "
+          "laton2: ${laton2.longitude} ");
+
+
+
+      stream = Firestore.instance.collection('posts').where('location', isGreaterThan: laton1, isLessThan: laton2).snapshots();
+
+
+  }
+
+
 
   Location location = new Location();
   LocationData _locationData;
@@ -65,6 +103,7 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
+                          near = false;
                           stream = Firestore.instance.collection('posts').orderBy("publicDate", descending: true).snapshots();
                         });
                       },
@@ -86,13 +125,8 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
 
-
                         setState(() {
-                          double deltaLat = 5.0 / (cos(pi / 180 * _locationData.latitude) * 111.321377778);
-                          double deltaLon =  5.0  / 111;
-                          laton1 =  GeoPoint(_locationData.latitude - deltaLat, _locationData.longitude - deltaLon);
-                          laton2 =  GeoPoint(_locationData.latitude + deltaLat, _locationData.longitude + deltaLon);
-                         stream = Firestore.instance.collection('posts').where('location', isGreaterThan: laton1, isLessThan: laton2).snapshots();
+                         near = true;
                         });
                       },
                       child: Text(
@@ -113,6 +147,7 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
+                          near = false;
                           stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'friends').orderBy("publicDate", descending: true).snapshots();
                         });
                       },
@@ -134,6 +169,7 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
+                          near = false;
                           stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'work').orderBy("publicDate", descending: true).snapshots();
                         });
                       },
@@ -156,6 +192,7 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
+                          near = false;
                           stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'ads').orderBy("publicDate", descending: true).snapshots();
                         });
                       },
@@ -345,12 +382,16 @@ class _NewsScreen extends State<NewsScreen> {
                       case ConnectionState.waiting:
                         return new CircularProgressIndicator();
                       default:
+
                         return new ListView(
                           children: snapshot.data.documents
                               .map((DocumentSnapshot document) {
-                                if(laton1 != null){
 
-                                }
+                            if(near==true){
+                            getDocumentNearBy(document['lat'], document['lon'], 0.01);
+
+                            print(document['lon'].toString() + 'awdawddw');
+                            }
 
                             return new CustomCard(
                               document: document,
@@ -372,6 +413,7 @@ class CustomCard extends StatefulWidget {
 }
 
 class _CustomCardState extends State<CustomCard> {
+
   //Color heartColor = TextColors.accentColor;
 
 
@@ -422,6 +464,7 @@ class _CustomCardState extends State<CustomCard> {
         }
         break;
     }
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(16.0),
       child: Card(
