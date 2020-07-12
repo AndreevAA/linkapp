@@ -471,10 +471,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         {
 
                           Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => OrderChatView(chatUid: UserSettings.userDocument['dialogs'] + [UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)],)));
-
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.substring(14), listOfUids: [UserSettings.UID, _token],)));
                           // Переход в диалог
                         }
                         else {
@@ -497,7 +496,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.substring(14),)));
+                                    builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14), listOfUids: [UserSettings.UID.toString().substring(0, 14), _token.toString().substring(14)])));
                           });
                         }
                       },
@@ -734,8 +733,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => OrderChatView(chatUid: (UserSettings.UID.toString().substring(0, 14) + _token.toString().substring(14)) ?? "", )));
-
+                                  builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.substring(14), listOfUids: [UserSettings.UID, _token],)));
                           // Переход в диалог
                         }
                         else {
@@ -758,8 +756,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.substring(14),)));
-                          });
+                                    builder: (context) => OrderChatView(chatUid: UserSettings.UID.toString().substring(0, 14) + _token.substring(14), listOfUids: [UserSettings.UID, _token],)));});
                         }
                       },
                     )),
