@@ -111,149 +111,165 @@ class _CustomCard extends State<CustomCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
 
-      child: Row(
+    if (document['token'] != UserSettings.UID.toString()){
+      return Container(
 
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Row(
 
-        children: <Widget>[
-          InkWell(
-            onTap: () async {
-              Navigator.push (
-                context,
-                MaterialPageRoute(builder: (context) => ProfileScreen(document: document,)),
-              );
-            },
-            child: Row(
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(14, 0, 0, 10),
-                  child: CircleAvatar(
-                    radius: 30,
-                    backgroundColor: document['ispublic'] == true ? TextColors.activeColor : TextColors.enjoyColor,//TextColors.accentColor,
-                    child: Text(
-                      document['ispublic'] == true ? document['name'][0] : document['name'][0] + document['surname'][0],
-                      style:
-                      (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),
-                    ),
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+            children: <Widget>[
+              InkWell(
+                onTap: () async {
+                  Navigator.push (
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen(document: document,)),
+                  );
+                },
+                child: Row(
                   children: <Widget>[
-                    SizedBox(height: 15),
                     Container(
-                      height: 30,
-                      padding: const EdgeInsets.fromLTRB(
-                          BlockPaddings.globalBorderPadding,
-                          2,
-                          0,
-                          2),
-                      child: Text(
-                        document['ispublic'] == true ? document['name'] : document['name']  + " " + document['surname'],
-                        // HomePageExe.formatOutput(HomePageExe.replaceSymbols(HomePageExe.replaceSymbols(HomePageExe.deleteSmiles(runeSubstring(input: document['title'] ?? 'Ошибка описания', start: 0, end: (document['title'] ?? 'Ошибка описания').toString().length < 20 ? (document['title'] ?? 'Ошибка описаня').toString().length : 20)), "\n", " "), "  ", " "), 20).replaceAll("\n\n", "\n"),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17.0,
-                          color: Colors.black,
+                      padding: const EdgeInsets.fromLTRB(14, 0, 0, 10),
+                      child: CircleAvatar(
+                        radius: 30,
+                        backgroundColor: document['ispublic'] == true ? TextColors.activeColor : TextColors.enjoyColor,//TextColors.accentColor,
+                        child: Text(
+                          document['ispublic'] == true ? document['name'][0] : document['name'][0] + document['surname'][0],
+                          style:
+                          (TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0)),
                         ),
-                        overflow: TextOverflow.ellipsis,
+                        foregroundColor: Colors.white,
                       ),
                     ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(height: 15),
+                        Container(
+                          height: 30,
+                          padding: const EdgeInsets.fromLTRB(
+                              BlockPaddings.globalBorderPadding,
+                              2,
+                              0,
+                              2),
+                          child: Text(
+                            document['ispublic'] == true ? document['name'] : document['name']  + " " + document['surname'],
+                            // HomePageExe.formatOutput(HomePageExe.replaceSymbols(HomePageExe.replaceSymbols(HomePageExe.deleteSmiles(runeSubstring(input: document['title'] ?? 'Ошибка описания', start: 0, end: (document['title'] ?? 'Ошибка описания').toString().length < 20 ? (document['title'] ?? 'Ошибка описаня').toString().length : 20)), "\n", " "), "  ", " "), 20).replaceAll("\n\n", "\n"),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17.0,
+                              color: Colors.black,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
 
-                    Container(
-                      height: 30,
-                      padding: const EdgeInsets.fromLTRB(20, 1, 0, 11),
-                      child: Text(
-                        // concatMinMax(document['min_price'], document['max_price']) +
-                        // " / " + document['pay_type'] ?? "",
-                        "Был(-а) в сети: " +
-                            ((document['seen'] ?? Timestamp.now()) as Timestamp).toDate().toIso8601String().substring(0, 10),
-                        style: TextStyle(
-                            fontSize: 11.0,
-                            color: TextColors.deactivatedColor,
-                            fontWeight: FontWeight.normal),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                        Container(
+                          height: 30,
+                          padding: const EdgeInsets.fromLTRB(20, 1, 0, 11),
+                          child: Text(
+                            // concatMinMax(document['min_price'], document['max_price']) +
+                            // " / " + document['pay_type'] ?? "",
+                            "Был(-а) в сети: " +
+                                ((document['seen'] ?? Timestamp.now()) as Timestamp).toDate().toIso8601String().substring(0, 10),
+                            style: TextStyle(
+                                fontSize: 11.0,
+                                color: TextColors.deactivatedColor,
+                                fontWeight: FontWeight.normal),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
+              ),
 
-          Ink(
-            width: 45.0,
-            height: 45.0,
-            decoration: const ShapeDecoration(
-              //color: Colors.grey,
-              shape: CircleBorder(),
+              Ink(
+                width: 45.0,
+                height: 45.0,
+                decoration: const ShapeDecoration(
+                  //color: Colors.grey,
+                  shape: CircleBorder(),
 
-            ),
-            child: IconButton(
-              icon: Icon(Icons.more_vert),
-              color: TextColors.accentColor,
-              iconSize: 30,
-              onPressed: ()async {
-                await Navigator.push(
-                  context,
-                  BackdropModalRoute<void>(
-                    topPadding: 550.0,
-                    overlayContentBuilder: (context) {
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.more_vert),
+                  color: TextColors.accentColor,
+                  iconSize: 30,
+                  onPressed: ()async {
+                    await Navigator.push(
+                      context,
+                      BackdropModalRoute<void>(
+                        topPadding: 550.0,
+                        overlayContentBuilder: (context) {
 
-                      return SingleChildScrollView(
-                        child: Column(
-                            children: <Widget>[
-                              SizedBox(height: 10,),
-                              Row(
-
-                                mainAxisAlignment: MainAxisAlignment.start,
-
+                          return SingleChildScrollView(
+                            child: Column(
                                 children: <Widget>[
+                                  SizedBox(height: 10,),
+                                  Row(
 
-                                  SizedBox(width: 20,),
+                                    mainAxisAlignment: MainAxisAlignment.start,
 
-                                  Icon(Icons.message, color: Colors.black,),
+                                    children: <Widget>[
 
-                                  FlatButton(
-                                    child: Text("Написать сообщение", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),),
+                                      SizedBox(width: 20,),
+
+                                      Icon(Icons.message, color: Colors.black,),
+
+                                      FlatButton(
+                                        child: Text("Написать сообщение", style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),),
+                                      ),
+
+                                    ],
                                   ),
 
-                                ],
-                              ),
+                                  Row(
 
-                              Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
 
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
 
-                                children: <Widget>[
+                                      SizedBox(width: 20,),
 
-                                  SizedBox(width: 20,),
+                                      Icon(Icons.delete, color: Colors.red,),
 
-                                  Icon(Icons.delete, color: Colors.red,),
+                                      FlatButton(
+                                        child: Text("Удалить из друзей", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w500),),
+                                      ),
 
-                                  FlatButton(
-                                    child: Text("Удалить из друзей", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.w500),),
+                                    ],
                                   ),
+                                ]
+                            ),
+                          );
 
-                                ],
-                              ),
-                            ]
-                        ),
-                      );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          )
 
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      )
+      );
+    }
+    else{
+      return Center(
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(20, 220, 20, 0),
+            child: Text(
+              "К сожалению, друзей нет...",
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+            )
+          )
+      );
+    }
 
-    );
   }
 }
