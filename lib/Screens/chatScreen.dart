@@ -108,22 +108,22 @@ class _OrderChatView extends State<OrderChatView> {
           style: TextStyle(color: Colors.black),
         ),
         actions: [
-          IconButton(
-              icon: Icon(Icons.call),
-              color: Colors.green,
-              iconSize: 30,
-              onPressed: () {
-                CallWithWhatsapp.requestPermissions().then((x){
-                  print("success");
-                }).catchError((e){
-                  print(e);
-                });
-                CallWithWhatsapp.initiateCall(listOfUsers == null ? "89267105770" : (getDocument(listOfUids.elementAt(listOfUids.indexOf(UserSettings.UID) == 0 ? 1 : 0))['phone'] ?? "89267105770").toString()).then((x){
-                  print("success");
-                }).catchError((e){
-                  print(e);
-                });
-              }),
+//          IconButton(
+//              icon: Icon(Icons.call),
+//              color: Colors.green,
+//              iconSize: 30,
+//              onPressed: () {
+//                CallWithWhatsapp.requestPermissions().then((x){
+//                  print("success");
+//                }).catchError((e){
+//                  print(e);
+//                });
+//                CallWithWhatsapp.initiateCall(listOfUsers == null ? "89267105770" : (getDocument(listOfUids.elementAt(listOfUids.indexOf(UserSettings.UID) == 0 ? 1 : 0))['phone'] ?? "89267105770").toString()).then((x){
+//                  print("success");
+//                }).catchError((e){
+//                  print(e);
+//                });
+//              }),
         ],
       ),
       body: Container(

@@ -368,6 +368,14 @@ return MaterialApp(
                 // Верификация третьего шага регистрации
                 else if (_currentStep == 2){
 
+                  print(_patent ?? "Ne nol");
+                  print(_birthday ?? "Ne nol");
+                  print(_sex ?? "Ne nol");
+                  print(_country ?? "Ne nol");
+                  print(_surname ?? "Ne nol");
+                  print(_name ?? "Ne nol");
+
+
                   // Поле выбора типа работодателя пустое
                   if (_sex == null){
                     _scaffoldKey.currentState.showSnackBar(new SnackBar(

@@ -362,7 +362,7 @@
         <entry key="pedantic">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../development/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.8.0+1/lib" />
+              <option value="$PROJECT_DIR$/../development/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.9.0/lib" />
             </list>
           </value>
         </entry>
@@ -584,7 +584,7 @@
       <root url="file://$PROJECT_DIR$/../development/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.6.4/lib" />
       <root url="file://$PROJECT_DIR$/../development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-0.0.1+2/lib" />
       <root url="file://$PROJECT_DIR$/../development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-1.0.2/lib" />
-      <root url="file://$PROJECT_DIR$/../development/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.8.0+1/lib" />
+      <root url="file://$PROJECT_DIR$/../development/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.9.0/lib" />
       <root url="file://$PROJECT_DIR$/../development/flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-2.4.0/lib" />
       <root url="file://$PROJECT_DIR$/../development/flutter/.pub-cache/hosted/pub.dartlang.org/pin_code_fields-2.5.1/lib" />
       <root url="file://$PROJECT_DIR$/../development/flutter/.pub-cache/hosted/pub.dartlang.org/platform-2.2.1/lib" />

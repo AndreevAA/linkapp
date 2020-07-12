@@ -84,9 +84,10 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       });
       return Scaffold(
-          body: Center(
-            child: Text("Загрузка..."),
-          ),
+        backgroundColor: Colors.purple,
+        body: Center(
+          child: Text("linkapp", style: TextStyle(color: Colors.white,fontSize: 40,fontWeight: FontWeight.bold),),
+        ),
       );
     }
 

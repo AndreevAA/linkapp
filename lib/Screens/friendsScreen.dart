@@ -49,11 +49,11 @@ class _FriendsScreenState extends State<FriendsScreen> {
                 // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
                 child: Text(
                   "Друзья и подписки",
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.black, fontSize: 24),
                   overflow: TextOverflow.ellipsis,
                 ),
               )),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
         floatingActionButton: FloatingActionButton(

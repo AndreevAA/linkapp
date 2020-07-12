@@ -83,10 +83,10 @@ class UserInputDataVerification {
   static bool isInputBirthday(String _birthday) {
     bool answer = true;
 
-    DateTime date = DateTime.now();
-
-    // Проверка на длину
-    if (date.year - int.parse(_birthday) <= 4) answer = false;
+//    DateTime date = DateTime.now();
+//
+//    // Проверка на длину
+//    if (date.year - int.parse(_birthday) <= 4) answer = false;
 
     return answer;
   }

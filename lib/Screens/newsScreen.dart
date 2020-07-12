@@ -82,7 +82,7 @@ class _NewsScreen extends State<NewsScreen> {
             //padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
             child: Text(
               "Лента новостей",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.black, fontSize: 24),
             ),
           ),
           backgroundColor: Colors.transparent,

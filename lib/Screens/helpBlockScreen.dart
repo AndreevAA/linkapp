@@ -24,10 +24,10 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
             // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
             child: Text(
               "Полезная информация",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.black, fontSize: 24),
             ),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
         body: SingleChildScrollView(
@@ -42,7 +42,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                 padding: const EdgeInsets.fromLTRB(12, 5, 0, 0),
                 child: Text(
                   'Документы',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
               Container(
@@ -58,9 +58,11 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                           builder: (context) {
                             return CupertinoPageScaffold(
                               child: Story(
+                                fullscreen: true,
+
                                 onFlashForward: Navigator.of(context).pop,
                                 onFlashBack: Navigator.of(context).pop,
-                                momentCount: 4,
+                                momentCount: 3,
                                 momentDurationGetter: (idx) => _momentDuration,
                                 momentBuilder: (context, idx) => images1[idx],
                               ),
@@ -97,7 +99,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                               child: Story(
                                 onFlashForward: Navigator.of(context).pop,
                                 onFlashBack: Navigator.of(context).pop,
-                                momentCount: 4,
+                                momentCount: 3,
                                 momentDurationGetter: (idx) => _momentDuration,
                                 momentBuilder: (context, idx) => images[idx],
                               ),
@@ -114,7 +116,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                         width: 160.0,
                         child: Center(
                           child: Text(
-                            'Фоточки',
+                            'Получение патента',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -133,7 +135,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                               child: Story(
                                 onFlashForward: Navigator.of(context).pop,
                                 onFlashBack: Navigator.of(context).pop,
-                                momentCount: 4,
+                                momentCount: 3,
                                 momentDurationGetter: (idx) => _momentDuration,
                                 momentBuilder: (context, idx) => images[idx],
                               ),
@@ -150,7 +152,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                         width: 160.0,
                         child: Center(
                           child: Text(
-                            'Тест',
+                            'Продление патента',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -169,8 +171,8 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
               Container(
                 padding: const EdgeInsets.fromLTRB(12, 5, 0, 0),
                 child: Text(
-                  'Документы',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  'Структуры и органы',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
               Container(
@@ -205,7 +207,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                         width: 160.0,
                         child: Center(
                           child: Text(
-                            'Обязательные документы',
+                            'ФМС',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -242,7 +244,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                         width: 160.0,
                         child: Center(
                           child: Text(
-                            'Фоточки',
+                            'МВД',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -259,6 +261,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                           builder: (context) {
                             return CupertinoPageScaffold(
                               child: Story(
+                                fullscreen: true,
                                 onFlashForward: Navigator.of(context).pop,
                                 onFlashBack: Navigator.of(context).pop,
                                 momentCount: 4,
@@ -278,7 +281,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                         width: 160.0,
                         child: Center(
                           child: Text(
-                            'Тест',
+                            'Таможня',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -297,8 +300,8 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
               Container(
                 padding: const EdgeInsets.fromLTRB(12, 5, 0, 0),
                 child: Text(
-                  'Документы',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  'Рекомендации',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
               Container(
@@ -333,7 +336,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                         width: 160.0,
                         child: Center(
                           child: Text(
-                            'Обязательные документы',
+                            'Устройство на работу',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -370,7 +373,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                         width: 160.0,
                         child: Center(
                           child: Text(
-                            'Фоточки',
+                            'Решение конфликтов',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -406,7 +409,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
                         width: 160.0,
                         child: Center(
                           child: Text(
-                            'Тест',
+                            'Сообщества',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,

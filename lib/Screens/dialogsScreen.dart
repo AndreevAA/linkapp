@@ -92,10 +92,10 @@ class _DialogsScreenState extends State<DialogsScreen> {
                 // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
                 child: Text(
                   "Диалоги",
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.black,fontSize: 24),
                 ),
               )),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
         floatingActionButton: FloatingActionButton(
