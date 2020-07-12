@@ -154,8 +154,10 @@ class FBManager {
       await fbStore
           .collection("privatechat")
           .document(UserSettings.UID.toString().substring(0, 14) + partnerUid.substring(14))
-          .setData({"users" : [partnerUid, UserSettings.UID],
-        "names" : [partnerName, UserSettings.userDocument['name']]});
+          .setData({
+        "users" : [partnerUid, UserSettings.UID],
+        "names" : [partnerName, UserSettings.userDocument['name']]
+          });
     } catch (e) {
       Logs.addNode("FBManager", "addPrivateChat", e.toString());
     }

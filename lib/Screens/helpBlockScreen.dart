@@ -23,7 +23,7 @@ class _HelpBlockScreenState extends State<HelpBlockScreen> {
           title: Container(
             // Вывод верхнего меню с количеством ваксий и кнопкой сортировки
             child: Text(
-              "Информация",
+              "Полезная информация",
               style: TextStyle(color: Colors.black),
             ),
           ),
