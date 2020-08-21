@@ -13,9 +13,12 @@ import 'package:linkapp/Service/iputDataVerification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
+import 'Registration.dart';
 
 class StepperDemo extends StatefulWidget {
-  StepperDemo() : super();
+  final bool ispublic;
+
+  StepperDemo({Key key, this.ispublic}) : super(key: key);
 
   final String title = "Stepper Demo";
 
@@ -37,7 +40,6 @@ class StepperDemoState extends State<StepperDemo> {
   String _birthday;
   TextEditingController dateCtl = TextEditingController();
   String date;
-
 
   List<Step> get steps =>
       [
@@ -253,7 +255,7 @@ class StepperDemoState extends State<StepperDemo> {
                           onConfirm: (birthday) {
                             print(Timestamp.fromDate(birthday).toString());
                             setState(() {
-                              dateCtl.text = birthday.year.toString();
+                              dateCtl.text = birthday.day.toString() + "." + birthday.month.toString() + "." + birthday.year.toString();
                               _birthday = dateCtl.text;
                               print(_birthday);
 
@@ -366,6 +368,14 @@ return MaterialApp(
                 // Верификация третьего шага регистрации
                 else if (_currentStep == 2){
 
+                  print(_patent ?? "Ne nol");
+                  print(_birthday ?? "Ne nol");
+                  print(_sex ?? "Ne nol");
+                  print(_country ?? "Ne nol");
+                  print(_surname ?? "Ne nol");
+                  print(_name ?? "Ne nol");
+
+
                   // Поле выбора типа работодателя пустое
                   if (_sex == null){
                     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -458,6 +468,7 @@ return MaterialApp(
         'role' : 'user',
         'device_token' : _token,
         'birthday':  _birthday,
+        'ispublic': widget.ispublic,
         'phone' : _phone,
         'friends' : [],
         'dialogs' : [],

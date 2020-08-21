@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:linkapp/Service/FBManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,6 +10,7 @@ import 'Screens/friendsScreen.dart';
 import 'Screens/helpBlockScreen.dart';
 import 'Screens/newsScreen.dart';
 import 'Screens/profileScreen.dart';
+import 'Screens/workScreen.dart';
 import 'Service/UserSettings.dart';
 import 'Settings/blockStyleSettings.dart';
 import 'Settings/iconStyleSettings.dart';
@@ -30,11 +32,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.purple,
+      statusBarColor: Colors.transparent, // status bar color
+// navigation bar color
+    ));
     return MaterialApp(
+
+      debugShowCheckedModeBanner: false,
       title: 'linkapp',
       theme: ThemeData(
         //backgroundColor: Colors.white,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
         //visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'linkapp'),
@@ -56,9 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
   static List<Widget> _widgetOptions = <Widget>[
     NewsScreen(),
     DialogsScreen(),
-    FriendsScreen(),
+    //sFriendsScreen(),
+    WorkTabBarScreen(),
     ProfileScreen(document: UserSettings.userDocument,),
-    HelpBlockScreen(),
+    //HelpBlockScreen(),
   ];
 
   static int _selectedIndex = 3;
@@ -83,9 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       });
       return Scaffold(
-          body: Center(
-            child: Text("Загрузка..."),
-          ),
+        backgroundColor: Colors.purple,
+        body: Center(
+          child: Text("linkapp", style: TextStyle(color: Colors.white,fontSize: 40,fontWeight: FontWeight.bold),),
+        ),
       );
     }
 
@@ -96,44 +107,48 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: BlockColors.mainColor,
 
+        backgroundColor: Colors.purple,
+        //selectedIconTheme: ,
+        type: BottomNavigationBarType.fixed,
         // Выключение подписек к кнопкам меню
-        showSelectedLabels: false,
+        showSelectedLabels: true,
         showUnselectedLabels: false,
 
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey[400],
+
+
         items: const <BottomNavigationBarItem>[
+
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text(''),
+            title: Text('Лента'),
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
-            title: Text(''),
+            title: Text('Сообщения'),
           ),
 
+          BottomNavigationBarItem(
+            icon: Icon(Icons.work),
+            title: Text('Работа'),
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
-            title: Text(''),
+            title: Text('Профиль'),
           ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Text(''),
-          ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.help),
-            title: Text(''),
-          ),
+//          BottomNavigationBarItem(
+//            icon: Icon(Icons.help),
+//            title: Text(''),
+//          ),
 
         ],
 
         currentIndex: _selectedIndex,
-
-        selectedItemColor: IconColors.accentColor,
-        unselectedItemColor: IconColors.additionalColor,
 
         onTap: _onItemTapped,
 

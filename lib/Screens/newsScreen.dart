@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:backdrop_modal_route/backdrop_modal_route.dart';
 import 'package:call_with_whatsapp/call_with_whatsapp.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +9,7 @@ import 'package:linkapp/Screens/myLikes.dart';
 import 'package:linkapp/Service/FBManager.dart';
 import 'package:linkapp/Service/UserSettings.dart';
 import 'package:linkapp/Settings/textStyleSettings.dart';
+import 'package:location/location.dart';
 
 import 'cardView.dart';
 import 'createPost.dart';
@@ -19,42 +22,87 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreen extends State<NewsScreen> {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').orderBy("publicDate", descending: true)
-      .snapshots();
-=======
-  Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-  Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-  Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-  Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+  var stream = Firestore.instance
+      .collection('posts')
+      .orderBy("publicDate", descending: true)
+      .getDocuments();
+
+  String streamType = 'all';
+
+  getDocumentNearBy(latitude, longitude, distance) {
+    double deltaLat =
+        distance / (cos(pi / 180 * _locationData.latitude) * 111.321377778);
+    double deltaLon = distance / 111;
+    GeoPoint laton1 = GeoPoint(latitude - deltaLat, longitude - deltaLon);
+    GeoPoint laton2 = GeoPoint(latitude + deltaLat, longitude + deltaLon);
+
+    print("laton1: ${laton1.longitude} "
+        "laton2: ${laton2.longitude} ");
+    streamType = 'near';
+     stream = Firestore.instance.collection('posts').where('location', isGreaterThan: laton1, isLessThan: laton2).getDocuments();
+  }
+
+ _refresh(streamUpdateType) async {
+    switch (streamUpdateType){
+
+      case 'all' :{
+        stream = Firestore.instance
+            .collection('posts')
+            .orderBy("publicDate", descending: true)
+            .getDocuments();
+      }
+      break;
+
+      case 'friends' :{
+        stream = Firestore.instance
+            .collection('posts')
+            .where('type', isEqualTo: 'friends')
+            .orderBy("publicDate", descending: true)
+            .getDocuments();
+      }
+      break;
+
+      case 'work' :{
+        stream = Firestore.instance
+            .collection('posts')
+            .where('type', isEqualTo: 'work')
+            .orderBy("publicDate", descending: true)
+            .getDocuments();
+      }
+      break;
+
+      case 'ads' :{
+        stream = Firestore.instance
+            .collection('posts')
+            .where('type', isEqualTo: 'ads')
+            .orderBy("publicDate", descending: true)
+            .getDocuments();
+      }
+      break;
+
+    }
+    setState(() {
+
+    });
+  }
+
+  Location location = new Location();
+  LocationData _locationData;
+
+  getLocation() async {
+    _locationData = await location.getLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
+    getLocation();
     return Scaffold(
+      backgroundColor: Colors.purple[700],
         appBar: AppBar(
-          title: Container(
-            //padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Text(
-              "Лента новостей",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(30.0),
-            child:  Container(
-             // margin: EdgeInsets.symmetric(vertical: 2.0),
+            child: Container(
               height: 40.0,
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -67,27 +115,36 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          stream = Firestore.instance.collection('posts').orderBy("publicDate", descending: true).snapshots();
-=======
-                          stream = Firestore.instance.collection('posts').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+                          streamType = 'all';
+                          stream = Firestore.instance
+                              .collection('posts')
+                              .orderBy("publicDate", descending: true)
+                              .getDocuments();
                         });
                       },
                       child: Text(
                         'Все',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: FlatButton(
+                      color: Colors.purple[400],
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      onPressed: () {
+                        setState(() {
+                          streamType = 'near';
+                        });
+                      },
+                      child: Text(
+                        'Рядом',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
@@ -104,23 +161,12 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'friends').orderBy("publicDate", descending: true).snapshots();
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'friends').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'friends').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'friends').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'friends').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+                          streamType = 'friends';
+                          stream = Firestore.instance
+                              .collection('posts')
+                              .where('type', isEqualTo: 'friends')
+                              .orderBy("publicDate", descending: true)
+                              .getDocuments();
                         });
                       },
                       child: Text(
@@ -141,23 +187,12 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'work').orderBy("publicDate", descending: true).snapshots();
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'work').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'work').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'work').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'work').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+                          streamType = 'work';
+                          stream = Firestore.instance
+                              .collection('posts')
+                              .where('type', isEqualTo: 'work')
+                              .orderBy("publicDate", descending: true)
+                              .getDocuments();
                         });
                       },
                       child: Text(
@@ -179,23 +214,12 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'ads').orderBy("publicDate", descending: true).snapshots();
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'ads').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'ads').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'ads').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'ads').snapshots();
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+                          streamType = 'ads';
+                          stream = Firestore.instance
+                              .collection('posts')
+                              .where('type', isEqualTo: 'ads')
+                              .orderBy("publicDate", descending: true)
+                              .getDocuments();
                         });
                       },
                       child: Text(
@@ -212,223 +236,154 @@ class _NewsScreen extends State<NewsScreen> {
               ),
             ),
           ),
-          actions: <Widget>[
-            Container(
-                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                child: Row(
-                  children: <Widget>[
-                    Ink(
-                      width: 45.0,
-                      height: 45.0,
-                      decoration: const ShapeDecoration(
-                        //color: Colors.grey,
-                        shape: CircleBorder(),
-                      ),
-                      child: IconButton(
-                        icon: Icon(Icons.sort),
-                        color: TextColors.accentColor,
-                        iconSize: 30,
-                        onPressed: () async {
-                          await Navigator.push(
-                            context,
-                            BackdropModalRoute<void>(
-                              topPadding: 290.0,
-                              overlayContentBuilder: (context) {
-                                return SingleChildScrollView(
-                                  child: Column(children: <Widget>[
-                                    Container(
-                                      alignment: Alignment.center,
-                                      padding: const EdgeInsets.fromLTRB(
-                                          25, 20, 25, 0),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text(
-                                            'Вывести по:',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          FlatButton(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                130, 0, 0, 0),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Row(
-                                              children: <Widget>[
-                                                // Кнопка закрытия окна (Крестик)
-                                                IconButton(
-                                                  icon: Icon(Icons.close),
-                                                  color: TextColors.accentColor,
-                                                  iconSize: 30,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    RadioListTile(
-                                      activeColor: TextColors.accentColor,
-                                      title: const Text('Дате'),
-                                      value: 'Дате',
-                                      // groupValue: HomePageExe.sortStatus,
-                                      onChanged: (String selected) {
-                                        // setState((){HomePageExe.sortStatus = selected;
-                                        // // Сортировка по убыванию даты (Сначала новые)
-                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                        activeColor: TextColors.accentColor,
-                                        title: const Text('Популярности'),
-                                        value: 'Популярности',
-                                        // groupValue: HomePageExe.sortStatus,
-                                        onChanged: (String selected) {
-                                          // setState((){HomePageExe.sortStatus = selected;
-                                          // Сортировка по убыванию даты (Сначала новые)
-                                          // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                          Navigator.pop(context);
-                                        }),
-                                    RadioListTile(
-                                      activeColor: TextColors.accentColor,
-                                      title: const Text('Увеличению оклада'),
-                                      value: 'Увеличению оклада',
-                                      // groupValue: HomePageExe.sortStatus,
-                                      onChanged: (String selected) {
-                                        // setState((){HomePageExe.sortStatus = selected;
-                                        // // Сортировка по убыванию даты (Сначала новые)
-                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                      activeColor: TextColors.accentColor,
-                                      title: const Text('Уменьшению оклада'),
-                                      value: 'Уменьшению оклада',
-                                      // groupValue: HomePageExe.sortStatus,
-                                      onChanged: (String selected) {
-                                        // setState((){HomePageExe.sortStatus = selected;
-                                        // Сортировка по убыванию даты (Сначала новые)
-                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                      activeColor: TextColors.accentColor,
-                                      title:
-                                          const Text('Увеличению требований'),
-                                      value: 'Увеличению требований',
-                                      // groupValue: HomePageExe.sortStatus,
-                                      onChanged: (String selected) {
-                                        // setState((){HomePageExe.sortStatus = selected;
-                                        // Сортировка по убыванию даты (Сначала новые)
-                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                        activeColor: TextColors.accentColor,
-                                        title:
-                                            const Text('Уменьшению требований'),
-                                        value: 'Уменьшению требований',
-                                        // groupValue: HomePageExe.sortStatus,
-                                        onChanged: (String selected) {
-                                          // setState((){HomePageExe.sortStatus = selected;
-                                          // Сортировка по убыванию даты (Сначала новые)
-                                          // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                          Navigator.pop(context);
-                                        }),
-                                  ]),
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.favorite),
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                      color: Colors.red[300],
-=======
-                      color: Colors.red,
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                      color: Colors.red,
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                      color: Colors.red,
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                      color: Colors.red,
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-                      iconSize: 30,
-                      onPressed: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MyLikes())),
-                    ),
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-=======
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-                    IconButton(
-                      icon: Icon(Icons.call),
-                      color: Colors.green,
-                      iconSize: 30,
-                      onPressed: () {
-                        CallWithWhatsapp.requestPermissions().then((x){
-                          print("success");
-                        }).catchError((e){
-                          print(e);
-                        });
-                        CallWithWhatsapp.initiateCall("89267105770").then((x){
-                          print("success");
-                        }).catchError((e){
-                          print(e);
-                        });
-                      }),
-                    Ink(
-                      width: 45.0,
-                      height: 45.0,
-                      decoration: const ShapeDecoration(
-                        //color: Colors.grey,
-                        shape: CircleBorder(),
-                      ),
-                      child: IconButton(
-                        icon: Icon(Icons.search),
-                        color: TextColors.accentColor,
-                        iconSize: 30,
-                        onPressed: () {},
-                      ),
-                    ),
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-                  ],
-                )),
-          ],
+//          actions: <Widget>[
+//            Container(
+//                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+//                child: Row(
+//                  children: <Widget>[
+//                    Ink(
+//                      width: 45.0,
+//                      height: 45.0,
+//                      decoration: const ShapeDecoration(
+//                        //color: Colors.grey,
+//                        shape: CircleBorder(),
+//                      ),
+//                      child: IconButton(
+//                        icon: Icon(Icons.sort),
+//                        color: TextColors.accentColor,
+//                        iconSize: 30,
+//                        onPressed: () async {
+//                          await Navigator.push(
+//                            context,
+//                            BackdropModalRoute<void>(
+//                              topPadding: 290.0,
+//                              overlayContentBuilder: (context) {
+//                                return SingleChildScrollView(
+//                                  child: Column(children: <Widget>[
+//                                    Container(
+//                                      alignment: Alignment.center,
+//                                      padding: const EdgeInsets.fromLTRB(
+//                                          25, 20, 25, 0),
+//                                      child: Row(
+//                                        children: <Widget>[
+//                                          Text(
+//                                            'Вывести по:',
+//                                            textAlign: TextAlign.left,
+//                                            style: TextStyle(
+//                                              color: Colors.black,
+//                                              fontSize: 18,
+//                                              fontWeight: FontWeight.w500,
+//                                            ),
+//                                          ),
+//                                          FlatButton(
+//                                            padding: const EdgeInsets.fromLTRB(
+//                                                130, 0, 0, 0),
+//                                            onPressed: () =>
+//                                                Navigator.pop(context),
+//                                            child: Row(
+//                                              children: <Widget>[
+//                                                // Кнопка закрытия окна (Крестик)
+//                                                IconButton(
+//                                                  icon: Icon(Icons.close),
+//                                                  color: TextColors.accentColor,
+//                                                  iconSize: 30,
+//                                                )
+//                                              ],
+//                                            ),
+//                                          ),
+//                                        ],
+//                                      ),
+//                                    ),
+//                                    RadioListTile(
+//                                      activeColor: TextColors.accentColor,
+//                                      title: const Text('Дате'),
+//                                      value: 'Дате',
+//                                      // groupValue: HomePageExe.sortStatus,
+//                                      onChanged: (String selected) {
+//                                        // setState((){HomePageExe.sortStatus = selected;
+//                                        // // Сортировка по убыванию даты (Сначала новые)
+//                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+//                                        Navigator.pop(context);
+//                                      },
+//                                    ),
+//                                    RadioListTile(
+//                                        activeColor: TextColors.accentColor,
+//                                        title: const Text('Популярности'),
+//                                        value: 'Популярности',
+//                                        // groupValue: HomePageExe.sortStatus,
+//                                        onChanged: (String selected) {
+//                                          // setState((){HomePageExe.sortStatus = selected;
+//                                          // Сортировка по убыванию даты (Сначала новые)
+//                                          // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+//                                          Navigator.pop(context);
+//                                        }),
+//                                    RadioListTile(
+//                                      activeColor: TextColors.accentColor,
+//                                      title: const Text('Увеличению оклада'),
+//                                      value: 'Увеличению оклада',
+//                                      // groupValue: HomePageExe.sortStatus,
+//                                      onChanged: (String selected) {
+//                                        // setState((){HomePageExe.sortStatus = selected;
+//                                        // // Сортировка по убыванию даты (Сначала новые)
+//                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+//                                        Navigator.pop(context);
+//                                      },
+//                                    ),
+//                                    RadioListTile(
+//                                      activeColor: TextColors.accentColor,
+//                                      title: const Text('Уменьшению оклада'),
+//                                      value: 'Уменьшению оклада',
+//                                      // groupValue: HomePageExe.sortStatus,
+//                                      onChanged: (String selected) {
+//                                        // setState((){HomePageExe.sortStatus = selected;
+//                                        // Сортировка по убыванию даты (Сначала новые)
+//                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+//                                        Navigator.pop(context);
+//                                      },
+//                                    ),
+//                                    RadioListTile(
+//                                      activeColor: TextColors.accentColor,
+//                                      title:
+//                                          const Text('Увеличению требований'),
+//                                      value: 'Увеличению требований',
+//                                      // groupValue: HomePageExe.sortStatus,
+//                                      onChanged: (String selected) {
+//                                        // setState((){HomePageExe.sortStatus = selected;
+//                                        // Сортировка по убыванию даты (Сначала новые)
+//                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+//                                        Navigator.pop(context);
+//                                      },
+//                                    ),
+//                                    RadioListTile(
+//                                        activeColor: TextColors.accentColor,
+//                                        title:
+//                                            const Text('Уменьшению требований'),
+//                                        value: 'Уменьшению требований',
+//                                        // groupValue: HomePageExe.sortStatus,
+//                                        onChanged: (String selected) {
+//                                          // setState((){HomePageExe.sortStatus = selected;
+//                                          // Сортировка по убыванию даты (Сначала новые)
+//                                          // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
+//                                          Navigator.pop(context);
+//                                        }),
+//                                  ]),
+//                                );
+//                              },
+//                            ),
+//                          );
+//                        },
+//                      ),
+//                    ),
+//                    IconButton(
+//                      icon: Icon(Icons.favorite),
+//                      color: Colors.red[300],
+//                      iconSize: 30,
+//                      onPressed: () => Navigator.push(context,
+//                          MaterialPageRoute(builder: (context) => MyLikes())),
+//                    ),
+//                  ],
+//                )),
+//          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -441,8 +396,8 @@ class _NewsScreen extends State<NewsScreen> {
         body: Center(
             child: Container(
                 padding: const EdgeInsets.all(10.0),
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: stream,
+                child: FutureBuilder(
+                  future: stream,
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError)
@@ -451,14 +406,26 @@ class _NewsScreen extends State<NewsScreen> {
                       case ConnectionState.waiting:
                         return new CircularProgressIndicator();
                       default:
-                        return new ListView(
-                          children: snapshot.data.documents
-                              .map((DocumentSnapshot document) {
-                            return new CustomCard(
-                              document: document,
-                            );
-                          }).toList(),
-                        );
+                        return new RefreshIndicator(
+
+                            onRefresh: () => _refresh(streamType),
+                            child: ListView(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              children: snapshot.data.documents
+                                  .map((DocumentSnapshot document) {
+                                if (streamType == 'near') {
+                                  getDocumentNearBy(
+                                      document['lat'], document['lon'], 0.01);
+
+                                  print(
+                                      document['lon'].toString() + 'awdawddw');
+                                }
+
+                                return new CustomCard(
+                                  document: document,
+                                );
+                              }).toList(),
+                            ));
                     }
                   },
                 ))));
@@ -475,46 +442,6 @@ class CustomCard extends StatefulWidget {
 
 class _CustomCardState extends State<CustomCard> {
   //Color heartColor = TextColors.accentColor;
-  String formatOutput(String temp, int maxLength) {
-    if (temp.length <= maxLength)
-      return temp;
-    else
-      return temp.substring(0, maxLength).trim() + "...";
-  }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-=======
-
-
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-
-
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-
-
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-  Future<void> like() async {
-    List<String> list = new List();
-    list.add(UserSettings.UID);
-    await FBManager.fbStore
-        .collection('posts')
-        .document(widget.document.documentID)
-        .updateData({'likes': list});
-  }
-
-  Future<void> unlike() async {}
-  Color cardColor = Colors.white;
-  Color likeButton = Colors.grey;
-
-=======
-
 
   Future<void> like() async {
     List<String> list = new List();
@@ -529,7 +456,6 @@ class _CustomCardState extends State<CustomCard> {
   Color cardColor = Colors.white;
   Color likeButton = Colors.grey;
 
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
   @override
   Widget build(BuildContext context) {
     Timestamp timestamp = widget.document['publicDate'];
@@ -561,7 +487,10 @@ class _CustomCardState extends State<CustomCard> {
         }
         break;
     }
+
+
     return ClipRRect(
+
       borderRadius: BorderRadius.circular(16.0),
       child: Card(
           shape: Border(left: BorderSide(color: cardColor, width: 10)),
@@ -584,6 +513,7 @@ class _CustomCardState extends State<CustomCard> {
                               radius: 20,
                               backgroundColor: Colors.green,
                               child: Text(
+
                                 widget.document['name'][0] +
                                     widget.document['surname'][0],
                                 style: (TextStyle(
@@ -666,40 +596,31 @@ class _CustomCardState extends State<CustomCard> {
                                       )
                                     ],
                                   )),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: Text(
-                                  widget.document['postText'],
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                  overflow: TextOverflow.ellipsis,
-
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-                                  style: TextStyle(fontSize: 18.0),
-                                ),
-                              ),
+                              Container(
+                                  alignment: AlignmentDirectional.centerStart,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0),
+                                    child: Text(
+                                      widget.document['postText'],
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 18.0),
+                                    ),
+                                  )),
                               SizedBox(
                                 height: 10,
                               ),
+
                               Container(
                                 alignment: AlignmentDirectional.centerStart,
-                                child: widget.document['attachment'] == 'none' ? Text(' ') :
-                                Image.network(
-                                  widget.document['attachment'],
-                                  headers: {'accept': 'image/*'},
-                                  width: 200,
-                                  height: 200,
-                                ),
+                                child: widget.document['attachment'] == 'none'
+                                    ? Text(' ')
+                                    : Image.network(
+                                        widget.document['attachment'],
+                                        headers: {'accept': 'image/*'},
+                                        width: 200,
+                                        height: 200,
+                                      ),
                               ),
                               InkWell(
                                 onTap: () {

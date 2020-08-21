@@ -30,6 +30,7 @@ class MyFormState extends State {
   String verifId;
   String smsCode;
   bool _agreement = false;
+
   bool _user = false;
 
   Future<void> redirectUser(String uid) async {
@@ -46,7 +47,7 @@ class MyFormState extends State {
         Logs.addNode("Registration", "redirectUser", "NULL"); // WORKER
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => StepperDemo(),
+            MaterialPageRoute(builder: (context) => StepperDemo(ispublic : _user,),
               settings: RouteSettings(name: 'Profile_filling'),
             ));
       }
@@ -207,14 +208,21 @@ class MyFormState extends State {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
       body: Theme(
-        data: ThemeData(primaryColor: Colors.deepPurpleAccent),
+        data: ThemeData(primaryColor: Colors.deepPurpleAccent, backgroundColor: Colors.white),
         child: SingleChildScrollView(
             child: new Form(
                 key: _formKey,
                 child: new Column(
                   children: <Widget>[
                     SizedBox(height: 50,),
+
+                    new Container(
+                      child: Image.asset('assets/LOGO.png'),
+                      height: 170.0,
+                      width: 300.0,
+                    ),
 
                     Container(
                       child: Text(
@@ -286,7 +294,7 @@ class MyFormState extends State {
                           activeColor: Colors.deepPurpleAccent,
                           value: _user,
                           title: new Container(
-                              child: Text('Я партнер'),
+                              child: Text('Я рекрутер'),
                           ),
                           onChanged: (bool value) =>
                               setState(() => _user = value)),
@@ -368,12 +376,10 @@ Future<bool> deactivateDialog(BuildContext context, ) async {
 class Regist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.transparent,
-        statusBarColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.dark,
-        statusBarIconBrightness: Brightness.dark));
+
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      color: Colors.white,
       home: new MyForm(),
     );
   }

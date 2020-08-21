@@ -47,29 +47,15 @@ dependencies:
   giphy_picker: ^1.0.4
   giphy_client: ^0.2.0
   call_with_whatsapp: ^0.0.1
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   location: ^3.0.2
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+  liquid_pull_to_refresh: ^2.0.0
+  animations: ^1.1.2
+  chips_choice: ^1.0.0
+
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.7.4
   flutter_test:
     sdk: flutter
-
-flutter_icons:
-  android: "logo_linkapp"
-  ios: true
-  image_path: "assets/icon/logo_linkapp.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -90,7 +76,6 @@ flutter:
     - assets/test1.png
     - assets/test2.png
     - assets/test3.png
-    - assets/test4.png
     - assets/icon/logo_linkapp.png
   # To add assets to your application, add an assets section, like this:
   # assets:

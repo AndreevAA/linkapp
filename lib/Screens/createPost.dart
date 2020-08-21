@@ -35,24 +35,12 @@ class _CreatePostState extends State<CreatePost> {
   final picker = ImagePicker();
   TextEditingController dateCtl;
   var storage = FirebaseStorage.instance;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
   Location location = new Location();
 
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
   LocationData _locationData;
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -61,10 +49,6 @@ class _CreatePostState extends State<CreatePost> {
       _gif = null;
     });
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   getPermision() async {
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -94,33 +78,6 @@ class _CreatePostState extends State<CreatePost> {
         context: context,
         apiKey: 'OeOSsdJuzJTh9lPPFpQoUuQ70uZpAynr');
 
-=======
-
-  Future getGif() async {
-    final gif = await GiphyPicker.pickGif(
-        context: context,
-        apiKey: 'OeOSsdJuzJTh9lPPFpQoUuQ70uZpAynr');
-
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-
-  Future getGif() async {
-    final gif = await GiphyPicker.pickGif(
-        context: context,
-        apiKey: 'OeOSsdJuzJTh9lPPFpQoUuQ70uZpAynr');
-<<<<<<< HEAD
-
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-
-  Future getGif() async {
-    final gif = await GiphyPicker.pickGif(
-        context: context,
-        apiKey: 'OeOSsdJuzJTh9lPPFpQoUuQ70uZpAynr');
-
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
     if (gif != null) {
       setState(() => _gif = gif);
       _image = null;
@@ -129,17 +86,6 @@ class _CreatePostState extends State<CreatePost> {
 
   }
 
-=======
-
-    if (gif != null) {
-      setState(() => _gif = gif);
-      _image = null;
-    }
-    print(_gif.images.original.url);
-
-  }
-
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
   Future createImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     setState(() {
@@ -183,28 +129,8 @@ class _CreatePostState extends State<CreatePost> {
               final String downloadUrl = await snapshot.ref.getDownloadURL();
               await FBManager.fbStore.collection("posts").add({
                 'user_id': UserSettings.UID,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                 'postTitle': _postTitle ?? ' ',
                 'postText': _postText  ?? ' ',
-=======
-                'postTitle': _postTitle,
-                'postText': _postText,
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'postTitle': _postTitle,
-                'postText': _postText,
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'postTitle': _postTitle,
-                'postText': _postText,
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'postTitle': _postTitle,
-                'postText': _postText,
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
                 'authorToken': _authorToken,
                 'authorRole': _authorRole,
                 'type': _postType,
@@ -212,26 +138,11 @@ class _CreatePostState extends State<CreatePost> {
                 'name': UserSettings.userDocument['name'],
                 'surname': UserSettings.userDocument['surname'],
                 'attachment':downloadUrl,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                 'publicDate': Timestamp.now(),
-                'location': GeoPoint(_locationData.latitude, _locationData.longitude)
+                'location': GeoPoint(_locationData.latitude, _locationData.longitude),
+                'lat': _locationData.latitude,
+                'lon':  _locationData.longitude,
 
-
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
               });
 
             } else if (_gif != null){
@@ -246,24 +157,11 @@ class _CreatePostState extends State<CreatePost> {
                 'name': UserSettings.userDocument['name'],
                 'surname': UserSettings.userDocument['surname'],
                 'attachment':_gif.images.original.url,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                 'publicDate': Timestamp.now(),
-                'location': GeoPoint(_locationData.latitude, _locationData.longitude)
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+                'location': GeoPoint(_locationData.latitude, _locationData.longitude),
+                'lat': _locationData.latitude,
+                'lon':  _locationData.longitude,
+
               });
             }
             else{
@@ -278,24 +176,11 @@ class _CreatePostState extends State<CreatePost> {
                 'name': UserSettings.userDocument['name'],
                 'surname': UserSettings.userDocument['surname'],
                 'attachment':'none',
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                 'publicDate': Timestamp.now(),
-                'location': GeoPoint(_locationData.latitude, _locationData.longitude)
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
-                'publicDate': Timestamp.now()
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+                'location': GeoPoint(_locationData.latitude, _locationData.longitude),
+                'lat': _locationData.latitude,
+                'lon':  _locationData.longitude,
+
               });
             }
 
@@ -447,36 +332,7 @@ class _CreatePostState extends State<CreatePost> {
                           style: TextStyle(color: Colors.white),
                         )),
                   ),
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  Container(
-                    child: RaisedButton.icon(
-                        color: Colors.purple,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        onPressed: () {
-                          print(_locationData.latitude);
-                        },
-                        icon: Icon(
-                          Icons.map,
-                          color: Colors.white,
-                        ),
-                        label: Text(
-                          'Добавить gif',
-                          style: TextStyle(color: Colors.white),
-                        )),
-                  ),
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
-=======
->>>>>>> 3778d67a607eb763642093408e097ff09ee10f67
+
                   SizedBox(
                     height: 20,
                   ),

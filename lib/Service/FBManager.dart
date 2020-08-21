@@ -87,19 +87,6 @@ class FBManager {
     }
   }
 
-  static Future<void> addPrivateChat(String partnerUid, String partnerName) async {
-    try {
-      //await checkUserIdIfSet();
-      await fbStore
-          .collection("privatechat")
-          .document(UserSettings.UID.toString().substring(0, 14) + partnerUid.substring(14))
-          .setData({"users" : [partnerUid, UserSettings.UID],
-      "names" : [partnerName, UserSettings.userDocument['name']]});
-    } catch (e) {
-      Logs.addNode("FBManager", "addPrivateChat", e.toString());
-    }
-  }
-
   static Future<List<DocumentSnapshot>> getChatsList() async {
     try {
       return (await fbStore
@@ -159,6 +146,21 @@ class FBManager {
 
     /// ПОСМОТРИ В registration.dart МЕТОД CheckUser, ТАМ ПРИМЕР ЧТО ЭТА ХРЕНЬ ВОЗВРАЩАЕТ
     /// ТОЛЬКО ТУТ ЕЩЕ ТАБЛИЦА ВОРКЕРОВ, КОТОРЫЕ СОГЛАСИЛИСЬ НА РАБОТУ
+  }
+
+  static Future<void> addPrivateChat(String partnerUid, String partnerName) async {
+    try {
+      //await checkUserIdIfSet();
+      await fbStore
+          .collection("privatechat")
+          .document(UserSettings.UID.toString().substring(0, 14) + partnerUid.substring(14))
+          .setData({
+        "users" : [partnerUid, UserSettings.UID],
+        "names" : [partnerName, UserSettings.userDocument['name']]
+          });
+    } catch (e) {
+      Logs.addNode("FBManager", "addPrivateChat", e.toString());
+    }
   }
 
   static Future<void> cancelOrder(String orderToken, String _uid) async {
