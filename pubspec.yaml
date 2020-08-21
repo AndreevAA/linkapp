@@ -48,10 +48,13 @@ dependencies:
   giphy_client: ^0.2.0
   call_with_whatsapp: ^0.0.1
   location: ^3.0.2
+<<<<<<< HEAD
   liquid_pull_to_refresh: ^2.0.0
   animations: ^1.1.2
   chips_choice: ^1.0.0
 
+=======
+>>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +79,10 @@ flutter:
     - assets/test1.png
     - assets/test2.png
     - assets/test3.png
+<<<<<<< HEAD
+=======
+    - assets/LOGO.png
+>>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
     - assets/icon/logo_linkapp.png
   # To add assets to your application, add an assets section, like this:
   # assets:

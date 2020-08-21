@@ -38,7 +38,10 @@ class MyApp extends StatelessWidget {
 // navigation bar color
     ));
     return MaterialApp(
+<<<<<<< HEAD
 
+=======
+>>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
       debugShowCheckedModeBanner: false,
       title: 'linkapp',
       theme: ThemeData(
