@@ -20,10 +20,8 @@ class NewsScreen extends StatefulWidget {
   _NewsScreen createState() => _NewsScreen();
 }
 
-
 class _NewsScreen extends State<NewsScreen> {
 
-<<<<<<< HEAD
   var stream = Firestore.instance
       .collection('posts')
       .orderBy("publicDate", descending: true)
@@ -88,51 +86,6 @@ class _NewsScreen extends State<NewsScreen> {
     });
   }
 
-=======
-  Stream<QuerySnapshot> stream = Firestore.instance.collection('posts').orderBy("publicDate", descending: true)
-      .snapshots();
-  bool near = false;
-
-
-  getDocumentNearBy(latitude,  longitude,  distance ) {
-//
-//    double lat = _locationData.latitude;
-//    double lon = _locationData.longitude;
-//
-//    double distance = 2.0;
-//
-//    double lowerLat = latitude - (lat * distance);
-//    double lowerLon = longitude - (lon * distance);
-//
-//    double greaterLat = latitude + (lat * distance);
-//    double greaterLon = longitude + (lon * distance);
-//
-//    GeoPoint lesserGeopoint = GeoPoint(lowerLat, lowerLon);
-//    GeoPoint greaterGeopoint = GeoPoint( greaterLat, greaterLon);
-//
-
-//    print(near.toString());
-//
-//    stream = Firestore.instance.collection('posts').where('location', isGreaterThan: lesserGeopoint, isLessThan: greaterGeopoint).snapshots();
-
-      double deltaLat = distance / (cos(pi / 180 * _locationData.latitude) * 111.321377778);
-      double deltaLon =  distance  / 111;
-      GeoPoint laton1 =  GeoPoint(latitude - deltaLat, longitude - deltaLon);
-      GeoPoint laton2 =  GeoPoint(latitude + deltaLat, longitude + deltaLon);
-
-      print("laton1: ${laton1.longitude} "
-          "laton2: ${laton2.longitude} ");
-
-
-
-      stream = Firestore.instance.collection('posts').where('location', isGreaterThan: laton1, isLessThan: laton2).snapshots();
-
-
-  }
-
-
-
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
   Location location = new Location();
   LocationData _locationData;
 
@@ -146,16 +99,6 @@ class _NewsScreen extends State<NewsScreen> {
     return Scaffold(
       backgroundColor: Colors.purple[700],
         appBar: AppBar(
-<<<<<<< HEAD
-=======
-          title: Container(
-            //padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Text(
-              "Лента новостей",
-              style: TextStyle(color: Colors.black, fontSize: 24),
-            ),
-          ),
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           bottom: PreferredSize(
@@ -172,16 +115,11 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-<<<<<<< HEAD
                           streamType = 'all';
                           stream = Firestore.instance
                               .collection('posts')
                               .orderBy("publicDate", descending: true)
                               .getDocuments();
-=======
-                          near = false;
-                          stream = Firestore.instance.collection('posts').orderBy("publicDate", descending: true).snapshots();
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                         });
                       },
                       child: Text(
@@ -201,14 +139,8 @@ class _NewsScreen extends State<NewsScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
-<<<<<<< HEAD
                         setState(() {
                           streamType = 'near';
-=======
-
-                        setState(() {
-                         near = true;
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                         });
                       },
                       child: Text(
@@ -229,17 +161,12 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-<<<<<<< HEAD
                           streamType = 'friends';
                           stream = Firestore.instance
                               .collection('posts')
                               .where('type', isEqualTo: 'friends')
                               .orderBy("publicDate", descending: true)
                               .getDocuments();
-=======
-                          near = false;
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'friends').orderBy("publicDate", descending: true).snapshots();
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                         });
                       },
                       child: Text(
@@ -260,17 +187,12 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-<<<<<<< HEAD
                           streamType = 'work';
                           stream = Firestore.instance
                               .collection('posts')
                               .where('type', isEqualTo: 'work')
                               .orderBy("publicDate", descending: true)
                               .getDocuments();
-=======
-                          near = false;
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'work').orderBy("publicDate", descending: true).snapshots();
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                         });
                       },
                       child: Text(
@@ -292,17 +214,12 @@ class _NewsScreen extends State<NewsScreen> {
                           borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-<<<<<<< HEAD
                           streamType = 'ads';
                           stream = Firestore.instance
                               .collection('posts')
                               .where('type', isEqualTo: 'ads')
                               .orderBy("publicDate", descending: true)
                               .getDocuments();
-=======
-                          near = false;
-                          stream = Firestore.instance.collection('posts').where('type', isEqualTo: 'ads').orderBy("publicDate", descending: true).snapshots();
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                         });
                       },
                       child: Text(
@@ -319,7 +236,6 @@ class _NewsScreen extends State<NewsScreen> {
               ),
             ),
           ),
-<<<<<<< HEAD
 //          actions: <Widget>[
 //            Container(
 //                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
@@ -468,158 +384,6 @@ class _NewsScreen extends State<NewsScreen> {
 //                  ],
 //                )),
 //          ],
-=======
-          actions: <Widget>[
-            Container(
-                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                child: Row(
-                  children: <Widget>[
-                    Ink(
-                      width: 45.0,
-                      height: 45.0,
-                      decoration: const ShapeDecoration(
-                        //color: Colors.grey,
-                        shape: CircleBorder(),
-                      ),
-                      child: IconButton(
-                        icon: Icon(Icons.sort),
-                        color: TextColors.accentColor,
-                        iconSize: 30,
-                        onPressed: () async {
-                          await Navigator.push(
-                            context,
-                            BackdropModalRoute<void>(
-                              topPadding: 290.0,
-                              overlayContentBuilder: (context) {
-                                return SingleChildScrollView(
-                                  child: Column(children: <Widget>[
-                                    Container(
-                                      alignment: Alignment.center,
-                                      padding: const EdgeInsets.fromLTRB(
-                                          25, 20, 25, 0),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text(
-                                            'Вывести по:',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          FlatButton(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                130, 0, 0, 0),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Row(
-                                              children: <Widget>[
-                                                // Кнопка закрытия окна (Крестик)
-                                                IconButton(
-                                                  icon: Icon(Icons.close),
-                                                  color: TextColors.accentColor,
-                                                  iconSize: 30,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    RadioListTile(
-                                      activeColor: TextColors.accentColor,
-                                      title: const Text('Дате'),
-                                      value: 'Дате',
-                                      // groupValue: HomePageExe.sortStatus,
-                                      onChanged: (String selected) {
-                                        // setState((){HomePageExe.sortStatus = selected;
-                                        // // Сортировка по убыванию даты (Сначала новые)
-                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                        activeColor: TextColors.accentColor,
-                                        title: const Text('Популярности'),
-                                        value: 'Популярности',
-                                        // groupValue: HomePageExe.sortStatus,
-                                        onChanged: (String selected) {
-                                          // setState((){HomePageExe.sortStatus = selected;
-                                          // Сортировка по убыванию даты (Сначала новые)
-                                          // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                          Navigator.pop(context);
-                                        }),
-                                    RadioListTile(
-                                      activeColor: TextColors.accentColor,
-                                      title: const Text('Увеличению оклада'),
-                                      value: 'Увеличению оклада',
-                                      // groupValue: HomePageExe.sortStatus,
-                                      onChanged: (String selected) {
-                                        // setState((){HomePageExe.sortStatus = selected;
-                                        // // Сортировка по убыванию даты (Сначала новые)
-                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                      activeColor: TextColors.accentColor,
-                                      title: const Text('Уменьшению оклада'),
-                                      value: 'Уменьшению оклада',
-                                      // groupValue: HomePageExe.sortStatus,
-                                      onChanged: (String selected) {
-                                        // setState((){HomePageExe.sortStatus = selected;
-                                        // Сортировка по убыванию даты (Сначала новые)
-                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                      activeColor: TextColors.accentColor,
-                                      title:
-                                          const Text('Увеличению требований'),
-                                      value: 'Увеличению требований',
-                                      // groupValue: HomePageExe.sortStatus,
-                                      onChanged: (String selected) {
-                                        // setState((){HomePageExe.sortStatus = selected;
-                                        // Сортировка по убыванию даты (Сначала новые)
-                                        // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                        activeColor: TextColors.accentColor,
-                                        title:
-                                            const Text('Уменьшению требований'),
-                                        value: 'Уменьшению требований',
-                                        // groupValue: HomePageExe.sortStatus,
-                                        onChanged: (String selected) {
-                                          // setState((){HomePageExe.sortStatus = selected;
-                                          // Сортировка по убыванию даты (Сначала новые)
-                                          // OrdersSearchManager.sortListByParam(HomePageExe.sortStatus);
-                                          Navigator.pop(context);
-                                        }),
-                                  ]),
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.favorite),
-                      color: Colors.red[300],
-                      iconSize: 30,
-                      onPressed: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MyLikes())),
-                    ),
-
-
-                  ],
-                )),
-          ],
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -642,7 +406,6 @@ class _NewsScreen extends State<NewsScreen> {
                       case ConnectionState.waiting:
                         return new CircularProgressIndicator();
                       default:
-<<<<<<< HEAD
                         return new RefreshIndicator(
 
                             onRefresh: () => _refresh(streamType),
@@ -663,24 +426,6 @@ class _NewsScreen extends State<NewsScreen> {
                                 );
                               }).toList(),
                             ));
-=======
-
-                        return new ListView(
-                          children: snapshot.data.documents
-                              .map((DocumentSnapshot document) {
-
-                            if(near==true){
-                            getDocumentNearBy(document['lat'], document['lon'], 0.01);
-
-                            print(document['lon'].toString() + 'awdawddw');
-                            }
-
-                            return new CustomCard(
-                              document: document,
-                            );
-                          }).toList(),
-                        );
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                     }
                   },
                 ))));
@@ -696,12 +441,7 @@ class CustomCard extends StatefulWidget {
 }
 
 class _CustomCardState extends State<CustomCard> {
-<<<<<<< HEAD
   //Color heartColor = TextColors.accentColor;
-=======
-
-  //Color heartColor = TextColors.accentColor;
-
 
   Future<void> like() async {
     List<String> list = new List();
@@ -718,15 +458,6 @@ class _CustomCardState extends State<CustomCard> {
 
   @override
   Widget build(BuildContext context) {
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
-
-
-
-<<<<<<< HEAD
-  @override
-  Widget build(BuildContext context) {
-=======
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
     Timestamp timestamp = widget.document['publicDate'];
     List<dynamic> likes = widget.document['likes'];
     if (likes.contains(UserSettings.UID)) likeButton = Colors.red;
@@ -757,10 +488,7 @@ class _CustomCardState extends State<CustomCard> {
         break;
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
     return ClipRRect(
 
       borderRadius: BorderRadius.circular(16.0),
@@ -869,7 +597,6 @@ class _CustomCardState extends State<CustomCard> {
                                     ],
                                   )),
                               Container(
-<<<<<<< HEAD
                                   alignment: AlignmentDirectional.centerStart,
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -880,19 +607,6 @@ class _CustomCardState extends State<CustomCard> {
                                       style: TextStyle(fontSize: 18.0),
                                     ),
                                   )),
-=======
-                                  alignment:
-                                  AlignmentDirectional.centerStart,
-                              child :Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: Text(
-                                  widget.document['postText'],
-                                  overflow: TextOverflow.ellipsis,
-
-                                  style: TextStyle(fontSize: 18.0),),
-                              )),
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                               SizedBox(
                                 height: 10,
                               ),

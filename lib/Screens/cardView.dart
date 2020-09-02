@@ -19,6 +19,8 @@ bool appliedWorker = false;
 class _CardView extends State<CardView> {
   Color likeButton = Colors.grey;
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     Timestamp timestamp = widget.document['publicDate'];
@@ -38,24 +40,16 @@ class _CardView extends State<CardView> {
     print(appliedWorker.toString() + '  APPEID');
     print(workersList.toString() + '  LIST');
 
+
     return Scaffold(
-<<<<<<< HEAD
       backgroundColor: Colors.purple,
         appBar: AppBar(
           leading: BackButton(color: Colors.white),
-=======
-        appBar: AppBar(
-          leading: BackButton(color: Colors.black),
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           title: Text(
             widget.document['postTitle'],
-<<<<<<< HEAD
             style: TextStyle(color: Colors.white),
-=======
-            style: TextStyle(color: Colors.black),
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
           ),
         ),
         body: SingleChildScrollView(
@@ -86,11 +80,7 @@ class _CardView extends State<CardView> {
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 18.0,
-<<<<<<< HEAD
                               color: Colors.white),
-=======
-                              color: Colors.deepPurple),
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                         ),
                         TextSpan(text: '\n'),
                         TextSpan(
@@ -98,21 +88,13 @@ class _CardView extends State<CardView> {
                           style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
-<<<<<<< HEAD
                               color: Colors.white),
-=======
-                              color: Colors.deepPurpleAccent),
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                         ),
                         TextSpan(text: '\n'),
                         TextSpan(
                           text:
                               'Опубликовано: ${timestamp.toDate().hour}:${timestamp.toDate().minute} ${timestamp.toDate().day}.${timestamp.toDate().month}.${timestamp.toDate().year}',
-<<<<<<< HEAD
                           style: TextStyle(fontSize: 14.0, color: Colors.white),
-=======
-                          style: TextStyle(fontSize: 14.0, color: Colors.grey),
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                         ),
                       ]),
                       overflow: TextOverflow.ellipsis,
@@ -150,11 +132,7 @@ class _CardView extends State<CardView> {
                     children: [
                       Text(
                         likes.length.toString() ?? '0',
-<<<<<<< HEAD
                         style: TextStyle(color: Colors.white, fontSize: 19),
-=======
-                        style: TextStyle(color: Colors.grey, fontSize: 19),
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                       ),
                       SizedBox(width: 5),
                       Icon(
@@ -166,12 +144,9 @@ class _CardView extends State<CardView> {
                   )),
               Container(
                 alignment: AlignmentDirectional.center,
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                 child: widget.document['type'] != 'work'
                     ? Text(' ')
                     : Container(
@@ -185,11 +160,7 @@ class _CardView extends State<CardView> {
                                           'Еще никто не откликнулся',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-<<<<<<< HEAD
                                             fontSize: 18
-=======
-                                            fontSize: 18,
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
@@ -203,10 +174,7 @@ class _CardView extends State<CardView> {
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
-<<<<<<< HEAD
                                                  color: Colors.white
-=======
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
                                             ),
                                             textAlign: TextAlign.center,
                                           ),

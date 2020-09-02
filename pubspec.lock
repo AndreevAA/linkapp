@@ -31,7 +31,6 @@ packages:
     version: "2.0.0"
   call_with_whatsapp:
     dependency: "direct main"
-<<<<<<< HEAD
     description:
       name: call_with_whatsapp
       url: "https://pub.dartlang.org"
@@ -39,8 +38,6 @@ packages:
     version: "0.0.1"
   charcode:
     dependency: transitive
-=======
->>>>>>> 387a59e3dbf7d7f6cf5d5a1374d2755a960ec304
     description:
       name: charcode
       url: "https://pub.dartlang.org"
