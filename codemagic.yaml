@@ -4,6 +4,7 @@ workflows:
     android-app:
         name: linkapp
         scripts:
-            - android/ ./gradlew assembleDebug
+            - cd android
+            - ./gradlew assembleDebug
         artifacts:
             - app/build/outputs/**/*.apk
