@@ -176,7 +176,7 @@ class _CreateVacanciesState extends State<CreateVacancies> {
 
         // Второй шаг: ввод страны
         Step(
-          title: Text('2'),
+          title: Text(''),
           content: Column(
               children: <Widget>[
                 SizedBox(height: 10),
@@ -253,7 +253,8 @@ class _CreateVacanciesState extends State<CreateVacancies> {
 
         // Третий шаг: Выбор поля, птента, даты рождения
         Step(
-          title: Text('3'),
+          
+          title: Text(''),
           content: Column(
               children: <Widget>[
                 Container(child: Text("Выбирите пол:"),
@@ -363,17 +364,17 @@ class _CreateVacanciesState extends State<CreateVacancies> {
         home: Scaffold(
           appBar: AppBar(
             title: Text(
-              'Новый пост',
+              'Новая вакансия ',
               style: TextStyle(color: Colors.black),
             ),
-            leading: BackButton(color: Colors.black),
+            leading: BackButton(color: Colors.black, onPressed: ()=> Navigator.pop(context),),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
           ),
 
           key: _scaffoldKey,
 
-          body: Theme(data: ThemeData(primaryColor: Colors.green),
+          body: Theme(data: ThemeData(primaryColor: Colors.purple),
 
             child: Stepper(
                 currentStep: this._currentStep,

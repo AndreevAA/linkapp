@@ -152,6 +152,18 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "flare_dart",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/flare_dart-2.3.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "flare_flutter",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/flare_flutter-2.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.2"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///Users/pavel/development/flutter%203/packages/flutter",
       "packageUri": "lib/",
@@ -204,6 +216,12 @@
       "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/giphy_picker-1.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.1"
+    },
+    {
+      "name": "graphs",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/graphs-0.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
     },
     {
       "name": "grouped_buttons",
@@ -338,6 +356,12 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "rive",
+      "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/rive-0.5.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.2"
+    },
+    {
       "name": "shared_preferences",
       "rootUri": "file:///Users/pavel/development/flutter%203/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.8",
       "packageUri": "lib/",
@@ -440,7 +464,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-09-02T18:07:45.105126Z",
+  "generated": "2020-09-07T17:39:07.556869Z",
   "generator": "pub",
   "generatorVersion": "2.9.0-8.2.beta"
 }

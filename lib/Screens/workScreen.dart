@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:linkapp/Screens/resumeScreen.dart';
 import 'package:linkapp/Screens/vacanciesScreen.dart';
 
+import 'companyScreen.dart';
 import 'helpBlockScreen.dart';
 
 class WorkTabBarScreen extends StatelessWidget {
@@ -58,8 +59,7 @@ class WorkTabBarScreen extends StatelessWidget {
           body: TabBarView(children: [
             MyVacancies(),
             ResumeScreens(),
-            Icon(Icons.games),
-          ]),
+            CompanyScreen()          ]),
         )
     );
   }

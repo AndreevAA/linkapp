@@ -5,7 +5,7 @@ class UserSettings{
   static String phone;
   static DocumentSnapshot userDocument;
   static String appVersion = 'beta_0_1';
-
+  static QuerySnapshot companyList;
   static void clearAll(){
     UID = null;
     userDocument = null;

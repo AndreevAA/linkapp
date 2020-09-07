@@ -611,6 +611,7 @@ class _CustomCardState extends State<CustomCard> {
                                 height: 10,
                               ),
 
+
                               Container(
                                 alignment: AlignmentDirectional.centerStart,
                                 child: widget.document['attachment'] == 'none'

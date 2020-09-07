@@ -51,6 +51,8 @@ dependencies:
   liquid_pull_to_refresh: ^2.0.0
   animations: ^1.1.2
   chips_choice: ^1.0.0
+  rive: ^0.5.2
+  flare_flutter: ^2.0.6
 
 
 dev_dependencies:
@@ -78,6 +80,8 @@ flutter:
     - assets/test3.png
     - assets/LOGO.png
     - assets/icon/logo_linkapp.png
+    - assets/logo_lizard.flr
+
 # To add assets to your application, add an assets section, like this:
 # assets:
 #   - images/a_dot_burr.jpeg
