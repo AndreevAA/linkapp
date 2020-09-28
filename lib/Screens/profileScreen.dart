@@ -22,6 +22,7 @@ import 'accountSettingsScreen.dart';
 import 'cardView.dart';
 import 'chatScreen.dart';
 import 'createPost.dart';
+import 'friendsGrid.dart';
 import 'friendsScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -898,8 +899,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   TextSettings.titleTwoLeft(
                       NumberExist.getTextNumber("Друзья: ", _numberOfFriends)),
 
+                  
                   RaisedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FriendsGrid(document: widget.document )));
+                    },
                     child: TextSettings.titleTenRight(
                         "все друзья"),
                     color: Colors.white,
