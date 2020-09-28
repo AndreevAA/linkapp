@@ -1,3 +1,4 @@
+
 import 'package:backdrop_modal_route/backdrop_modal_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -91,17 +92,92 @@ class _FriendsGridState extends State<FriendsGrid>
 
   static int _tempPositionCursor;
 
+  Container setFriendsPicture(int _numberOfFriends, var _inputFriendList) {
+    _tempPositionCursor++;
+
+    //print(_tempPositionCursor);
+    print(_numberOfFriends);
+
+    String _tempName;
+
+    if (_tempPositionCursor < _numberOfFriends) {
+      _tempName = _inputFriendList[_tempPositionCursor].toString();
+
+      return Container(
+        child: FutureBuilder(
+            future:
+            FBManager.fbStore.collection('users').document(_tempName).get(),
+            builder: (context, AsyncSnapshot getNameSnap) {
+              if (!getNameSnap.hasData) {
+                if (getNameSnap.data == null) {
+                  return Container();
+                }
+              }
+              return Column(
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: IconSizes.avatarCircleSizeThree,
+                    backgroundColor: IconColors.additionalColor,
+                    child: TextSettings.titleZeroCenter(  getNameSnap.data['name'][0]),
+                    foregroundColor: Colors.white,
+                  ),
+
+//                  Container(
+//                    child: FutureBuilder(
+//                        future: FBManager.fbStore
+//                            .collection('users')
+//                            .document(_tempName)
+//                            .get(),
+//                        builder: (context, AsyncSnapshot getNameSnap) {
+//                          if (!getNameSnap.hasData) {
+//                            if (getNameSnap.data == null) {
+//                              return Text('...');
+//                            }
+//                          }
+//                          return Container(
+//
+//                              child: TextSettings.descriptionTwoCenter(
+//                                  getNameSnap.data['name']));
+//                        }),
+//                  ),
+                ],
+              );
+            }),
+      );
+    } else {
+      return Container();
+    }
+  }
+
   @override
   void initState() {}
 
   @override
   Widget build(BuildContext context) {
+    var _numberOfFriends;
+    var _inputFriendList = _friends;
+
+    if (_inputFriendList != null) _numberOfFriends = _inputFriendList.length;
+
     return Scaffold(
         appBar: AppBar(
               title: Text(
               "Друзья",
               style: TextStyle(color: Colors.black),
           ),
+        ),
+        body: Container(
+          padding: const EdgeInsets.fromLTRB(0,
+              0, 0, 0),
+          height: 100,
+          child: GridView.count(
+              scrollDirection: Axis.horizontal,
+              crossAxisCount: 1,
+              children: <Widget>[
+                setFriendsPicture(_numberOfFriends, _inputFriendList),
+                setFriendsPicture(_numberOfFriends, _inputFriendList),
+                setFriendsPicture(_numberOfFriends, _inputFriendList),
+              ]),
         ),
     );
   }
