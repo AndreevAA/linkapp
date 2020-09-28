@@ -838,6 +838,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Container setCareersInformation(var _inputCareersList) {
+
+    int _numberOfCareers = 0;
+
+    if (_inputCareersList != null) _numberOfCareers = _inputCareersList.length;
+
+    if (_ispublic == true) {
+      return Container();
+    } else if (_ispublic == false) {
+      return Container(
+        padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding, 0,
+            BlockPaddings.globalBorderPadding, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Container(
+                  child: TextSettings.titleTwoLeft(
+                      "Карьера"),
+                ),
+                RaisedButton(
+                  onPressed: (){},
+                  child: TextSettings.titleTenRight(
+                      "все записи"),
+                  color: Colors.white,
+                )
+              ],
+            ),
+
+
+            SizedBox(height: 10,),
+          ],
+        ),
+      );
+    }
+  }
 
   Container setFriendsInformation(var _inputFriendList) {
     int _numberOfFriends = 0;
@@ -855,8 +893,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
-              child: TextSettings.titleTwoLeft(
-                  NumberExist.getTextNumber("Друзья: ", _numberOfFriends)),
+              child: Row(
+                children: <Widget>[
+                  TextSettings.titleTwoLeft(
+                      NumberExist.getTextNumber("Друзья: ", _numberOfFriends)),
+
+                  RaisedButton(
+                    onPressed: (){},
+                    child: TextSettings.titleTenRight(
+                        "все друзья"),
+                    color: Colors.white,
+                  )
+
+                ],
+              ),
             ),
 
             SizedBox(height: 10,),
@@ -895,33 +945,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: TextSettings.titleZeroCenter(  getNameSnap.data['name'][0]),
                     foregroundColor: Colors.white,
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    child: FutureBuilder(
-                        future: FBManager.fbStore
-                            .collection('users')
-                            .document(_tempName)
-                            .get(),
-                        builder: (context, AsyncSnapshot getNameSnap) {
-                          if (!getNameSnap.hasData) {
-                            if (getNameSnap.data == null) {
-                              return Text('...');
-                            }
-                          }
-                          return Container(
 
-                              child: TextSettings.descriptionTwoCenter(
-                                  getNameSnap.data['name']));
-                        }),
-                  ),
+//                  Container(
+//                    child: FutureBuilder(
+//                        future: FBManager.fbStore
+//                            .collection('users')
+//                            .document(_tempName)
+//                            .get(),
+//                        builder: (context, AsyncSnapshot getNameSnap) {
+//                          if (!getNameSnap.hasData) {
+//                            if (getNameSnap.data == null) {
+//                              return Text('...');
+//                            }
+//                          }
+//                          return Container(
+//
+//                              child: TextSettings.descriptionTwoCenter(
+//                                  getNameSnap.data['name']));
+//                        }),
+//                  ),
                 ],
               );
             }),
       );
     } else {
       return Container();
+    }
+  }
+
+  Container setCareersGrid(var _inputFriendList) {
+    if (_ispublic == true) {
+      return Container();
+    } else if (_ispublic == false) {
+      int _numberOfFriends = 0;
+      _tempPositionCursor = -1;
+
+      if (_inputFriendList != null) _numberOfFriends = _inputFriendList.length;
+
+      if (_numberOfFriends != 0) {
+        return Container(
+          padding: const EdgeInsets.fromLTRB(0,
+              0, 0, 0),
+          height: 100,
+          child: GridView.count(
+              scrollDirection: Axis.horizontal,
+              crossAxisCount: 1,
+              children: <Widget>[
+                setFriendsPicture(_numberOfFriends, _inputFriendList),
+                setFriendsPicture(_numberOfFriends, _inputFriendList),
+                setFriendsPicture(_numberOfFriends, _inputFriendList),
+              ]),
+        );
+      } else if (_numberOfFriends == 0) {
+        return Container(
+          padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding,
+              0, BlockPaddings.globalBorderPadding, 0),
+          //child: TextSettings.titleOneCenter("Пусто"),
+        );
+      }
     }
   }
 
@@ -936,8 +1017,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       if (_numberOfFriends != 0) {
         return Container(
-          padding: const EdgeInsets.fromLTRB(BlockPaddings.globalBorderPadding,
-              0, BlockPaddings.globalBorderPadding, 0),
+          padding: const EdgeInsets.fromLTRB(0,
+              0, 0, 0),
           height: 100,
           child: GridView.count(
               scrollDirection: Axis.horizontal,
@@ -1115,12 +1196,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_isAuthorProfile){
       return Scaffold(
 //        appBar: AppBar(
-//          leading: _isAuthorProfile ? Text("Профиль", style: TextStyle(color: Colors.white),) : BackButton(color: Colors.black),
+//          leading: _isAuthorProfile ? Text("Профиль", style: TextStyle(color: Colors.black),) : BackButton(color: Colors.black),
 //          backgroundColor: Colors.transparent,
 //          elevation: 0.0,
 //          title: _isAuthorProfile ? Container(alignment: Alignment.center, child:Text("", style: TextStyle(color: Colors.black), textAlign: TextAlign.left,)) : Text("Профиль", style: TextStyle(color: Colors.transparent),),
 //        ),
-
+        appBar: AppBar(
+          title: Text(
+            "Профиль",
+            style: TextStyle(color: Colors.black),
+          ),
+          leading: BackButton(color: Colors.black, onPressed: ()=> Navigator.pop(context),),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
         body: SingleChildScrollView(
           child: new Column(
             children: <Widget>[
@@ -1141,13 +1230,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: (_ispublic == false ? (0) : (20)),
                   ),
                   setFriendsInformation(_friends),
+
                   SizedBox(
                     height: (_ispublic == false ? (0) : (10)),
                   ),
                   setFriendGrid(_friends),
-                  SizedBox(
-                    height: (_ispublic == false ? (0) : (20)),
-                  ),
+
+                ],
+              ),
+
+              // Блок с карьерой
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  // Здесь необходимо передать массив карьер
+                  setCareersInformation(_friends),
+//                  SizedBox(
+//                    height: (_ispublic == false ? (0) : (1000)),
+//                  ),
+
+                  setCareersGrid(_friends),
                 ],
               ),
 

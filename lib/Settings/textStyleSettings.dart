@@ -35,6 +35,10 @@ class TextSettings {
     return Text(_inputText, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18.0, ), textAlign: TextAlign.left,);
   }
 
+  static Text titleTenRight (String _inputText){
+    return Text(_inputText, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10.0, color: Colors.grey,), textAlign: TextAlign.left,);
+  }
+
   static Text descriptionOneLeft (String _inputText){
     return Text(_inputText, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16.0, color: TextColors.descriptionColor), textAlign: TextAlign.left,);
   }
