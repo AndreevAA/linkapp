@@ -258,23 +258,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-//            Row(
-//              children: <Widget>[
-//                Container(
-//                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 15),
-//                  child: Text(
-//                    "Публикации: " + (postsNumber.toString() ?? "Загрузка"),
-//                    style: TextStyle(
-//                        fontWeight: FontWeight.w600,
-//                        fontSize: 14.0,
-//                        color: Colors.black26),
-//                    textAlign: TextAlign.left,
-//                  ),
-//                ),
-//
-//
-//              ],
-//            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 15),
+                  child: Text(
+                    "Публикации: " + (postsNumber.toString() ?? "Загрузка"),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.0,
+                        color: Colors.black26),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+
+
+              ],
+            ),
 
             setButtonProfileDataEdit(),
           ],
@@ -899,7 +899,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   TextSettings.titleTwoLeft(
                       NumberExist.getTextNumber("Друзья: ", _numberOfFriends)),
 
-                  
+
                   RaisedButton(
                     onPressed: (){
                       Navigator.push(
